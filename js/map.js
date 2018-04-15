@@ -53,6 +53,7 @@ function createAdvertData(piece) {
   var locationX = countMinMax(MIN_PIN_X, MAX_PIN_X) - PIN_WIDTH / 2;
   var locationY = countMinMax(MIN_PIN_Y, MAX_PIN_Y);
 
+  shuffleArray(FEATURES);
   FEATURES.length = countMinMax(0, FEATURES.length);
 
   return {
@@ -67,7 +68,7 @@ function createAdvertData(piece) {
       guests: guestsAmount,
       checkin: checkinTimeRand,
       checkout: checkoutTimeRand,
-      features: shuffleArray(FEATURES),
+      features: FEATURES,
       description: description,
       photos: shuffleArray(PHOTOS),
       address: locationX + ', ' + locationY
@@ -79,11 +80,13 @@ function createAdvertData(piece) {
   };
 }
 
+
+
 // Заполняет пустой массив объектами с объявлениями
 for (var i = 0; i < BRIEF_TITLES.length; i++) {
   adverts.push(createAdvertData(i));
 }
-
+// console.log(adverts[0].offer.features);
 // console.log(adverts);
 
 // Создает метку для объявления

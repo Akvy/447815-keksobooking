@@ -54,7 +54,8 @@ function createAdvertData(piece) {
   var locationY = countMinMax(MIN_PIN_Y, MAX_PIN_Y);
 
   shuffleArray(FEATURES);
-  FEATURES.length = countMinMax(0, FEATURES.length);
+  FEATURES.splice(0, countMinMax(0, FEATURES.length));
+  // FEATURES.length = countMinMax(0, FEATURES.length);
 
   return {
     author: {
@@ -83,9 +84,18 @@ function createAdvertData(piece) {
 
 
 // Заполняет пустой массив объектами с объявлениями
-for (var i = 0; i < BRIEF_TITLES.length; i++) {
-  adverts.push(createAdvertData(i));
+var getAdverts = function (array, amount) {
+  for (var i = 0; i < amount.length; i++) {
+    array.push(createAdvertData(i));
+  }
 }
+
+getAdverts(adverts, BRIEF_TITLES);
+
+  // for (var i = 0; i < BRIEF_TITLES.length; i++) {
+  //   adverts.push(createAdvertData(i));
+  // }
+
 // console.log(adverts[0].offer.features);
 // console.log(adverts);
 
@@ -108,7 +118,7 @@ function makePins() {
   var pin = templateNode.content.querySelector('.map__pin');
   var fragment = document.createDocumentFragment();
 
-  for (i = 0; i < BRIEF_TITLES.length; i++) {
+  for (var i = 0; i < BRIEF_TITLES.length; i++) {
     var card = templateNode.content.cloneNode(true);
     var button = card.querySelector('.map__pin');
     pin = renderPin(i, button);
@@ -136,24 +146,20 @@ function createCard(num) {
   priceBlock.textContent = adverts[num].offer.price + '₽/ночь';
 
   // Меняет значения массива с типом жилья на аналогичные на русском языке для отображения в объявлении
-  function changeTypeLang() {
-    for (i = 0; i < BRIEF_TITLES.length; i++) {
-      if (adverts[i].offer.type === 'palace') {
-        adverts[i].offer.type = 'Дворец';
-      } else if (adverts[i].offer.type === 'house') {
-        adverts[i].offer.type = 'Дом';
-      } else if (adverts[i].offer.type === 'flat') {
-        adverts[i].offer.type = 'Квартира';
-      } else if (adverts[i].offer.type === 'bungalo') {
-        adverts[i].offer.type = 'Бунгало';
-      }
-    }
+  var HOUSE_TYPE = {
+    'palace': 'Дворец',
+    'bungalo': 'Бунгало',
+    'flat': 'Квартира',
+    'house': 'Дом'
   }
 
-  var typeBlock = card.querySelector('.popup__type');
-  changeTypeLang();
+  // console.log(HOUSE_TYPE[adverts[num].offer.type]);
+  // console.log(HOUSE_TYPE);
 
-  typeBlock.textContent = adverts[num].offer.type;
+  var typeBlock = card.querySelector('.popup__type');
+  typeBlock.textContent = HOUSE_TYPE[adverts[num].offer.type];
+
+  // console.log(typeBlock);
 
   var capacityBlock = card.querySelector('.popup__text--capacity');
   capacityBlock.textContent = adverts[num].offer.rooms + ' комнаты для ' + adverts[num].offer.guests + ' гостей';
@@ -174,7 +180,7 @@ function createCard(num) {
   // console.log(adverts[0].offer.features);
   // console.log(contains (adverts[0].offer.features, 'dishwasher'));
 
-  for (i = 0; i < adverts[num].offer.features.length; i++) {
+  for (var i = 0; i < adverts[num].offer.features.length; i++) {
     // console.log(featuresBlock);
     // console.log(emptyFeaturesBlock);
     // console.log(adverts[num].offer.features[i]);

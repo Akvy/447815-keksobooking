@@ -219,5 +219,3 @@ function createCard(num) {
 
 var map = document.querySelector('.map');
 map.insertBefore(createCard(0), document.querySelector('.map__filters-container'));
-
-

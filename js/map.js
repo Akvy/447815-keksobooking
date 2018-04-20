@@ -24,14 +24,6 @@ var HOUSE_TYPE = {
 var templateNode = document.querySelector('template');
 var card = templateNode.content.cloneNode(true);
 var cardItem = card.querySelector('.map__card');
-// var FEATURES_OBJECTS = {
-//   'wifi': card.querySelector('.popup__feature--wifi'),
-//   'dishwasher': card.querySelector('.popup__feature--dishwasher'),
-//   'parking': card.querySelector('.popup__feature--parking'),
-//   'washer': card.querySelector('.popup__feature--washer'),
-//   'elevator': card.querySelector('.popup__feature--elevator'),
-//   'conditioner': card.querySelector('.popup__feature--conditioner')
-// };
 var cardBlocks = {
   titleBlock: card.querySelector('.popup__title'),
   addressBlock: card.querySelector('.popup__text--address'),
@@ -60,6 +52,16 @@ function shuffleArray(array) {
   return array.sort(shuffleArrayCondition);
 }
 
+function renderServices(dom, services) {
+  var elements = dom.querySelectorAll('li');
+
+  for (var i = 0; i < elements.length; i++) {
+    if (!services[i]) {
+      elements[i].remove();
+    }
+  }
+}
+
 // Создаёт объект с данными для одного объявления
 function randomizeNumbers(maxNum) {
   for (var i = 0; i < maxNum; i++) {
@@ -67,16 +69,6 @@ function randomizeNumbers(maxNum) {
   }
 
   return shuffleArray(nums);
-}
-
-function renderServices(dom, services) {
-  var elements = dom.querySelectorAll('li');
-
-  Object.keys(elements).forEach(function (element) {
-    if (!services[element]) {
-      elements[element].remove();
-    }
-  });
 }
 
 var randomizedNumbers = randomizeNumbers(BRIEF_TITLES.length);
@@ -193,3 +185,4 @@ makePins();
 
 var map = document.querySelector('.map');
 map.insertBefore(renderCard(0), document.querySelector('.map__filters-container'));
+

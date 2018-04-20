@@ -4,6 +4,7 @@ var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var BRIEF_TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var CHECK_TIME = ['12:00', '13:00', '14:00'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var MIN_PRICE = 1000;
@@ -23,14 +24,14 @@ var HOUSE_TYPE = {
 var templateNode = document.querySelector('template');
 var card = templateNode.content.cloneNode(true);
 var cardItem = card.querySelector('.map__card');
-var FEATURES_OBJECTS = {
-  'wifi': card.querySelector('.popup__feature--wifi'),
-  'dishwasher': card.querySelector('.popup__feature--dishwasher'),
-  'parking': card.querySelector('.popup__feature--parking'),
-  'washer': card.querySelector('.popup__feature--washer'),
-  'elevator': card.querySelector('.popup__feature--elevator'),
-  'conditioner': card.querySelector('.popup__feature--conditioner')
-};
+// var FEATURES_OBJECTS = {
+//   'wifi': card.querySelector('.popup__feature--wifi'),
+//   'dishwasher': card.querySelector('.popup__feature--dishwasher'),
+//   'parking': card.querySelector('.popup__feature--parking'),
+//   'washer': card.querySelector('.popup__feature--washer'),
+//   'elevator': card.querySelector('.popup__feature--elevator'),
+//   'conditioner': card.querySelector('.popup__feature--conditioner')
+// };
 var cardBlocks = {
   titleBlock: card.querySelector('.popup__title'),
   addressBlock: card.querySelector('.popup__text--address'),
@@ -68,6 +69,16 @@ function randomizeNumbers(maxNum) {
   return shuffleArray(nums);
 }
 
+function renderServices(dom, services) {
+  var elements = dom.querySelectorAll('li');
+
+  Object.keys(elements).forEach(function (element) {
+    if (!services[element]) {
+      elements[element].remove();
+    }
+  });
+}
+
 var randomizedNumbers = randomizeNumbers(BRIEF_TITLES.length);
 
 var getRandomItem = function (array) {
@@ -84,12 +95,8 @@ function createAdvertData(piece) {
   var checkinTimeRand = getRandomItem(CHECK_TIME);
   var checkoutTimeRand = getRandomItem(CHECK_TIME);
   var description = '';
-  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
   var locationX = countMinMax(MIN_PIN_X, MAX_PIN_X) - PIN_WIDTH / 2;
   var locationY = countMinMax(MIN_PIN_Y, MAX_PIN_Y) + PIN_HEIGHT;
-
-  shuffleArray(FEATURES);
-  FEATURES.splice(0, countMinMax(0, FEATURES.length));
 
   return {
     author: {
@@ -103,7 +110,7 @@ function createAdvertData(piece) {
       guests: guestsAmount,
       checkin: checkinTimeRand,
       checkout: checkoutTimeRand,
-      features: FEATURES,
+      features: FEATURES.slice(0, countMinMax(0, FEATURES.length)),
       description: description,
       photos: shuffleArray(PHOTOS),
       address: locationX + ', ' + locationY
@@ -153,21 +160,13 @@ function makePins() {
 
 // Создаем карточку с подробной информацией по объявлению из массива с объявлениями
 function createCard(num) {
-  var emptyFeaturesBlock = cardBlocks.featuresBlock.cloneNode();
-  var fragment = document.createDocumentFragment();
   var imgItem = cardBlocks.photosBlock.querySelector('img');
-
-  for (var i = 0; i < adverts[num].offer.features.length; i++) {
-    fragment.appendChild(FEATURES_OBJECTS[adverts[num].offer.features[i]]);
-  }
-
-  emptyFeaturesBlock.appendChild(fragment);
-  cardItem.replaceChild(emptyFeaturesBlock, cardBlocks.featuresBlock);
-
+  var photosLength = adverts[num].offer.photos.length;
+  renderServices(cardBlocks.featuresBlock, adverts[num].offer.features);
 
   cardBlocks.photosBlock.removeChild(imgItem);
 
-  for (i = 0; i < adverts[num].offer.photos.length; i++) {
+  for (var i = 0; i < photosLength; i++) {
     var imgClone = imgItem.cloneNode(true);
     imgClone.src = adverts[num].offer.photos[i];
     cardBlocks.photosBlock.appendChild(imgClone);
@@ -185,9 +184,8 @@ function renderCard(num) {
   cardBlocks['capacityBlock'].textContent = adverts[num].offer.rooms + ' комнаты для ' + adverts[num].offer.guests + ' гостей';
   cardBlocks['checkBlock'].textContent = 'Заезд после ' + adverts[num].offer.checkin + ', выезд до ' + adverts[num].offer.checkout;
   cardBlocks['descriptionBlock'].textContent = adverts[num].offer.description;
-  createCard(num);
 
-  return cardItem;
+  return createCard(num);
 }
 
 getAdverts(adverts, BRIEF_TITLES);

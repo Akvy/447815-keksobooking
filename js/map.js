@@ -155,13 +155,13 @@ function makePins() {
 // Создаем карточку с подробной информацией по объявлению из массива с объявлениями
 function renderCard(num) {
   var imgItem = cardBlocks.photosBlock.querySelector('img');
-  var photosLength = adverts[num].offer.photos.length;
+  var photos = adverts[num].offer.photos;
 
   cardBlocks.photosBlock.removeChild(imgItem);
 
-  for (var i = 0; i < photosLength; i++) {
+  for (var i = 0; i < photos.length; i++) {
     var imgClone = imgItem.cloneNode(true);
-    imgClone.src = adverts[num].offer.photos[i];
+    imgClone.src = photos[i];
     cardBlocks.photosBlock.appendChild(imgClone);
   }
 

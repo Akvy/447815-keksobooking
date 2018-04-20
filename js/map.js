@@ -87,8 +87,10 @@ function createAdvertData(piece) {
   var checkinTimeRand = getRandomItem(CHECK_TIME);
   var checkoutTimeRand = getRandomItem(CHECK_TIME);
   var description = '';
-  var locationX = countMinMax(MIN_PIN_X, MAX_PIN_X) - PIN_WIDTH / 2;
-  var locationY = countMinMax(MIN_PIN_Y, MAX_PIN_Y) + PIN_HEIGHT;
+  var positionX = countMinMax(MIN_PIN_X, MAX_PIN_X);
+  var positionY = countMinMax(MIN_PIN_Y, MAX_PIN_Y);
+  var locationX = positionX + PIN_WIDTH / 2;
+  var locationY = positionY + PIN_HEIGHT;
 
   return {
     author: {
@@ -108,8 +110,8 @@ function createAdvertData(piece) {
       address: locationX + ', ' + locationY
     },
     location: {
-      x: locationX,
-      y: locationY
+      x: positionX,
+      y: positionY
     }
   };
 }
@@ -151,10 +153,9 @@ function makePins() {
 }
 
 // Создаем карточку с подробной информацией по объявлению из массива с объявлениями
-function createCard(num) {
+function renderCard(num) {
   var imgItem = cardBlocks.photosBlock.querySelector('img');
   var photosLength = adverts[num].offer.photos.length;
-  renderServices(cardBlocks.featuresBlock, adverts[num].offer.features);
 
   cardBlocks.photosBlock.removeChild(imgItem);
 
@@ -164,10 +165,6 @@ function createCard(num) {
     cardBlocks.photosBlock.appendChild(imgClone);
   }
 
-  return cardItem;
-}
-
-function renderCard(num) {
   cardBlocks.avatarBlock.src = adverts[num].author.avatar;
   cardBlocks['titleBlock'].textContent = adverts[num].offer.title;
   cardBlocks['addressBlock'].textContent = adverts[num].offer.address;
@@ -177,7 +174,9 @@ function renderCard(num) {
   cardBlocks['checkBlock'].textContent = 'Заезд после ' + adverts[num].offer.checkin + ', выезд до ' + adverts[num].offer.checkout;
   cardBlocks['descriptionBlock'].textContent = adverts[num].offer.description;
 
-  return createCard(num);
+  renderServices(cardBlocks.featuresBlock, adverts[num].offer.features);
+
+  return cardItem;
 }
 
 getAdverts(adverts, BRIEF_TITLES);
@@ -186,3 +185,4 @@ makePins();
 var map = document.querySelector('.map');
 map.insertBefore(renderCard(0), document.querySelector('.map__filters-container'));
 
+// console.log(adverts);

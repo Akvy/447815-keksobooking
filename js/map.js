@@ -185,24 +185,23 @@ makePins();
 var map = document.querySelector('.map');
 map.insertBefore(renderCard(0), document.querySelector('.map__filters-container'));
 
-
-
 // Выполняем условия неактивного состояния страницы
+
 var fieldsets = document.querySelectorAll('fieldset');
 var pins = document.querySelectorAll('.map__pin');
-// console.log(pins);
 
-for (var i = 0; i < fieldsets.length; i++ ) {
+var setInactiveForm = function () {
+  for (var i = 0; i < fieldsets.length; i++ ) {
+    var fieldset = document.querySelector('fieldset');
+    fieldsets[i].setAttribute('disabled', '');
+  }
 
-  var fieldset = document.querySelector('fieldset');
-  fieldsets[i].setAttribute('disabled', '');
+  for (i = 1; i < pins.length; i++) {
+    pins[i].classList.add('visually-hidden');
+  }
 }
 
-for (i = 1; i < pins.length; i++) {
-  pins[i].classList.add('visually-hidden');
-}
-
-
+setInactiveForm();
 
 // Вешаем обработчик событий на кнопку с пирожком для активтого состояния
 
@@ -243,8 +242,6 @@ var initialButtonKeydownHandler = function (evt) {
   if (evt.keyCode === 13) {
     initialButtonMouseupHandler();
   }
-
-  initialButton.removeEventListener('keydown', initialButtonKeydownHandler);
 };
 
 initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
@@ -252,7 +249,6 @@ initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
 initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
   var pins1MouseupHandler = function () {
-
     map.replaceChild(renderCard(1), cardItem);
     renderServices(cardBlocks.featuresBlock, adverts[1].offer.features);
     // cardBlocks.featuresBlock = adverts[1].offer.features;
@@ -282,8 +278,6 @@ initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
     map.replaceChild(renderCard(2), cardItem);
     renderServices(cardBlocks.featuresBlock, adverts[2].offer.features);
-
-
     // cardBlocks.featuresBlock = adverts[1].offer.features;
     var img = cardItem.querySelector('img');
     var imgPin = pins[2].querySelector('img');
@@ -304,7 +298,7 @@ initialButton.addEventListener('keydown', initialButtonKeydownHandler);
     }
   };
 
-console.log(renderCard(0),renderCard(1),renderCard(2))
+// console.log(renderCard(0),renderCard(1),renderCard(2))
 
 pins[1].addEventListener('mouseup', pins1MouseupHandler);
 
@@ -315,7 +309,7 @@ pins[2].addEventListener('mouseup', pins2MouseupHandler);
 pins[2].addEventListener('keydown', pins2KeydownHandler);
 
 
-console.log(adverts);
+// console.log(adverts);
 
 
 // console.log(cardItem);

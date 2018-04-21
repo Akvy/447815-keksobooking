@@ -190,21 +190,6 @@ map.insertBefore(renderCard(0), document.querySelector('.map__filters-container'
 var fieldsets = document.querySelectorAll('fieldset');
 var pins = document.querySelectorAll('.map__pin');
 
-var setInactiveForm = function () {
-  for (var i = 0; i < fieldsets.length; i++ ) {
-    var fieldset = document.querySelector('fieldset');
-    fieldsets[i].setAttribute('disabled', '');
-  }
-
-  for (i = 1; i < pins.length; i++) {
-    pins[i].classList.add('visually-hidden');
-  }
-}
-
-setInactiveForm();
-
-// Вешаем обработчик событий на кнопку с пирожком для активтого состояния
-
 var initialButton = document.querySelector('.map__pin--main');
 var inactiveMap = document.querySelector('.map');
 var inactiveMapform = document.querySelector('.ad-form');
@@ -216,6 +201,23 @@ var addressInput = document.getElementById('address');
 var mainPinWidth = +initialButton.style.left.slice(0, -2) + initialButtonImg.offsetWidth / 2;
 var mainPinHeight = +initialButton.style.top.slice(0, -2) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
 
+var setInactiveForm = function () {
+  for (var i = 0; i < fieldsets.length; i++) {
+    // var fieldset = document.querySelector('fieldset');
+    fieldsets[i].setAttribute('disabled', '');
+  }
+
+  for (i = 1; i < pins.length; i++) {
+    pins[i].classList.add('visually-hidden');
+  }
+
+  addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+};
+
+setInactiveForm();
+
+// Вешаем обработчик событий на кнопку с пирожком для активтого состояния
+
 advertCard.classList.add('visually-hidden');
 filtersBar.classList.add('visually-hidden');
 
@@ -224,16 +226,14 @@ var initialButtonMouseupHandler = function () {
   inactiveMapform.classList.remove('ad-form--disabled');
   filtersBar.classList.remove('visually-hidden');
 
-  for (var i = 0; i < fieldsets.length; i++ ) {
-    var fieldset = document.querySelector('fieldset');
+  for (var i = 0; i < fieldsets.length; i++) {
+    // var fieldset = document.querySelector('fieldset');
     fieldsets[i].removeAttribute('disabled', '');
   }
 
   for (i = 1; i < pins.length; i++) {
     pins[i].classList.remove('visually-hidden');
   }
-
-  addressInput.value = mainPinWidth + ', ' + mainPinHeight;
 
   initialButton.removeEventListener('mouseup', initialButtonMouseupHandler);
 };
@@ -248,55 +248,55 @@ initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
 
 initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
-  var pins1MouseupHandler = function () {
-    map.replaceChild(renderCard(1), cardItem);
-    renderServices(cardBlocks.featuresBlock, adverts[1].offer.features);
-    // cardBlocks.featuresBlock = adverts[1].offer.features;
-    var img = cardItem.querySelector('img');
-    var imgPin = pins[1].querySelector('img');
-    img.src = imgPin.src;
-    // renderServices(cardBlocks.featuresBlock, adverts[1].offer.features);
-    // console.log(adverts[1].offer.features);
+var pins1MouseupHandler = function () {
+  map.replaceChild(renderCard(1), cardItem);
+  renderServices(cardBlocks.featuresBlock, adverts[1].offer.features);
+  // cardBlocks.featuresBlock = adverts[1].offer.features;
+  var img = cardItem.querySelector('img');
+  var imgPin = pins[1].querySelector('img');
+  img.src = imgPin.src;
+  // renderServices(cardBlocks.featuresBlock, adverts[1].offer.features);
+  // console.log(adverts[1].offer.features);
 
-    if (advertCard.classList.contains('visually-hidden')) {
-      advertCard.classList.remove('visually-hidden');
-    } else {
-      advertCard.classList.add('visually-hidden');
-    }
+  if (advertCard.classList.contains('visually-hidden')) {
+    advertCard.classList.remove('visually-hidden');
+  } else {
+    advertCard.classList.add('visually-hidden');
+  }
 
-    // pins[1].removeEventListener('mouseup', pins1MouseupHandler);
+  // pins[1].removeEventListener('mouseup', pins1MouseupHandler);
 
-  };
+};
 
-  var pins1KeydownHandler  = function (evt) {
-    if (evt.keyCode === 13) {
-      pins1MouseupHandler();
-    }
-  };
+var pins1KeydownHandler = function (evt) {
+  if (evt.keyCode === 13) {
+    pins1MouseupHandler();
+  }
+};
 
-  var pins2MouseupHandler = function () {
+var pins2MouseupHandler = function () {
 
-    map.replaceChild(renderCard(2), cardItem);
-    renderServices(cardBlocks.featuresBlock, adverts[2].offer.features);
-    // cardBlocks.featuresBlock = adverts[1].offer.features;
-    var img = cardItem.querySelector('img');
-    var imgPin = pins[2].querySelector('img');
-    img.src = imgPin.src;
-    // renderServices(cardBlocks.featuresBlock, adverts[2].offer.features);
-    // console.log(adverts[2].offer.features, cardBlocks.featuresBlock);
+  map.replaceChild(renderCard(2), cardItem);
+  renderServices(cardBlocks.featuresBlock, adverts[2].offer.features);
+  // cardBlocks.featuresBlock = adverts[1].offer.features;
+  var img = cardItem.querySelector('img');
+  var imgPin = pins[2].querySelector('img');
+  img.src = imgPin.src;
+  // renderServices(cardBlocks.featuresBlock, adverts[2].offer.features);
+  // console.log(adverts[2].offer.features, cardBlocks.featuresBlock);
 
-    if (advertCard.classList.contains('visually-hidden')) {
-      advertCard.classList.remove('visually-hidden');
-    } else {
-      advertCard.classList.add('visually-hidden');
-    }
-  };
+  if (advertCard.classList.contains('visually-hidden')) {
+    advertCard.classList.remove('visually-hidden');
+  } else {
+    advertCard.classList.add('visually-hidden');
+  }
+};
 
-  var pins2KeydownHandler  = function (evt) {
-    if (evt.keyCode === 13) {
-      pins1MouseupHandler();
-    }
-  };
+var pins2KeydownHandler = function (evt) {
+  if (evt.keyCode === 13) {
+    pins1MouseupHandler();
+  }
+};
 
 // console.log(renderCard(0),renderCard(1),renderCard(2))
 

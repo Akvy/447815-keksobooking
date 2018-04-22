@@ -150,12 +150,6 @@ function pinClickHandler(num) {
   };
 }
 
-// function pinKeydownHandler(evt) {
-//   if (evt.keyCode === KEY_ENTER) {
-//     pinClickHandler(num);
-//   }
-// };
-
 function removeAdverts() {
   var maps = map.querySelectorAll('.map__card');
 
@@ -176,7 +170,6 @@ var renderPin = function (num, pin) {
   img.alt = adverts[num].offer.title;
 
   pin.addEventListener('click', pinClickHandler(num));
-  // pin.addEventListener('click', pinKeydownHandler);
 
   return pin;
 };
@@ -250,6 +243,11 @@ var fieldsets = document.querySelectorAll('fieldset');
 var pins = document.querySelectorAll('.map__pin');
 
 var setInactiveForm = function () {
+  var typeSelect = document.getElementById('type');
+  var typeOptions = typeSelect.querySelectorAll('option');
+  var priceInput= document.getElementById('price');
+  var capacitySelect = document.getElementById('capacity');
+
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].setAttribute('disabled', '');
   }
@@ -261,6 +259,20 @@ var setInactiveForm = function () {
   filtersBar.style.display = 'none';
 
   addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+
+  for (i = 0; i < typeOptions.length; i++) {
+    if (typeOptions[i].hasAttribute('selected')) {
+        priceInput.placeholder = '1 000';
+        priceInput.setAttribute('min', '1000');
+    }
+  }
+
+  for (i = 0; i < capacitySelect.children.length; i++) {
+    capacitySelect.children[i].setAttribute('disabled', '');
+  }
+
+  capacitySelect.selectedIndex = 2;
+  capacitySelect.children[2].removeAttribute('disabled', '');
 };
 
 setInactiveForm();
@@ -306,3 +318,107 @@ function closeButtonKeydownHandler(evt) {
     closeButtonClickHandler();
   }
 }
+
+// Обработчик событий на инпут с ценой и селектом выбора типа жилья
+var typeSelect = document.getElementById('type');
+var typeOptions = typeSelect.querySelectorAll('option');
+var priceInput= document.getElementById('price');
+
+typeSelect.addEventListener('change', function (evt) {
+  var target = evt.target;
+    if (target.selectedIndex === 0) {
+      if (!priceInput.hasAttribute('required', '')) {
+        priceInput.setAttribute('required', '');
+      }
+      priceInput.setAttribute('min', '1000');
+      priceInput.placeholder = '1 000';
+    }
+
+    if (target.selectedIndex === 1) {
+      priceInput.placeholder = '0';
+      priceInput.removeAttribute('min', '');
+      priceInput.removeAttribute('required');
+    }
+
+    if (target.selectedIndex === 2) {
+      if (!priceInput.hasAttribute('required', '')) {
+        priceInput.setAttribute('required', '');
+      }
+      priceInput.placeholder = '5 000';
+      priceInput.setAttribute('min', '5000');
+    }
+
+    if (target.selectedIndex === 3) {
+      if (!priceInput.hasAttribute('required', '')) {
+        priceInput.setAttribute('required', '');
+      }
+      priceInput.placeholder = '10 000';
+      priceInput.setAttribute('min', '10000');
+    }
+  });
+
+var timeInSelect = document.getElementById('timein');
+var timeInOptions = timeInSelect.querySelectorAll('option');
+var timeOutSelect = document.getElementById('timeout');
+var timeOutOptions = timeOutSelect.querySelectorAll('option');
+
+timeOutSelect.addEventListener('change', function(evt) {
+  var target = evt.target;
+
+  timeInSelect.selectedIndex = timeOutSelect.selectedIndex ;
+});
+
+timeInSelect.addEventListener('change', function(evt) {
+  var target = evt.target;
+
+  timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
+});
+
+
+var roomsSelect = document.getElementById('room_number');
+var capacitySelect = document.getElementById('capacity');
+
+roomsSelect.addEventListener('change', function(evt) {
+  var target = evt.target;
+
+  if (target.selectedIndex === 0) {
+    for (var i = 0; i < capacitySelect.children.length; i++) {
+      capacitySelect.children[i].setAttribute('disabled', '');
+    }
+    capacitySelect.selectedIndex = 2;
+    capacitySelect.children[2].removeAttribute('disabled', '');
+  }
+
+  if (target.selectedIndex === 1) {
+    for (var i = 0; i < capacitySelect.children.length; i++) {
+      capacitySelect.children[i].setAttribute('disabled', '');
+    }
+    capacitySelect.selectedIndex = 2;
+    capacitySelect.children[1].removeAttribute('disabled', '');
+    capacitySelect.children[2].removeAttribute('disabled', '');
+  }
+
+  if (target.selectedIndex === 2) {
+    for (var i = 0; i < capacitySelect.children.length; i++) {
+      capacitySelect.children[i].removeAttribute('disabled', '');
+    }
+    capacitySelect.children[3].setAttribute('disabled', '');
+  }
+
+  if (target.selectedIndex === 3) {
+    for (var i = 0; i < capacitySelect.children.length; i++) {
+      capacitySelect.children[i].setAttribute('disabled', '');
+    }
+    capacitySelect.selectedIndex = 3;
+    capacitySelect.children[3].removeAttribute('disabled', '');
+  }
+});
+
+var submitButton = document.querySelector('.ad-form__submit');
+var adForm = document.querySelector('.ad-form');
+var successWindow = document.querySelector('.success');
+
+// console.log(submitButton, successWindow);
+adForm.addEventListener('submit', function (evt) {
+  successWindow.classList.remove('hidden');
+});

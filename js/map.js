@@ -417,3 +417,68 @@ var successWindow = document.querySelector('.success');
 adForm.addEventListener('submit', function () {
   successWindow.classList.remove('hidden');
 });
+
+
+initialButton.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var initialButtonMousemoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var HORIZONTAL_MAX = 1136;
+    var VERTICAL_MAX = 625;
+    var pinHorizontal = +initialButton.style.left.slice(0, -2);
+    var pinVertical = +initialButton.style.top.slice(0, -2);
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    initialButton.style.top = (initialButton.offsetTop - shift.y) + 'px';
+    initialButton.style.left = (initialButton.offsetLeft - shift.x) + 'px';
+
+    addressInput.value = (initialButton.offsetLeft - shift.x + initialButtonImg.offsetWidth / 2) + ', ' + (initialButton.offsetTop - shift.y + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT);
+
+    if (VERTICAL_MAX < pinVertical || pinVertical < 0 || pinHorizontal < 0 || pinHorizontal > HORIZONTAL_MAX) {
+      if (pinHorizontal < 0) {
+        initialButton.style.left = 0 + 'px';
+      }
+
+      if (pinHorizontal > HORIZONTAL_MAX) {
+        initialButton.style.left = HORIZONTAL_MAX + 'px';
+      }
+
+      if (pinVertical < 0) {
+        initialButton.style.top = 0 + 'px';
+      }
+
+      if (pinVertical > VERTICAL_MAX) {
+        initialButton.style.top = VERTICAL_MAX + 'px';
+      }
+
+      document.removeEventListener('mousemove', initialButtonMousemoveHandler);
+    }
+  };
+
+  var initialButtonMouseupMoveHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', initialButtonMousemoveHandler);
+    document.removeEventListener('mouseup', initialButtonMouseupMoveHandler);
+  };
+
+  document.addEventListener('mousemove', initialButtonMousemoveHandler);
+  document.addEventListener('mouseup', initialButtonMouseupMoveHandler);
+});
+
+

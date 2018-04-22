@@ -245,7 +245,7 @@ var pins = document.querySelectorAll('.map__pin');
 var setInactiveForm = function () {
   var typeSelect = document.getElementById('type');
   var typeOptions = typeSelect.querySelectorAll('option');
-  var priceInput= document.getElementById('price');
+  var priceInput = document.getElementById('price');
   var capacitySelect = document.getElementById('capacity');
 
   for (var i = 0; i < fieldsets.length; i++) {
@@ -262,8 +262,8 @@ var setInactiveForm = function () {
 
   for (i = 0; i < typeOptions.length; i++) {
     if (typeOptions[i].hasAttribute('selected')) {
-        priceInput.placeholder = '1 000';
-        priceInput.setAttribute('min', '1000');
+      priceInput.placeholder = '1 000';
+      priceInput.setAttribute('min', '1000');
     }
   }
 
@@ -321,55 +321,51 @@ function closeButtonKeydownHandler(evt) {
 
 // Обработчик событий на инпут с ценой и селектом выбора типа жилья
 var typeSelect = document.getElementById('type');
-var typeOptions = typeSelect.querySelectorAll('option');
-var priceInput= document.getElementById('price');
+var priceInput = document.getElementById('price');
 
 typeSelect.addEventListener('change', function (evt) {
   var target = evt.target;
-    if (target.selectedIndex === 0) {
-      if (!priceInput.hasAttribute('required', '')) {
-        priceInput.setAttribute('required', '');
-      }
-      priceInput.setAttribute('min', '1000');
-      priceInput.placeholder = '1 000';
+
+  if (target.selectedIndex === 0) {
+    if (!priceInput.hasAttribute('required', '')) {
+      priceInput.setAttribute('required', '');
     }
+    priceInput.setAttribute('min', '1000');
+    priceInput.placeholder = '1 000';
+  }
 
-    if (target.selectedIndex === 1) {
-      priceInput.placeholder = '0';
-      priceInput.removeAttribute('min', '');
-      priceInput.removeAttribute('required');
+  if (target.selectedIndex === 1) {
+    priceInput.placeholder = '0';
+    priceInput.removeAttribute('min', '');
+    priceInput.removeAttribute('required');
+  }
+
+  if (target.selectedIndex === 2) {
+    if (!priceInput.hasAttribute('required', '')) {
+      priceInput.setAttribute('required', '');
     }
+    priceInput.placeholder = '5 000';
+    priceInput.setAttribute('min', '5000');
+  }
 
-    if (target.selectedIndex === 2) {
-      if (!priceInput.hasAttribute('required', '')) {
-        priceInput.setAttribute('required', '');
-      }
-      priceInput.placeholder = '5 000';
-      priceInput.setAttribute('min', '5000');
+  if (target.selectedIndex === 3) {
+    if (!priceInput.hasAttribute('required', '')) {
+      priceInput.setAttribute('required', '');
     }
-
-    if (target.selectedIndex === 3) {
-      if (!priceInput.hasAttribute('required', '')) {
-        priceInput.setAttribute('required', '');
-      }
-      priceInput.placeholder = '10 000';
-      priceInput.setAttribute('min', '10000');
-    }
-  });
-
-var timeInSelect = document.getElementById('timein');
-var timeInOptions = timeInSelect.querySelectorAll('option');
-var timeOutSelect = document.getElementById('timeout');
-var timeOutOptions = timeOutSelect.querySelectorAll('option');
-
-timeOutSelect.addEventListener('change', function(evt) {
-  var target = evt.target;
-
-  timeInSelect.selectedIndex = timeOutSelect.selectedIndex ;
+    priceInput.placeholder = '10 000';
+    priceInput.setAttribute('min', '10000');
+  }
 });
 
-timeInSelect.addEventListener('change', function(evt) {
-  var target = evt.target;
+var timeInSelect = document.getElementById('timein');
+var timeOutSelect = document.getElementById('timeout');
+
+timeOutSelect.addEventListener('change', function () {
+
+  timeInSelect.selectedIndex = timeOutSelect.selectedIndex;
+});
+
+timeInSelect.addEventListener('change', function () {
 
   timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
 });
@@ -378,7 +374,7 @@ timeInSelect.addEventListener('change', function(evt) {
 var roomsSelect = document.getElementById('room_number');
 var capacitySelect = document.getElementById('capacity');
 
-roomsSelect.addEventListener('change', function(evt) {
+roomsSelect.addEventListener('change', function (evt) {
   var target = evt.target;
 
   if (target.selectedIndex === 0) {
@@ -390,7 +386,7 @@ roomsSelect.addEventListener('change', function(evt) {
   }
 
   if (target.selectedIndex === 1) {
-    for (var i = 0; i < capacitySelect.children.length; i++) {
+    for (i = 0; i < capacitySelect.children.length; i++) {
       capacitySelect.children[i].setAttribute('disabled', '');
     }
     capacitySelect.selectedIndex = 2;
@@ -399,14 +395,14 @@ roomsSelect.addEventListener('change', function(evt) {
   }
 
   if (target.selectedIndex === 2) {
-    for (var i = 0; i < capacitySelect.children.length; i++) {
+    for (i = 0; i < capacitySelect.children.length; i++) {
       capacitySelect.children[i].removeAttribute('disabled', '');
     }
     capacitySelect.children[3].setAttribute('disabled', '');
   }
 
   if (target.selectedIndex === 3) {
-    for (var i = 0; i < capacitySelect.children.length; i++) {
+    for (i = 0; i < capacitySelect.children.length; i++) {
       capacitySelect.children[i].setAttribute('disabled', '');
     }
     capacitySelect.selectedIndex = 3;
@@ -414,11 +410,10 @@ roomsSelect.addEventListener('change', function(evt) {
   }
 });
 
-var submitButton = document.querySelector('.ad-form__submit');
 var adForm = document.querySelector('.ad-form');
 var successWindow = document.querySelector('.success');
 
 // console.log(submitButton, successWindow);
-adForm.addEventListener('submit', function (evt) {
+adForm.addEventListener('submit', function () {
   successWindow.classList.remove('hidden');
 });

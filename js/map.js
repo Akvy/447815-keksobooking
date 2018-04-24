@@ -252,12 +252,12 @@ var setInactiveForm = function () {
   priceInput.setAttribute('min', '1000');
   priceInput.placeholder = '1 000';
   addressInput.value = mainPinWidth + ', ' + mainPinHeight;
-  
+
   disableCapacityOptions();
   // for (i = 0; i < capacitySelect.children.length; i++) {
   //   capacitySelect.children[i].setAttribute('disabled', '');
   // }
-  
+
   capacitySelect.selectedIndex = 2;
   capacitySelect.children[2].removeAttribute('disabled', '');
 };

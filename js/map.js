@@ -341,7 +341,7 @@ var addCapacityOption = function (from, to) {
   for (var i = from; i <= to; i++) {
     capacitySelect.children[i].removeAttribute('disabled', '');
   }
-}
+};
 
 roomsSelect.addEventListener('change', function (evt) {
   var target = evt.target;

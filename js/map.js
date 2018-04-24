@@ -23,19 +23,6 @@ var HOUSE_TYPE = {
 };
 var templateNode = document.querySelector('template');
 var card = templateNode.content.cloneNode(true);
-// var cardItem = card.querySelector('.map__card');
-// var cardBlocks = {
-//   titleBlock: card.querySelector('.popup__title'),
-//   addressBlock: card.querySelector('.popup__text--address'),
-//   priceBlock: card.querySelector('.popup__text--price'),
-//   typeBlock: card.querySelector('.popup__type'),
-//   capacityBlock: card.querySelector('.popup__text--capacity'),
-//   checkBlock: card.querySelector('.popup__text--time'),
-//   featuresBlock: card.querySelector('.popup__features'),
-//   descriptionBlock: card.querySelector('.popup__description'),
-//   avatarBlock: card.querySelector('.popup__avatar'),
-//   photosBlock: card.querySelector('.popup__photos')
-// };
 var map = document.querySelector('.map');
 var KEY_ENTER = 13;
 var KEY_ESC = 27;
@@ -241,13 +228,18 @@ makePins();
 
 var fieldsets = document.querySelectorAll('fieldset');
 var pins = document.querySelectorAll('.map__pin');
+var typeSelect = document.getElementById('type');
+var priceInput = document.getElementById('price');
+var capacitySelect = document.getElementById('capacity');
+
+var setMinPrice = function (num, minPrice, placeHolder) {
+  if (typeSelect.selectedIndex === num) {
+    priceInput.setAttribute('min', minPrice);
+    priceInput.placeholder = placeHolder;
+  }
+};
 
 var setInactiveForm = function () {
-  var typeSelect = document.getElementById('type');
-  var typeOptions = typeSelect.querySelectorAll('option');
-  var priceInput = document.getElementById('price');
-  var capacitySelect = document.getElementById('capacity');
-
   for (var i = 0; i < fieldsets.length; i++) {
     fieldsets[i].setAttribute('disabled', '');
   }
@@ -257,19 +249,14 @@ var setInactiveForm = function () {
   }
 
   filtersBar.style.display = 'none';
-
+  priceInput.setAttribute('min', '1000');
+  priceInput.placeholder = '1 000';
   addressInput.value = mainPinWidth + ', ' + mainPinHeight;
 
-  for (i = 0; i < typeOptions.length; i++) {
-    if (typeOptions[i].hasAttribute('selected')) {
-      priceInput.placeholder = '1 000';
-      priceInput.setAttribute('min', '1000');
-    }
-  }
-
-  for (i = 0; i < capacitySelect.children.length; i++) {
-    capacitySelect.children[i].setAttribute('disabled', '');
-  }
+  disableCapacityOptions();
+  // for (i = 0; i < capacitySelect.children.length; i++) {
+  //   capacitySelect.children[i].setAttribute('disabled', '');
+  // }
 
   capacitySelect.selectedIndex = 2;
   capacitySelect.children[2].removeAttribute('disabled', '');
@@ -320,41 +307,11 @@ function closeButtonKeydownHandler(evt) {
 }
 
 // Обработчик событий на инпут с ценой и селектом выбора типа жилья
-var typeSelect = document.getElementById('type');
-var priceInput = document.getElementById('price');
-
-typeSelect.addEventListener('change', function (evt) {
-  var target = evt.target;
-
-  if (target.selectedIndex === 0) {
-    if (!priceInput.hasAttribute('required', '')) {
-      priceInput.setAttribute('required', '');
-    }
-    priceInput.setAttribute('min', '1000');
-    priceInput.placeholder = '1 000';
-  }
-
-  if (target.selectedIndex === 1) {
-    priceInput.placeholder = '0';
-    priceInput.removeAttribute('min', '');
-    priceInput.removeAttribute('required');
-  }
-
-  if (target.selectedIndex === 2) {
-    if (!priceInput.hasAttribute('required', '')) {
-      priceInput.setAttribute('required', '');
-    }
-    priceInput.placeholder = '5 000';
-    priceInput.setAttribute('min', '5000');
-  }
-
-  if (target.selectedIndex === 3) {
-    if (!priceInput.hasAttribute('required', '')) {
-      priceInput.setAttribute('required', '');
-    }
-    priceInput.placeholder = '10 000';
-    priceInput.setAttribute('min', '10000');
-  }
+typeSelect.addEventListener('change', function () {
+  setMinPrice(0, '1000', '1 000');
+  setMinPrice(1, '0', '0');
+  setMinPrice(2, '5000', '5 000');
+  setMinPrice(3, '10000', '10 000');
 });
 
 var timeInSelect = document.getElementById('timein');
@@ -372,52 +329,62 @@ timeInSelect.addEventListener('change', function () {
 
 
 var roomsSelect = document.getElementById('room_number');
-var capacitySelect = document.getElementById('capacity');
+
+// var disableCapacityOptions = function (num) {
+//   for (var i = 0; i <= capacitySelect.children.length; i++) {
+//     capacitySelect.children[i].setAttribute('disabled', '');
+//   }
+
+//   // capacitySelect.selectedIndex = num;
+// };
+
+var addCapacityOption = function (from, to) {
+  for (var i = from; i <= to; i++) {
+    capacitySelect.children[i].removeAttribute('disabled', '');
+  }
+};
+
+function disableCapacityOptions() {
+  for (var i = 0; i < capacitySelect.children.length; i++) {
+    capacitySelect.children[i].setAttribute('disabled', '');
+  }
+}
 
 roomsSelect.addEventListener('change', function (evt) {
   var target = evt.target;
 
-  if (target.selectedIndex === 0) {
-    for (var i = 0; i < capacitySelect.children.length; i++) {
-      capacitySelect.children[i].setAttribute('disabled', '');
-    }
-    capacitySelect.selectedIndex = 2;
-    capacitySelect.children[2].removeAttribute('disabled', '');
+  if (!target.selectedIndex) {
+    disableCapacityOptions();
+    // disableCapacityOptions(2, 2);
+    addCapacityOption(2, 2);
   }
 
   if (target.selectedIndex === 1) {
-    for (i = 0; i < capacitySelect.children.length; i++) {
-      capacitySelect.children[i].setAttribute('disabled', '');
-    }
-    capacitySelect.selectedIndex = 2;
-    capacitySelect.children[1].removeAttribute('disabled', '');
-    capacitySelect.children[2].removeAttribute('disabled', '');
+    disableCapacityOptions();
+    // disableCapacityOptions(1, 2);
+    addCapacityOption(1, 2);
   }
 
   if (target.selectedIndex === 2) {
-    for (i = 0; i < capacitySelect.children.length; i++) {
-      capacitySelect.children[i].removeAttribute('disabled', '');
-    }
-    capacitySelect.children[3].setAttribute('disabled', '');
+    disableCapacityOptions();
+    // disableCapacityOptions(3, 3);
+    addCapacityOption(0, 2);
   }
 
   if (target.selectedIndex === 3) {
-    for (i = 0; i < capacitySelect.children.length; i++) {
-      capacitySelect.children[i].setAttribute('disabled', '');
-    }
+    disableCapacityOptions();
     capacitySelect.selectedIndex = 3;
-    capacitySelect.children[3].removeAttribute('disabled', '');
+    addCapacityOption(3, 3);
+
   }
 });
 
 var adForm = document.querySelector('.ad-form');
 var successWindow = document.querySelector('.success');
 
-// console.log(submitButton, successWindow);
 adForm.addEventListener('submit', function () {
   successWindow.classList.remove('hidden');
 });
-
 
 initialButton.addEventListener('mousedown', function (evt) {
   evt.preventDefault();

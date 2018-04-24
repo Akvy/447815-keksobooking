@@ -23,19 +23,6 @@ var HOUSE_TYPE = {
 };
 var templateNode = document.querySelector('template');
 var card = templateNode.content.cloneNode(true);
-// var cardItem = card.querySelector('.map__card');
-// var cardBlocks = {
-//   titleBlock: card.querySelector('.popup__title'),
-//   addressBlock: card.querySelector('.popup__text--address'),
-//   priceBlock: card.querySelector('.popup__text--price'),
-//   typeBlock: card.querySelector('.popup__type'),
-//   capacityBlock: card.querySelector('.popup__text--capacity'),
-//   checkBlock: card.querySelector('.popup__text--time'),
-//   featuresBlock: card.querySelector('.popup__features'),
-//   descriptionBlock: card.querySelector('.popup__description'),
-//   avatarBlock: card.querySelector('.popup__avatar'),
-//   photosBlock: card.querySelector('.popup__photos')
-// };
 var map = document.querySelector('.map');
 var KEY_ENTER = 13;
 var KEY_ESC = 27;
@@ -150,12 +137,6 @@ function pinClickHandler(num) {
   };
 }
 
-// function pinKeydownHandler(evt) {
-//   if (evt.keyCode === KEY_ENTER) {
-//     pinClickHandler(num);
-//   }
-// };
-
 function removeAdverts() {
   var maps = map.querySelectorAll('.map__card');
 
@@ -176,7 +157,6 @@ var renderPin = function (num, pin) {
   img.alt = adverts[num].offer.title;
 
   pin.addEventListener('click', pinClickHandler(num));
-  // pin.addEventListener('click', pinKeydownHandler);
 
   return pin;
 };
@@ -248,6 +228,16 @@ makePins();
 
 var fieldsets = document.querySelectorAll('fieldset');
 var pins = document.querySelectorAll('.map__pin');
+var typeSelect = document.getElementById('type');
+var priceInput = document.getElementById('price');
+var capacitySelect = document.getElementById('capacity');
+
+var setMinPrice = function (num, minPrice, placeHolder) {
+  if (typeSelect.selectedIndex === num) {
+    priceInput.setAttribute('min', minPrice);
+    priceInput.placeholder = placeHolder;
+  }
+};
 
 var setInactiveForm = function () {
   for (var i = 0; i < fieldsets.length; i++) {
@@ -259,8 +249,16 @@ var setInactiveForm = function () {
   }
 
   filtersBar.style.display = 'none';
-
+  priceInput.setAttribute('min', '1000');
+  priceInput.placeholder = '1 000';
   addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+
+  for (i = 0; i < capacitySelect.children.length; i++) {
+    capacitySelect.children[i].setAttribute('disabled', '');
+  }
+
+  capacitySelect.selectedIndex = 2;
+  capacitySelect.children[2].removeAttribute('disabled', '');
 };
 
 setInactiveForm();
@@ -306,3 +304,72 @@ function closeButtonKeydownHandler(evt) {
     closeButtonClickHandler();
   }
 }
+
+// Обработчик событий на инпут с ценой и селектом выбора типа жилья
+typeSelect.addEventListener('change', function () {
+  setMinPrice(0, '1000', '1 000');
+  setMinPrice(1, '0', '0');
+  setMinPrice(2, '5000', '5 000');
+  setMinPrice(3, '10000', '10 000');
+});
+
+var timeInSelect = document.getElementById('timein');
+var timeOutSelect = document.getElementById('timeout');
+
+timeOutSelect.addEventListener('change', function () {
+
+  timeInSelect.selectedIndex = timeOutSelect.selectedIndex;
+});
+
+timeInSelect.addEventListener('change', function () {
+
+  timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
+});
+
+
+var roomsSelect = document.getElementById('room_number');
+
+var disableCapacityOptions = function (num) {
+  for (var i = 0; i < capacitySelect.children.length; i++) {
+    capacitySelect.children[i].setAttribute('disabled', '');
+  }
+
+  capacitySelect.selectedIndex = num;
+};
+
+var addCapacityOption = function (from, to) {
+  for (var i = from; i <= to; i++) {
+    capacitySelect.children[i].removeAttribute('disabled', '');
+  }
+};
+
+roomsSelect.addEventListener('change', function (evt) {
+  var target = evt.target;
+
+  if (!target.selectedIndex) {
+    disableCapacityOptions(2);
+    addCapacityOption(2, 2);
+  }
+
+  if (target.selectedIndex === 1) {
+    disableCapacityOptions(1);
+    addCapacityOption(1, 2);
+  }
+
+  if (target.selectedIndex === 2) {
+    disableCapacityOptions(0);
+    addCapacityOption(0, 2);
+  }
+
+  if (target.selectedIndex === 3) {
+    disableCapacityOptions(3);
+    addCapacityOption(3, 3);
+  }
+});
+
+var adForm = document.querySelector('.ad-form');
+var successWindow = document.querySelector('.success');
+
+adForm.addEventListener('submit', function () {
+  successWindow.classList.remove('hidden');
+});

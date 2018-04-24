@@ -337,34 +337,33 @@ var disableCapacityOptions = function (num) {
   capacitySelect.selectedIndex = num;
 };
 
+var addCapacityOption = function (from, to) {
+  for (var i = from; i <= to; i++) {
+    capacitySelect.children[i].removeAttribute('disabled', '');
+  }
+}
+
 roomsSelect.addEventListener('change', function (evt) {
   var target = evt.target;
 
   if (!target.selectedIndex) {
     disableCapacityOptions(2);
-
-    capacitySelect.children[2].removeAttribute('disabled', '');
+    addCapacityOption(2, 2);
   }
 
   if (target.selectedIndex === 1) {
     disableCapacityOptions(1);
-
-    capacitySelect.children[1].removeAttribute('disabled', '');
-    capacitySelect.children[2].removeAttribute('disabled', '');
+    addCapacityOption(1, 2);
   }
 
   if (target.selectedIndex === 2) {
     disableCapacityOptions(0);
-
-    capacitySelect.children[0].removeAttribute('disabled', '');
-    capacitySelect.children[1].removeAttribute('disabled', '');
-    capacitySelect.children[2].removeAttribute('disabled', '');
+    addCapacityOption(0, 2);
   }
 
   if (target.selectedIndex === 3) {
     disableCapacityOptions(3);
-
-    capacitySelect.children[3].removeAttribute('disabled', '');
+    addCapacityOption(3, 3);
   }
 });
 

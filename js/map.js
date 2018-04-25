@@ -292,6 +292,7 @@ function initialButtonKeydownHandler(evt) {
 
 // Вешаем обработчик событий на кнопку с пирожком для активтого состояния
 initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
+
 initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
 function closeButtonClickHandler() {
@@ -396,10 +397,12 @@ initialButton.addEventListener('mousedown', function (evt) {
   var initialButtonMousemoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
 
+    var HORIZONTAL_MIN = 0;
     var HORIZONTAL_MAX = 1136;
-    var VERTICAL_MAX = 625;
-    var pinHorizontal = +initialButton.style.left.slice(0, -2);
-    var pinVertical = +initialButton.style.top.slice(0, -2);
+    var VERTICAL_MIN = 150;
+    var VERTICAL_MAX = 500;
+    var pinHorizontal = initialButton.style.left.slice(0, -2);
+    var pinVertical = initialButton.style.top.slice(0, -2);
     var shift = {
       x: startCoords.x - moveEvt.clientX,
       y: startCoords.y - moveEvt.clientY
@@ -409,31 +412,41 @@ initialButton.addEventListener('mousedown', function (evt) {
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
+    var OFFSET_X = initialButtonImg.offsetWidth / 2;
+    var OFFSET_Y = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var MIN_HORIZONTAL_COORD = HORIZONTAL_MAX + OFFSET_X;
+    var pinCurrentX = initialButton.offsetLeft - shift.x + OFFSET_X;
+    var pinCurrentY = initialButton.offsetTop - shift.y + OFFSET_Y;
 
+    initialButton.addEventListener('mouseleave', initialButtonMouseupHandler);
     initialButton.style.top = (initialButton.offsetTop - shift.y) + 'px';
     initialButton.style.left = (initialButton.offsetLeft - shift.x) + 'px';
 
-    addressInput.value = (initialButton.offsetLeft - shift.x + initialButtonImg.offsetWidth / 2) + ', ' + (initialButton.offsetTop - shift.y + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT);
-
-    if (VERTICAL_MAX < pinVertical || pinVertical < 0 || pinHorizontal < 0 || pinHorizontal > HORIZONTAL_MAX) {
-      if (pinHorizontal < 0) {
-        initialButton.style.left = 0 + 'px';
+    if (VERTICAL_MAX < pinVertical || pinVertical < VERTICAL_MIN || pinHorizontal < HORIZONTAL_MIN || pinHorizontal > HORIZONTAL_MAX) {
+      if (pinHorizontal < HORIZONTAL_MIN) {
+        initialButton.style.left = HORIZONTAL_MIN + 'px';
+        pinCurrentX = OFFSET_X;
       }
 
       if (pinHorizontal > HORIZONTAL_MAX) {
         initialButton.style.left = HORIZONTAL_MAX + 'px';
+        pinCurrentX = MIN_HORIZONTAL_COORD;
       }
 
-      if (pinVertical < 0) {
-        initialButton.style.top = 0 + 'px';
+      if (pinVertical < VERTICAL_MIN) {
+        initialButton.style.top = VERTICAL_MIN + 'px';
+        pinCurrentY = VERTICAL_MIN;
       }
 
       if (pinVertical > VERTICAL_MAX) {
         initialButton.style.top = VERTICAL_MAX + 'px';
+        pinCurrentY = VERTICAL_MAX;
       }
 
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
     }
+
+    addressInput.value = pinCurrentX + ', ' + pinCurrentY;
   };
 
   var initialButtonMouseupMoveHandler = function (upEvt) {

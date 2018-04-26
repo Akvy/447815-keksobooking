@@ -15,6 +15,9 @@ var MIN_PIN_X = 300;
 var MAX_PIN_X = 900;
 var MIN_PIN_Y = 150;
 var MAX_PIN_Y = 300;
+var HORIZONTAL_MIN = 0;
+var VERTICAL_MIN = 150;
+var VERTICAL_MAX = 500;
 var HOUSE_TYPE = {
   'palace': 'Дворец',
   'bungalo': 'Бунгало',
@@ -30,7 +33,6 @@ var INITIAL_PIN_HEIGHT = 22;
 var initialButton = document.querySelector('.map__pin--main');
 var inactiveMap = document.querySelector('.map');
 var inactiveMapform = document.querySelector('.ad-form');
-// var advertCard = document.querySelector('.map__card');
 var filtersBar = document.querySelector('.map__filters');
 var initialButtonImg = initialButton.querySelector('img');
 var addressInput = document.getElementById('address');
@@ -253,9 +255,12 @@ var setInactiveForm = function () {
   priceInput.placeholder = '1 000';
   addressInput.value = mainPinWidth + ', ' + mainPinHeight;
 
-  for (i = 0; i < capacitySelect.children.length; i++) {
-    capacitySelect.children[i].setAttribute('disabled', '');
-  }
+  disableCapacityOptions();
+
+  // window.form.disableCapacityOptions();
+  // for (i = 0; i < capacitySelect.children.length; i++) {
+  //   capacitySelect.children[i].setAttribute('disabled', '');
+  // }
 
   capacitySelect.selectedIndex = 2;
   capacitySelect.children[2].removeAttribute('disabled', '');
@@ -291,6 +296,7 @@ function initialButtonKeydownHandler(evt) {
 
 // Вешаем обработчик событий на кнопку с пирожком для активтого состояния
 initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
+
 initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
 function closeButtonClickHandler() {
@@ -329,40 +335,38 @@ timeInSelect.addEventListener('change', function () {
 
 var roomsSelect = document.getElementById('room_number');
 
-var disableCapacityOptions = function (num) {
-  for (var i = 0; i < capacitySelect.children.length; i++) {
-    capacitySelect.children[i].setAttribute('disabled', '');
-  }
-
-  capacitySelect.selectedIndex = num;
-};
-
 var addCapacityOption = function (from, to) {
   for (var i = from; i <= to; i++) {
     capacitySelect.children[i].removeAttribute('disabled', '');
   }
+
+  capacitySelect.selectedIndex = to;
 };
+
+function disableCapacityOptions() {
+  for (var i = 0; i < capacitySelect.children.length; i++) {
+    capacitySelect.children[i].setAttribute('disabled', '');
+  }
+}
 
 roomsSelect.addEventListener('change', function (evt) {
   var target = evt.target;
 
+  disableCapacityOptions();
+
   if (!target.selectedIndex) {
-    disableCapacityOptions(2);
     addCapacityOption(2, 2);
   }
 
   if (target.selectedIndex === 1) {
-    disableCapacityOptions(1);
     addCapacityOption(1, 2);
   }
 
   if (target.selectedIndex === 2) {
-    disableCapacityOptions(0);
     addCapacityOption(0, 2);
   }
 
   if (target.selectedIndex === 3) {
-    disableCapacityOptions(3);
     addCapacityOption(3, 3);
   }
 });
@@ -372,4 +376,76 @@ var successWindow = document.querySelector('.success');
 
 adForm.addEventListener('submit', function () {
   successWindow.classList.remove('hidden');
+});
+
+initialButton.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var offsetXY = map.getBoundingClientRect();
+
+  var startCoords = {
+    x: evt.clientX - offsetXY.left,
+    y: evt.clientY - offsetXY.top
+  };
+
+  var initialButtonMousemoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
+    var shift = {
+      x: startCoords.x - (moveEvt.clientX - offsetXY.left),
+      y: startCoords.y - (moveEvt.clientY - offsetXY.top)
+    };
+    var offsetX = initialButtonImg.offsetWidth / 2;
+    var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left - offsetX;
+    var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top - offsetY / 2;
+    var posXY = tracePinPen(pinCurrentX, pinCurrentY);
+
+    startCoords = {
+      x: moveEvt.clientX - offsetXY.left,
+      y: moveEvt.clientY - offsetXY.top
+    };
+
+    initialButton.style.left = posXY.x + 'px';
+    initialButton.style.top = posXY.y + 'px';
+
+    addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
+  };
+
+  function tracePinPen(x, y) {
+    var mapWidth = map.offsetWidth;
+    var pinOffsetX = initialButtonImg.offsetWidth;
+    var posX = x;
+    var posY = y;
+    var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var pinOffsetY = VERTICAL_MAX - offsetY;
+
+    if (x < HORIZONTAL_MIN) {
+      posX = HORIZONTAL_MIN;
+    }
+
+    if (x > mapWidth - pinOffsetX) {
+      posX = mapWidth - pinOffsetX;
+    }
+
+    if (y < VERTICAL_MIN) {
+      posY = VERTICAL_MIN - offsetY;
+    }
+
+    if (y > pinOffsetY) {
+      posY = pinOffsetY;
+    }
+
+    // return {x: parseInt(posX, 10), y: posY};
+    return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
+  }
+
+  var initialButtonMouseupMoveHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', initialButtonMousemoveHandler);
+    document.removeEventListener('mouseup', initialButtonMouseupMoveHandler);
+  };
+
+  document.addEventListener('mousemove', initialButtonMousemoveHandler);
+  document.addEventListener('mouseup', initialButtonMouseupMoveHandler);
 });

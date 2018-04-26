@@ -428,7 +428,7 @@ initialButton.addEventListener('mousedown', function (evt) {
     }
 
     if (y < VERTICAL_MIN) {
-      posY = VERTICAL_MIN;
+      posY = VERTICAL_MIN - offsetY;
     }
 
     if (y > pinOffsetY) {

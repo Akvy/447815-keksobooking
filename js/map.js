@@ -383,8 +383,6 @@ initialButton.addEventListener('mousedown', function (evt) {
 
   var offsetXY = map.getBoundingClientRect();
 
-  parseInt(offsetXY.left, 10);
-
   var startCoords = {
     x: evt.clientX - offsetXY.left,
     y: evt.clientY - offsetXY.top
@@ -414,11 +412,12 @@ initialButton.addEventListener('mousedown', function (evt) {
   };
 
   function tracePinPen(x, y) {
-
     var mapWidth = map.offsetWidth;
     var pinOffsetX = initialButtonImg.offsetWidth;
     var posX = x;
     var posY = y;
+    var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var pinOffsetY = VERTICAL_MAX - offsetY;
 
     if (x < HORIZONTAL_MIN) {
       posX = HORIZONTAL_MIN;
@@ -432,11 +431,12 @@ initialButton.addEventListener('mousedown', function (evt) {
       posY = VERTICAL_MIN;
     }
 
-    if (y > VERTICAL_MAX) {
-      posY = VERTICAL_MAX;
+    if (y > pinOffsetY) {
+      posY = pinOffsetY;
     }
 
-    return {x: parseInt(posX, 10), y: posY};
+    // return {x: parseInt(posX, 10), y: posY};
+    return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
   }
 
   var initialButtonMouseupMoveHandler = function (upEvt) {

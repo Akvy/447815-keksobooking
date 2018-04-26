@@ -1,5 +1,9 @@
 'use strict';
 
+window.map = (function () {
+
+});
+
 var PIN_WIDTH = 50;
 var PIN_HEIGHT = 70;
 var MIN_PIN_X = 300;
@@ -64,16 +68,20 @@ var getRandomItem = function (array) {
   return array[countMinMax(0, array.length - 1)];
 };
 
-// Заполняет пустой массив объектами с объявлениями
-var getAdverts = function (array, amount) {
-  for (var i = 0; i < amount.length; i++) {
-    array.push(window.data.createAdvertData(i));
-  }
-};
+// // Заполняет пустой массив объектами с объявлениями
+// var getAdverts = function (array, amount) {
+//   for (var i = 0; i < amount.length; i++) {
+//     array.push(window.data.createAdvertData(i));
+//   }
+// };
 
 function pinClickHandler(num) {
   return function () {
-    map.insertBefore(renderCard(num), document.querySelector('.map__filters-container'));
+    if (document.querySelector('.map__card')) {
+      map.removeChild('.map__card');
+    }
+
+    map.insertBefore(window.card.renderCard(num), document.querySelector('.map__filters-container'));
 
     var closeButton = document.querySelector('.popup__close');
 
@@ -124,50 +132,50 @@ function makePins() {
   pins.appendChild(fragment);
 }
 
-// Создаем карточку с подробной информацией по объявлению из массива с объявлениями
-function renderCard(num) {
-  templateNode = document.querySelector('template');
-  card = templateNode.content.cloneNode(true);
-  var cardItem = card.querySelector('.map__card');
-  var cardBlocks = {
-    titleBlock: card.querySelector('.popup__title'),
-    addressBlock: card.querySelector('.popup__text--address'),
-    priceBlock: card.querySelector('.popup__text--price'),
-    typeBlock: card.querySelector('.popup__type'),
-    capacityBlock: card.querySelector('.popup__text--capacity'),
-    checkBlock: card.querySelector('.popup__text--time'),
-    featuresBlock: card.querySelector('.popup__features'),
-    descriptionBlock: card.querySelector('.popup__description'),
-    avatarBlock: card.querySelector('.popup__avatar'),
-    photosBlock: card.querySelector('.popup__photos')
-  };
-  var imgItem = cardBlocks.photosBlock.querySelector('img');
-  var photos = adverts[num].offer.photos;
+// // Создаем карточку с подробной информацией по объявлению из массива с объявлениями
+// function renderCard(num) {
+//   templateNode = document.querySelector('template');
+//   card = templateNode.content.cloneNode(true);
+//   var cardItem = card.querySelector('.map__card');
+//   var cardBlocks = {
+//     titleBlock: card.querySelector('.popup__title'),
+//     addressBlock: card.querySelector('.popup__text--address'),
+//     priceBlock: card.querySelector('.popup__text--price'),
+//     typeBlock: card.querySelector('.popup__type'),
+//     capacityBlock: card.querySelector('.popup__text--capacity'),
+//     checkBlock: card.querySelector('.popup__text--time'),
+//     featuresBlock: card.querySelector('.popup__features'),
+//     descriptionBlock: card.querySelector('.popup__description'),
+//     avatarBlock: card.querySelector('.popup__avatar'),
+//     photosBlock: card.querySelector('.popup__photos')
+//   };
+//   var imgItem = cardBlocks.photosBlock.querySelector('img');
+//   var photos = adverts[num].offer.photos;
 
-  removeAdverts();
-  cardBlocks.photosBlock.removeChild(imgItem);
+//   removeAdverts();
+//   cardBlocks.photosBlock.removeChild(imgItem);
 
-  for (var i = 0; i < photos.length; i++) {
-    var imgClone = imgItem.cloneNode(true);
-    imgClone.src = photos[i];
-    cardBlocks.photosBlock.appendChild(imgClone);
-  }
+//   for (var i = 0; i < photos.length; i++) {
+//     var imgClone = imgItem.cloneNode(true);
+//     imgClone.src = photos[i];
+//     cardBlocks.photosBlock.appendChild(imgClone);
+//   }
 
-  cardBlocks.avatarBlock.src = adverts[num].author.avatar;
-  cardBlocks['titleBlock'].textContent = adverts[num].offer.title;
-  cardBlocks['addressBlock'].textContent = adverts[num].offer.address;
-  cardBlocks['priceBlock'].textContent = adverts[num].offer.price + '₽/ночь';
-  cardBlocks['typeBlock'].textContent = window.data.HOUSE_TYPE[adverts[num].offer.type];
-  cardBlocks['capacityBlock'].textContent = adverts[num].offer.rooms + ' комнаты для ' + adverts[num].offer.guests + ' гостей';
-  cardBlocks['checkBlock'].textContent = 'Заезд после ' + adverts[num].offer.checkin + ', выезд до ' + adverts[num].offer.checkout;
-  cardBlocks['descriptionBlock'].textContent = adverts[num].offer.description;
+//   cardBlocks.avatarBlock.src = adverts[num].author.avatar;
+//   cardBlocks['titleBlock'].textContent = adverts[num].offer.title;
+//   cardBlocks['addressBlock'].textContent = adverts[num].offer.address;
+//   cardBlocks['priceBlock'].textContent = adverts[num].offer.price + '₽/ночь';
+//   cardBlocks['typeBlock'].textContent = window.data.HOUSE_TYPE[adverts[num].offer.type];
+//   cardBlocks['capacityBlock'].textContent = adverts[num].offer.rooms + ' комнаты для ' + adverts[num].offer.guests + ' гостей';
+//   cardBlocks['checkBlock'].textContent = 'Заезд после ' + adverts[num].offer.checkin + ', выезд до ' + adverts[num].offer.checkout;
+//   cardBlocks['descriptionBlock'].textContent = adverts[num].offer.description;
 
-  renderServices(cardBlocks.featuresBlock, adverts[num].offer.features);
+//   renderServices(cardBlocks.featuresBlock, adverts[num].offer.features);
 
-  return cardItem;
-}
+//   return cardItem;
+// }
 
-getAdverts(adverts, window.data.BRIEF_TITLES);
+window.data.getAdverts(adverts, window.data.BRIEF_TITLES);
 makePins();
 
 // Выполняем условия неактивного состояния страницы

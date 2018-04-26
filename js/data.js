@@ -56,9 +56,17 @@ window.data = (function () {
     };
   }
 
+  // Заполняет пустой массив объектами с объявлениями
+  var getAdverts = function (array, amount) {
+    for (var i = 0; i < amount.length; i++) {
+      array.push(window.data.createAdvertData(i));
+    }
+  };
+
   return {
     BRIEF_TITLES,
     HOUSE_TYPE,
-    createAdvertData: createAdvertData
+    createAdvertData: createAdvertData,
+    getAdverts: getAdverts
   };
 })();

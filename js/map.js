@@ -33,7 +33,7 @@ var inactiveMapform = document.querySelector('.ad-form');
 // var advertCard = document.querySelector('.map__card');
 var filtersBar = document.querySelector('.map__filters');
 var initialButtonImg = initialButton.querySelector('img');
-var addressInput = document.getElementById('address');
+// var addressInput = document.getElementById('address');
 var mainPinWidth = +initialButton.style.left.slice(0, -2) + initialButtonImg.offsetWidth / 2;
 var mainPinHeight = +initialButton.style.top.slice(0, -2) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
 
@@ -229,13 +229,13 @@ makePins();
 var fieldsets = document.querySelectorAll('fieldset');
 var pins = document.querySelectorAll('.map__pin');
 var typeSelect = document.getElementById('type');
-var priceInput = document.getElementById('price');
+// var priceInput = document.getElementById('price');
 var capacitySelect = document.getElementById('capacity');
 
 var setMinPrice = function (num, minPrice, placeHolder) {
   if (typeSelect.selectedIndex === num) {
-    priceInput.setAttribute('min', minPrice);
-    priceInput.placeholder = placeHolder;
+    window.form.priceInput.setAttribute('min', minPrice);
+    window.form.priceInput.placeholder = placeHolder;
   }
 };
 
@@ -249,9 +249,9 @@ var setInactiveForm = function () {
   }
 
   filtersBar.style.display = 'none';
-  priceInput.setAttribute('min', '1000');
-  priceInput.placeholder = '1 000';
-  addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+  window.form.priceInput.setAttribute('min', '1000');
+  window.form.priceInput.placeholder = '1 000';
+  window.form.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
 
   window.form.disableCapacityOptions();
   // for (i = 0; i < capacitySelect.children.length; i++) {
@@ -449,7 +449,7 @@ initialButton.addEventListener('mousedown', function (evt) {
     initialButton.style.left = posXY.x + 'px';
     initialButton.style.top = posXY.y + 'px';
 
-    addressInput.value = posXY.x + ', ' + posXY.y;
+    window.form.addressInput.value = posXY.x + ', ' + posXY.y;
   };
 
   function tracePinPen(x, y) {

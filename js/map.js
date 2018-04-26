@@ -75,21 +75,21 @@ var getRandomItem = function (array) {
 //   }
 // };
 
-function pinClickHandler(num) {
-  return function () {
-    if (document.querySelector('.map__card')) {
-      map.removeChild('.map__card');
-    }
+// function pinClickHandler(num) {
+//   return function () {
+//     // if (document.querySelector('.map__card')) {
+//     //   map.removeChild('.map__card');
+//     // }
 
-    map.insertBefore(window.card.renderCard(num), document.querySelector('.map__filters-container'));
+//     map.insertBefore(window.card.renderCard(num), document.querySelector('.map__filters-container'));
 
-    var closeButton = document.querySelector('.popup__close');
+//     var closeButton = document.querySelector('.popup__close');
 
-    closeButton.addEventListener('click', closeButtonClickHandler);
+//     closeButton.addEventListener('click', closeButtonClickHandler);
 
-    document.addEventListener('keydown', closeButtonKeydownHandler);
-  };
-}
+//     document.addEventListener('keydown', closeButtonKeydownHandler);
+//   };
+// }
 
 function removeAdverts() {
   var maps = map.querySelectorAll('.map__card');
@@ -110,7 +110,7 @@ var renderPin = function (num, pin) {
   img.src = adverts[num].author.avatar;
   img.alt = adverts[num].offer.title;
 
-  pin.addEventListener('click', pinClickHandler(num));
+  // pin.addEventListener('click', pinClickHandler(num));
 
   return pin;
 };
@@ -292,7 +292,8 @@ initialButton.addEventListener('mousedown', function (evt) {
     var posX = x;
     var posY = y;
     var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-    var pinOffsetY = VERTICAL_MAX - offsetY;
+    var pinOffsetYMin = VERTICAL_MIN - offsetY;
+    var pinOffsetYMax = VERTICAL_MAX - offsetY;
 
     if (x < HORIZONTAL_MIN) {
       posX = HORIZONTAL_MIN;
@@ -302,12 +303,12 @@ initialButton.addEventListener('mousedown', function (evt) {
       posX = mapWidth - pinOffsetX;
     }
 
-    if (y < VERTICAL_MIN) {
-      posY = VERTICAL_MIN;
+    if (y < pinOffsetYMin) {
+      posY = pinOffsetYMin;
     }
 
-    if (y > pinOffsetY) {
-      posY = pinOffsetY;
+    if (y > pinOffsetYMax) {
+      posY = pinOffsetYMax;
     }
     return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
   }

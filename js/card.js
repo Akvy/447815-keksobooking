@@ -43,7 +43,24 @@ window.card = (function () {
     return cardItem;
   }
 
+  function pinClickHandler(num) {
+  return function () {
+    // if (document.querySelector('.map__card')) {
+    //   map.removeChild('.map__card');
+    // }
+
+    map.insertBefore(window.card.renderCard(num), document.querySelector('.map__filters-container'));
+
+    var closeButton = document.querySelector('.popup__close');
+
+    closeButton.addEventListener('click', closeButtonClickHandler);
+
+    document.addEventListener('keydown', closeButtonKeydownHandler);
+  };
+}
+pin.addEventListener('click', pinClickHandler(num));
+
   return {
-    renderCard: renderCard
+
   };
 })();

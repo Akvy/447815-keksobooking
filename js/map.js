@@ -15,6 +15,9 @@ var MIN_PIN_X = 300;
 var MAX_PIN_X = 900;
 var MIN_PIN_Y = 150;
 var MAX_PIN_Y = 300;
+var HORIZONTAL_MIN = 0;
+var VERTICAL_MIN = 150;
+var VERTICAL_MAX = 500;
 var HOUSE_TYPE = {
   'palace': 'Дворец',
   'bungalo': 'Бунгало',
@@ -30,7 +33,6 @@ var INITIAL_PIN_HEIGHT = 22;
 var initialButton = document.querySelector('.map__pin--main');
 var inactiveMap = document.querySelector('.map');
 var inactiveMapform = document.querySelector('.ad-form');
-// var advertCard = document.querySelector('.map__card');
 var filtersBar = document.querySelector('.map__filters');
 var initialButtonImg = initialButton.querySelector('img');
 var addressInput = document.getElementById('address');
@@ -254,6 +256,8 @@ var setInactiveForm = function () {
   addressInput.value = mainPinWidth + ', ' + mainPinHeight;
 
   disableCapacityOptions();
+
+  // window.form.disableCapacityOptions();
   // for (i = 0; i < capacitySelect.children.length; i++) {
   //   capacitySelect.children[i].setAttribute('disabled', '');
   // }
@@ -331,18 +335,12 @@ timeInSelect.addEventListener('change', function () {
 
 var roomsSelect = document.getElementById('room_number');
 
-// var disableCapacityOptions = function (num) {
-//   for (var i = 0; i <= capacitySelect.children.length; i++) {
-//     capacitySelect.children[i].setAttribute('disabled', '');
-//   }
-
-//   // capacitySelect.selectedIndex = num;
-// };
-
 var addCapacityOption = function (from, to) {
   for (var i = from; i <= to; i++) {
     capacitySelect.children[i].removeAttribute('disabled', '');
   }
+
+  capacitySelect.selectedIndex = to;
 };
 
 function disableCapacityOptions() {
@@ -354,27 +352,21 @@ function disableCapacityOptions() {
 roomsSelect.addEventListener('change', function (evt) {
   var target = evt.target;
 
+  disableCapacityOptions();
+
   if (!target.selectedIndex) {
-    disableCapacityOptions();
-    // disableCapacityOptions(2, 2);
     addCapacityOption(2, 2);
   }
 
   if (target.selectedIndex === 1) {
-    disableCapacityOptions();
-    // disableCapacityOptions(1, 2);
     addCapacityOption(1, 2);
   }
 
   if (target.selectedIndex === 2) {
-    disableCapacityOptions();
-    // disableCapacityOptions(3, 3);
     addCapacityOption(0, 2);
   }
 
   if (target.selectedIndex === 3) {
-    disableCapacityOptions();
-    capacitySelect.selectedIndex = 3;
     addCapacityOption(3, 3);
   }
 });
@@ -389,65 +381,63 @@ adForm.addEventListener('submit', function () {
 initialButton.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
+  var offsetXY = map.getBoundingClientRect();
+
+  parseInt(offsetXY.left, 10);
+
   var startCoords = {
-    x: evt.clientX,
-    y: evt.clientY
+    x: evt.clientX - offsetXY.left,
+    y: evt.clientY - offsetXY.top
   };
 
   var initialButtonMousemoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
-
-    var HORIZONTAL_MIN = 0;
-    var HORIZONTAL_MAX = 1136;
-    var VERTICAL_MIN = 150;
-    var VERTICAL_MAX = 500;
-    var pinHorizontal = initialButton.style.left.slice(0, -2);
-    var pinVertical = initialButton.style.top.slice(0, -2);
     var shift = {
-      x: startCoords.x - moveEvt.clientX,
-      y: startCoords.y - moveEvt.clientY
+      x: startCoords.x - (moveEvt.clientX - offsetXY.left),
+      y: startCoords.y - (moveEvt.clientY - offsetXY.top)
     };
+    var offsetX = initialButtonImg.offsetWidth / 2;
+    var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left - offsetX;
+    var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top - offsetY / 2;
+    var posXY = tracePinPen(pinCurrentX, pinCurrentY);
 
     startCoords = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
+      x: moveEvt.clientX - offsetXY.left,
+      y: moveEvt.clientY - offsetXY.top
     };
-    var OFFSET_X = initialButtonImg.offsetWidth / 2;
-    var OFFSET_Y = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-    var MIN_HORIZONTAL_COORD = HORIZONTAL_MAX + OFFSET_X;
-    var pinCurrentX = initialButton.offsetLeft - shift.x + OFFSET_X;
-    var pinCurrentY = initialButton.offsetTop - shift.y + OFFSET_Y;
 
-    initialButton.addEventListener('mouseleave', initialButtonMouseupHandler);
-    initialButton.style.top = (initialButton.offsetTop - shift.y) + 'px';
-    initialButton.style.left = (initialButton.offsetLeft - shift.x) + 'px';
+    initialButton.style.left = posXY.x + 'px';
+    initialButton.style.top = posXY.y + 'px';
 
-    if (VERTICAL_MAX < pinVertical || pinVertical < VERTICAL_MIN || pinHorizontal < HORIZONTAL_MIN || pinHorizontal > HORIZONTAL_MAX) {
-      if (pinHorizontal < HORIZONTAL_MIN) {
-        initialButton.style.left = HORIZONTAL_MIN + 'px';
-        pinCurrentX = OFFSET_X;
-      }
+    addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
+  };
 
-      if (pinHorizontal > HORIZONTAL_MAX) {
-        initialButton.style.left = HORIZONTAL_MAX + 'px';
-        pinCurrentX = MIN_HORIZONTAL_COORD;
-      }
+  function tracePinPen(x, y) {
 
-      if (pinVertical < VERTICAL_MIN) {
-        initialButton.style.top = VERTICAL_MIN + 'px';
-        pinCurrentY = VERTICAL_MIN;
-      }
+    var mapWidth = map.offsetWidth;
+    var pinOffsetX = initialButtonImg.offsetWidth;
+    var posX = x;
+    var posY = y;
 
-      if (pinVertical > VERTICAL_MAX) {
-        initialButton.style.top = VERTICAL_MAX + 'px';
-        pinCurrentY = VERTICAL_MAX;
-      }
-
-      document.removeEventListener('mousemove', initialButtonMousemoveHandler);
+    if (x < HORIZONTAL_MIN) {
+      posX = HORIZONTAL_MIN;
     }
 
-    addressInput.value = pinCurrentX + ', ' + pinCurrentY;
-  };
+    if (x > mapWidth - pinOffsetX) {
+      posX = mapWidth - pinOffsetX;
+    }
+
+    if (y < VERTICAL_MIN) {
+      posY = VERTICAL_MIN;
+    }
+
+    if (y > VERTICAL_MAX) {
+      posY = VERTICAL_MAX;
+    }
+
+    return {x: parseInt(posX, 10), y: posY};
+  }
 
   var initialButtonMouseupMoveHandler = function (upEvt) {
     upEvt.preventDefault();
@@ -459,5 +449,3 @@ initialButton.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', initialButtonMousemoveHandler);
   document.addEventListener('mouseup', initialButtonMouseupMoveHandler);
 });
-
-

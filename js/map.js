@@ -15,6 +15,9 @@ var MIN_PIN_X = 300;
 var MAX_PIN_X = 900;
 var MIN_PIN_Y = 150;
 var MAX_PIN_Y = 300;
+var HORIZONTAL_MIN = 0;
+var VERTICAL_MIN = 150;
+var VERTICAL_MAX = 500;
 var HOUSE_TYPE = {
   'palace': 'Дворец',
   'bungalo': 'Бунгало',
@@ -30,10 +33,8 @@ var INITIAL_PIN_HEIGHT = 22;
 var initialButton = document.querySelector('.map__pin--main');
 var inactiveMap = document.querySelector('.map');
 var inactiveMapform = document.querySelector('.ad-form');
-// var advertCard = document.querySelector('.map__card');
 var filtersBar = document.querySelector('.map__filters');
 var initialButtonImg = initialButton.querySelector('img');
-// var addressInput = document.getElementById('address');
 var mainPinWidth = +initialButton.style.left.slice(0, -2) + initialButtonImg.offsetWidth / 2;
 var mainPinHeight = +initialButton.style.top.slice(0, -2) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
 
@@ -229,15 +230,8 @@ makePins();
 var fieldsets = document.querySelectorAll('fieldset');
 var pins = document.querySelectorAll('.map__pin');
 var typeSelect = document.getElementById('type');
-// var priceInput = document.getElementById('price');
+var priceInput = document.getElementById('price');
 var capacitySelect = document.getElementById('capacity');
-
-var setMinPrice = function (num, minPrice, placeHolder) {
-  if (typeSelect.selectedIndex === num) {
-    window.form.priceInput.setAttribute('min', minPrice);
-    window.form.priceInput.placeholder = placeHolder;
-  }
-};
 
 var setInactiveForm = function () {
   for (var i = 0; i < fieldsets.length; i++) {
@@ -249,14 +243,11 @@ var setInactiveForm = function () {
   }
 
   filtersBar.style.display = 'none';
-  window.form.priceInput.setAttribute('min', '1000');
-  window.form.priceInput.placeholder = '1 000';
+  priceInput.setAttribute('min', '1000');
+  priceInput.placeholder = '1 000';
   window.form.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
 
   window.form.disableCapacityOptions();
-  // for (i = 0; i < capacitySelect.children.length; i++) {
-  //   capacitySelect.children[i].setAttribute('disabled', '');
-  // }
 
   capacitySelect.selectedIndex = 2;
   capacitySelect.children[2].removeAttribute('disabled', '');
@@ -307,76 +298,7 @@ function closeButtonKeydownHandler(evt) {
   }
 }
 
-// Обработчик событий на инпут с ценой и селектом выбора типа жилья
-typeSelect.addEventListener('change', function () {
-  setMinPrice(0, '1000', '1 000');
-  setMinPrice(1, '0', '0');
-  setMinPrice(2, '5000', '5 000');
-  setMinPrice(3, '10000', '10 000');
-});
-
-var timeInSelect = document.getElementById('timein');
-var timeOutSelect = document.getElementById('timeout');
-
-timeOutSelect.addEventListener('change', function () {
-
-  timeInSelect.selectedIndex = timeOutSelect.selectedIndex;
-});
-
-timeInSelect.addEventListener('change', function () {
-
-  timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
-});
-
-
-// var roomsSelect = document.getElementById('room_number');
-
-// var addCapacityOption = function (from, to) {
-//   for (var i = from; i <= to; i++) {
-//     capacitySelect.children[i].removeAttribute('disabled', '');
-//   }
-// };
-
-// function disableCapacityOptions() {
-//   for (var i = 0; i < capacitySelect.children.length; i++) {
-//     capacitySelect.children[i].setAttribute('disabled', '');
-//   }
-// }
-
-// roomsSelect.addEventListener('change', function (evt) {
-//   var target = evt.target;
-
-//   if (!target.selectedIndex) {
-//     disableCapacityOptions();
-//     // disableCapacityOptions(2, 2);
-//     addCapacityOption(2, 2);
-//   }
-
-//   if (target.selectedIndex === 1) {
-//     disableCapacityOptions();
-//     // disableCapacityOptions(1, 2);
-//     addCapacityOption(1, 2);
-//   }
-
-//   if (target.selectedIndex === 2) {
-//     disableCapacityOptions();
-//     // disableCapacityOptions(3, 3);
-//     addCapacityOption(0, 2);
-//   }
-
-//   if (target.selectedIndex === 3) {
-//     disableCapacityOptions();
-//     capacitySelect.selectedIndex = 3;
-//     addCapacityOption(3, 3);
-//   }
-// });
-
-// var adForm = document.querySelector('.ad-form');
-// var successWindow = document.querySelector('.success');
-
-// adForm.addEventListener('submit', function () {
-//   successWindow.classList.remove('hidden');
-// });
+var roomsSelect = document.getElementById('room_number');
 
 initialButton.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
@@ -390,124 +312,60 @@ initialButton.addEventListener('mousedown', function (evt) {
 
   var initialButtonMousemoveHandler = function (moveEvt) {
     moveEvt.preventDefault();
-
-    // var HORIZONTAL_MIN = 0;
-    // var HORIZONTAL_MAX = 1136;
-    // var VERTICAL_MIN = 150;
-    // var VERTICAL_MAX = 500;
-    // var pinHorizontal = initialButton.offsetLeft;
-    // var pinVertical = initialButton.offsetTop;
     var shift = {
       x: startCoords.x - (moveEvt.clientX - offsetXY.left),
       y: startCoords.y - (moveEvt.clientY - offsetXY.top)
     };
+    var offsetX = initialButtonImg.offsetWidth / 2;
+    var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left - offsetX;
+    var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top - offsetY / 2;
+    var posXY = tracePinPen(pinCurrentX, pinCurrentY);
 
     startCoords = {
       x: moveEvt.clientX - offsetXY.left,
       y: moveEvt.clientY - offsetXY.top
     };
-    var OFFSET_X = initialButtonImg.offsetWidth / 2;
-    var OFFSET_Y = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-    // var MIN_HORIZONTAL_COORD = HORIZONTAL_MAX + OFFSET_X;
-    var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left;
-    var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top;
-    var mainMap = document.querySelector('.map__overlay');
 
-    // initialButton.addEventListener('mouseleave', initialButtonMouseupHandler);
-    // initialButton.style.top = (initialButton.offsetTop - shift.y) + 'px';
-    // initialButton.style.left = (initialButton.offsetLeft - shift.x) + 'px';
-
-    // if (VERTICAL_MAX < pinVertical || pinVertical < VERTICAL_MIN || pinHorizontal < HORIZONTAL_MIN || pinHorizontal > HORIZONTAL_MAX) {
-    //   if (pinHorizontal < HORIZONTAL_MIN) {
-    //     initialButton.style.left = HORIZONTAL_MIN + 'px';
-    //     pinCurrentX = OFFSET_X;
-    //   }
-
-    //   if (pinHorizontal > HORIZONTAL_MAX) {
-    //     initialButton.style.left = HORIZONTAL_MAX + 'px';
-    //     pinCurrentX = MIN_HORIZONTAL_COORD;
-    //   }
-
-    //   if (pinVertical < VERTICAL_MIN) {
-    //     initialButton.style.top = VERTICAL_MIN + 'px';
-    //     pinCurrentY = VERTICAL_MIN;
-    //   }
-
-    //   if (pinVertical > VERTICAL_MAX) {
-    //     initialButton.style.top = VERTICAL_MAX + 'px';
-    //     pinCurrentY = VERTICAL_MAX;
-    //   }
-
-    //   document.removeEventListener('mousemove', initialButtonMousemoveHandler);
-    // }
-
-    // controlPositionMarker(pinHorizontal, pinVertical);
-
-
-    // addressInput.value = pinCurrentX + ', ' + pinCurrentY;
-    var posXY = tracePinPen(pinCurrentX, pinCurrentY);
     initialButton.style.left = posXY.x + 'px';
     initialButton.style.top = posXY.y + 'px';
 
-    window.form.addressInput.value = posXY.x + ', ' + posXY.y;
+    window.form.addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
   };
 
   function tracePinPen(x, y) {
-    var HORIZONTAL_MIN = 0;
-    var HORIZONTAL_MAX = map.offsetWidth;
-    var VERTICAL_MIN = 150;
-    var VERTICAL_MAX = 500;
-    var pinHorizontal = initialButton.offsetLeft;
-    var pinVertical = initialButton.offsetTop;
-    var OFFSET_X = initialButtonImg.offsetWidth / 2;
-    var OFFSET_Y = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-    var MIN_HORIZONTAL_COORD = HORIZONTAL_MAX + OFFSET_X;
-
+    var mapWidth = map.offsetWidth;
+    var pinOffsetX = initialButtonImg.offsetWidth;
     var posX = x;
     var posY = y;
+    var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var pinOffsetY = VERTICAL_MAX - offsetY;
 
-    // if (VERTICAL_MAX < pinVertical || pinVertical < VERTICAL_MIN || pinHorizontal < HORIZONTAL_MIN || pinHorizontal > HORIZONTAL_MAX) {
-      if (x < HORIZONTAL_MIN) {
-        posX = HORIZONTAL_MIN;
-        // initialButton.style.left = HORIZONTAL_MIN + 'px';
-        // document.removeEventListener('mousemove', initialButtonMousemoveHandler);
-      }
+    if (x < HORIZONTAL_MIN) {
+      posX = HORIZONTAL_MIN;
+    }
 
-      if (x > HORIZONTAL_MAX) {
-        posX = HORIZONTAL_MAX;
-        // initialButton.style.left = HORIZONTAL_MAX + 'px';
-// document.removeEventListener('mousemove', initialButtonMousemoveHandler);
-      }
+    if (x > mapWidth - pinOffsetX) {
+      posX = mapWidth - pinOffsetX;
+    }
 
-      if (y < VERTICAL_MIN) {
-        posY = VERTICAL_MIN;
-        // initialButton.style.top = VERTICAL_MIN + 'px';
-        // document.removeEventListener('mousemove', initialButtonMousemoveHandler);
+    if (y < VERTICAL_MIN) {
+      posY = VERTICAL_MIN;
+    }
 
-      }
-
-      if (y > VERTICAL_MAX) {
-        posY = VERTICAL_MAX;
-        // initialButton.style.top = VERTICAL_MAX + 'px';
-        // document.removeEventListener('mousemove', initialButtonMousemoveHandler);
-      }
-    // }
-
-    // initialButton.addEventListener('mouseleave', initialButtonMouseupMoveHandler);
-
-    return { x: posX, y: posY };
-  };
+    if (y > pinOffsetY) {
+      posY = pinOffsetY;
+    }
+    return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
+  }
 
   var initialButtonMouseupMoveHandler = function (upEvt) {
     upEvt.preventDefault();
 
     document.removeEventListener('mousemove', initialButtonMousemoveHandler);
-    initialButton.removeEventListener('mouseleave', initialButtonMouseupHandler);
     document.removeEventListener('mouseup', initialButtonMouseupMoveHandler);
   };
 
   document.addEventListener('mousemove', initialButtonMousemoveHandler);
   document.addEventListener('mouseup', initialButtonMouseupMoveHandler);
 });
-
-

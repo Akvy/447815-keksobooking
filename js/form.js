@@ -6,6 +6,8 @@ window.form = (function () {
   var typeSelect = document.getElementById('type');
   var priceInput = document.getElementById('price');
   var capacitySelect = document.getElementById('capacity');
+  var timeInSelect = document.getElementById('timein');
+  var timeOutSelect = document.getElementById('timeout');
 
   var setMinPrice = function (num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
@@ -57,18 +59,19 @@ window.form = (function () {
   }
   });
 
-  var adForm = document.querySelector('.ad-form');
-  var successWindow = document.querySelector('.success');
+  timeOutSelect.addEventListener('change', function () {
+    timeInSelect.selectedIndex = timeOutSelect.selectedIndex;
+  });
 
-  adForm.addEventListener('submit', function () {
-  successWindow.classList.remove('hidden');
+  timeInSelect.addEventListener('change', function () {
+    timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
   });
 
   var adForm = document.querySelector('.ad-form');
   var successWindow = document.querySelector('.success');
 
   adForm.addEventListener('submit', function () {
-    successWindow.classList.remove('hidden');
+  successWindow.classList.remove('hidden');
   });
 
   return {

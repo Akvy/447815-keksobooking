@@ -16,9 +16,28 @@ window.data = (function () {
   var MAX_PRICE = 1000000;
   var MAX_ROOMS = 5;
   var MAX_GUESTS = 10;
+  var randomizedNumbers = randomizeNumbers(BRIEF_TITLES.length);
+  var nums = [];
+
+  function shuffleArrayCondition() {
+    return Math.random() - 0.5;
+  }
+
+  function shuffleArray(array) {
+    return array.sort(shuffleArrayCondition);
+  }
+
+  function randomizeNumbers(maxNum) {
+    for (var i = 0; i < maxNum; i++) {
+      nums.push('0' + (i + 1));
+    }
+
+    return shuffleArray(nums);
+  }
 
   function createAdvertData(piece) {
     var author = 'img/avatars/user' + randomizedNumbers[piece] + '.png';
+    // var author = 'img/avatars/user' + window.map.randomizedNumbers[piece] + '.png';
     var title = shuffleArray(BRIEF_TITLES)[piece];
     var rentPrice = countMinMax(MIN_PRICE, MAX_PRICE);
     var offerTypeRand = getRandomItem(OFFER_TYPE);
@@ -64,9 +83,9 @@ window.data = (function () {
   };
 
   return {
-    BRIEF_TITLES,
-    HOUSE_TYPE,
     createAdvertData: createAdvertData,
+    HOUSE_TYPE,
+    BRIEF_TITLES,
     getAdverts: getAdverts
   };
 })();

@@ -20,7 +20,6 @@ window.map = (function () {
   var mainPinHeight = +initialButton.style.top.slice(0, -2) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
   var adverts = [];
 
-  // Заполняет пустой массив объектами с объявлениями
   var getAdverts = function (array, amount) {
     for (var i = 0; i < amount.length; i++) {
       array.push(window.data.createAdvertData(i));
@@ -41,19 +40,9 @@ window.map = (function () {
 
   getAdverts(adverts, window.data.BRIEF_TITLES);
 
-  // Выполняем условия неактивного состояния страницы
-
   var fieldsets = document.querySelectorAll('fieldset');
-  var typeSelect = document.getElementById('type');
   var priceInput = document.getElementById('price');
   var capacitySelect = document.getElementById('capacity');
-
-  var setMinPrice = function (num, minPrice, placeHolder) {
-    if (typeSelect.selectedIndex === num) {
-      priceInput.setAttribute('min', minPrice);
-      priceInput.placeholder = placeHolder;
-    }
-  };
 
   var setInactiveForm = function () {
     var advertPins = document.querySelectorAll('.map__pin');
@@ -106,7 +95,6 @@ window.map = (function () {
     }
   }
 
-  // Вешаем обработчик событий на кнопку с пирожком для активтого состояния
   initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
   initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
@@ -122,72 +110,11 @@ window.map = (function () {
     }
   }
 
-  // Обработчик событий на инпут с ценой и селектом выбора типа жилья
-  typeSelect.addEventListener('change', function () {
-    setMinPrice(0, '1000', '1 000');
-    setMinPrice(1, '0', '0');
-    setMinPrice(2, '5000', '5 000');
-    setMinPrice(3, '10000', '10 000');
-  });
-
-  var timeInSelect = document.getElementById('timein');
-  var timeOutSelect = document.getElementById('timeout');
-
-  timeOutSelect.addEventListener('change', function () {
-
-    timeInSelect.selectedIndex = timeOutSelect.selectedIndex;
-  });
-
-  timeInSelect.addEventListener('change', function () {
-
-    timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
-  });
-
-
-  var roomsSelect = document.getElementById('room_number');
-
-  var addCapacityOption = function (from, to) {
-    for (var i = from; i <= to; i++) {
-      capacitySelect.children[i].removeAttribute('disabled', '');
-    }
-
-    capacitySelect.selectedIndex = to;
-  };
-
   function disableCapacityOptions() {
     for (var i = 0; i < capacitySelect.children.length; i++) {
       capacitySelect.children[i].setAttribute('disabled', '');
     }
   }
-
-  roomsSelect.addEventListener('change', function (evt) {
-    var target = evt.target;
-
-    disableCapacityOptions();
-
-    if (!target.selectedIndex) {
-      addCapacityOption(2, 2);
-    }
-
-    if (target.selectedIndex === 1) {
-      addCapacityOption(1, 2);
-    }
-
-    if (target.selectedIndex === 2) {
-      addCapacityOption(0, 2);
-    }
-
-    if (target.selectedIndex === 3) {
-      addCapacityOption(3, 3);
-    }
-  });
-
-  var adForm = document.querySelector('.ad-form');
-  var successWindow = document.querySelector('.success');
-
-  adForm.addEventListener('submit', function () {
-    successWindow.classList.remove('hidden');
-  });
 
   initialButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -266,5 +193,8 @@ window.map = (function () {
     map: map,
     pinClickHandler: pinClickHandler,
     setInactiveForm: setInactiveForm,
+    priceInput: priceInput,
+    capacitySelect: capacitySelect,
+    disableCapacityOptions: disableCapacityOptions
   };
 })();

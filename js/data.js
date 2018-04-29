@@ -45,47 +45,46 @@ window.data = (function () {
     return array[countMinMax(0, array.length - 1)];
   };
 
-  function createAdvertData(piece) {
-    var author = 'img/avatars/user' + randomizedNumbers[piece] + '.png';
-    var title = shuffleArray(BRIEF_TITLES)[piece];
-    var rentPrice = countMinMax(MIN_PRICE, MAX_PRICE);
-    var offerTypeRand = getRandomItem(OFFER_TYPE);
-    var roomAmount = countMinMax(1, MAX_ROOMS);
-    var guestsAmount = countMinMax(1, MAX_GUESTS);
-    var checkinTimeRand = getRandomItem(CHECK_TIME);
-    var checkoutTimeRand = getRandomItem(CHECK_TIME);
-    var description = '';
-    var positionX = countMinMax(MIN_PIN_X, MAX_PIN_X);
-    var positionY = countMinMax(MIN_PIN_Y, MAX_PIN_Y);
-    var locationX = positionX + PIN_WIDTH / 2;
-    var locationY = positionY + PIN_HEIGHT;
-
-    return {
-      author: {
-        avatar: author
-      },
-      offer: {
-        title: title,
-        price: rentPrice,
-        type: offerTypeRand,
-        rooms: roomAmount,
-        guests: guestsAmount,
-        checkin: checkinTimeRand,
-        checkout: checkoutTimeRand,
-        features: FEATURES.slice(0, countMinMax(0, FEATURES.length)),
-        description: description,
-        photos: shuffleArray(PHOTOS),
-        address: locationX + ', ' + locationY
-      },
-      location: {
-        x: positionX,
-        y: positionY
-      }
-    };
-  }
-
   return {
-    BRIEF_TITLES: BRIEF_TITLES,
-    createAdvertData: createAdvertData
+    // titlesAmount: titlesAmount,
+    createAdvertData: function (piece) {
+      var author = 'img/avatars/user' + randomizedNumbers[piece] + '.png';
+      var title = shuffleArray(BRIEF_TITLES)[piece];
+      var rentPrice = countMinMax(MIN_PRICE, MAX_PRICE);
+      var offerTypeRand = getRandomItem(OFFER_TYPE);
+      var roomAmount = countMinMax(1, MAX_ROOMS);
+      var guestsAmount = countMinMax(1, MAX_GUESTS);
+      var checkinTimeRand = getRandomItem(CHECK_TIME);
+      var checkoutTimeRand = getRandomItem(CHECK_TIME);
+      var description = '';
+      var positionX = countMinMax(MIN_PIN_X, MAX_PIN_X);
+      var positionY = countMinMax(MIN_PIN_Y, MAX_PIN_Y);
+      var locationX = positionX + PIN_WIDTH / 2;
+      var locationY = positionY + PIN_HEIGHT;
+
+      return {
+        titlesAmount:BRIEF_TITLES.length,
+        author: {
+          avatar: author
+        },
+        offer: {
+          title: title,
+          price: rentPrice,
+          type: offerTypeRand,
+          rooms: roomAmount,
+          guests: guestsAmount,
+          checkin: checkinTimeRand,
+          checkout: checkoutTimeRand,
+          features: FEATURES.slice(0, countMinMax(0, FEATURES.length)),
+          description: description,
+          photos: shuffleArray(PHOTOS),
+          address: locationX + ', ' + locationY
+        },
+        location: {
+          x: positionX,
+          y: positionY
+        }
+      };
+    }
   };
 })();

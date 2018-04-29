@@ -1,6 +1,6 @@
 'use strict';
 
-window.initialPin = (function () {
+window.InitialPin = (function () {
   var HORIZONTAL_MIN = 0;
   var VERTICAL_MIN = 150;
   var VERTICAL_MAX = 500;
@@ -8,8 +8,8 @@ window.initialPin = (function () {
   var KEY_ENTER = 13;
   var initialButton = document.querySelector('.map__pin--main');
   var initialButtonImg = initialButton.querySelector('img');
-  var mainPinWidth = +initialButton.style.left.slice(0, -2) + initialButtonImg.offsetWidth / 2;
-  var mainPinHeight = +initialButton.style.top.slice(0, -2) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+  var mainPinWidth = parseInt(initialButton.style.left, 10) + initialButtonImg.offsetWidth / 2;
+  var mainPinHeight = parseInt(initialButton.style.top, 10) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
   var inactiveMap = document.querySelector('.map');
   var inactiveMapform = document.querySelector('.ad-form');
   var fieldsets = document.querySelectorAll('fieldset');

@@ -10,7 +10,7 @@ window.map = (function () {
   var adverts = [];
 
   var getAdverts = function (array, amount) {
-    for (var i = 0; i < amount.length; i++) {
+    for (var i = 0; i < amount; i++) {
       array.push(window.data.createAdvertData(i));
     }
   };
@@ -27,7 +27,7 @@ window.map = (function () {
     };
   }
 
-  getAdverts(adverts, window.data.BRIEF_TITLES);
+  getAdverts(adverts, window.data.createAdvertData().titlesAmount);
 
   var priceInput = document.getElementById('price');
   var capacitySelect = document.getElementById('capacity');
@@ -43,7 +43,7 @@ window.map = (function () {
     filtersBar.style.display = 'none';
     priceInput.setAttribute('min', '1000');
     priceInput.placeholder = '1 000';
-    addressInput.value = window.initialPin.mainPinWidth + ', ' + window.initialPin.mainPinHeight;
+    addressInput.value = window.InitialPin.mainPinWidth + ', ' + window.InitialPin.mainPinHeight;
 
     disableCapacityOptions();
 
@@ -70,7 +70,22 @@ window.map = (function () {
   }
 
   return {
-    adverts: adverts,
+    returnMapData: function () {
+      return {
+        adverts: adverts,
+        templateNode: templateNode,
+        card: card,
+        map: map,
+        pinClickHandler: pinClickHandler,
+        setInactiveForm: setInactiveForm,
+        priceInput: priceInput,
+        capacitySelect: capacitySelect,
+        disableCapacityOptions: disableCapacityOptions,
+        filtersBar: filtersBar,
+        addressInput: addressInput
+      };
+    },
+    // adverts: adverts,
     templateNode: templateNode,
     card: card,
     map: map,

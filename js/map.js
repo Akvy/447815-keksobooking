@@ -39,45 +39,11 @@ window.map = (function () {
     };
   }
 
-  // Создает метку для объявления
-  var renderPin = function (num, pin) {
-    var img = pin.querySelector('img');
-
-    pin.style.left = adverts[num].location.x + 'px';
-    pin.style.top = adverts[num].location.y + 'px';
-    img.src = adverts[num].author.avatar;
-    img.alt = adverts[num].offer.title;
-
-    pin.addEventListener('click', pinClickHandler(num));
-
-    return pin;
-  };
-
-  // Создает метки для всех объявлений из массива
-  function makePins() {
-    // var templateNode = window.card.templateNode;
-    // window.card.templateNode = document.querySelector('template');
-    var pins = document.querySelector('.map__pins');
-    var pin = templateNode.content.querySelector('.map__pin');
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < window.data.BRIEF_TITLES.length; i++) {
-      card = templateNode.content.cloneNode(true);
-      var button = card.querySelector('.map__pin');
-      pin = renderPin(i, button);
-
-      fragment.appendChild(pin);
-    }
-    pins.appendChild(fragment);
-  }
-
   getAdverts(adverts, window.data.BRIEF_TITLES);
-  makePins();
 
   // Выполняем условия неактивного состояния страницы
 
   var fieldsets = document.querySelectorAll('fieldset');
-  var pins = document.querySelectorAll('.map__pin');
   var typeSelect = document.getElementById('type');
   var priceInput = document.getElementById('price');
   var capacitySelect = document.getElementById('capacity');
@@ -90,12 +56,15 @@ window.map = (function () {
   };
 
   var setInactiveForm = function () {
+    var advertPins = document.querySelectorAll('.map__pin');
+
     for (var i = 0; i < fieldsets.length; i++) {
       fieldsets[i].setAttribute('disabled', '');
     }
 
-    for (i = 1; i < pins.length; i++) {
-      pins[i].style.display = 'none';
+    for (i = 1; i < advertPins.length; i++) {
+      advertPins[i].style.display = 'none';
+
     }
 
     filtersBar.style.display = 'none';
@@ -109,8 +78,6 @@ window.map = (function () {
     capacitySelect.children[2].removeAttribute('disabled', '');
   };
 
-  setInactiveForm();
-
   var removeDisabledAttr = function (arr) {
     for (var i = 0; i < arr.length; i++) {
       arr[i].removeAttribute('disabled', '');
@@ -118,14 +85,16 @@ window.map = (function () {
   };
 
   function initialButtonMouseupHandler() {
+    var initPins = document.querySelectorAll('.map__pin');
+
     inactiveMap.classList.remove('map--faded');
     inactiveMapform.classList.remove('ad-form--disabled');
     filtersBar.classList.remove('visually-hidden');
 
     removeDisabledAttr(fieldsets);
 
-    for (var i = 1; i < pins.length; i++) {
-      pins[i].style.display = 'block';
+    for (var i = 1; i < initPins.length; i++) {
+      initPins[i].style.display = 'block';
     }
 
     filtersBar.style.display = 'flex';
@@ -139,7 +108,6 @@ window.map = (function () {
 
   // Вешаем обработчик событий на кнопку с пирожком для активтого состояния
   initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
-
   initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
   function closeButtonClickHandler() {
@@ -295,6 +263,8 @@ window.map = (function () {
     adverts: adverts,
     templateNode: templateNode,
     card: card,
-    map: map
+    map: map,
+    pinClickHandler: pinClickHandler,
+    setInactiveForm: setInactiveForm,
   };
 })();

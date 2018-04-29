@@ -70,7 +70,6 @@ window.card = (function () {
 
     return cardItem;
   }
-
   return {
     renderCard: renderCard
   };

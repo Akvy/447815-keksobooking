@@ -1,23 +1,12 @@
 'use strict';
 
 window.map = (function () {
-  var HORIZONTAL_MIN = 0;
-  var VERTICAL_MIN = 150;
-  var VERTICAL_MAX = 500;
   var templateNode = document.querySelector('template');
   var card = templateNode.content.cloneNode(true);
   var map = document.querySelector('.map');
-  var KEY_ENTER = 13;
   var KEY_ESC = 27;
-  var INITIAL_PIN_HEIGHT = 22;
-  var initialButton = document.querySelector('.map__pin--main');
-  var inactiveMap = document.querySelector('.map');
-  var inactiveMapform = document.querySelector('.ad-form');
   var filtersBar = document.querySelector('.map__filters');
-  var initialButtonImg = initialButton.querySelector('img');
   var addressInput = document.getElementById('address');
-  var mainPinWidth = +initialButton.style.left.slice(0, -2) + initialButtonImg.offsetWidth / 2;
-  var mainPinHeight = +initialButton.style.top.slice(0, -2) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
   var adverts = [];
 
   var getAdverts = function (array, amount) {
@@ -40,18 +29,13 @@ window.map = (function () {
 
   getAdverts(adverts, window.data.BRIEF_TITLES);
 
-  var fieldsets = document.querySelectorAll('fieldset');
   var priceInput = document.getElementById('price');
   var capacitySelect = document.getElementById('capacity');
 
   var setInactiveForm = function () {
     var advertPins = document.querySelectorAll('.map__pin');
 
-    for (var i = 0; i < fieldsets.length; i++) {
-      fieldsets[i].setAttribute('disabled', '');
-    }
-
-    for (i = 1; i < advertPins.length; i++) {
+    for (var i = 1; i < advertPins.length; i++) {
       advertPins[i].style.display = 'none';
 
     }
@@ -59,44 +43,13 @@ window.map = (function () {
     filtersBar.style.display = 'none';
     priceInput.setAttribute('min', '1000');
     priceInput.placeholder = '1 000';
-    addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+    addressInput.value = window.initialPin.mainPinWidth + ', ' + window.initialPin.mainPinHeight;
 
     disableCapacityOptions();
 
     capacitySelect.selectedIndex = 2;
     capacitySelect.children[2].removeAttribute('disabled', '');
   };
-
-  var removeDisabledAttr = function (arr) {
-    for (var i = 0; i < arr.length; i++) {
-      arr[i].removeAttribute('disabled', '');
-    }
-  };
-
-  function initialButtonMouseupHandler() {
-    var initPins = document.querySelectorAll('.map__pin');
-
-    inactiveMap.classList.remove('map--faded');
-    inactiveMapform.classList.remove('ad-form--disabled');
-    filtersBar.classList.remove('visually-hidden');
-
-    removeDisabledAttr(fieldsets);
-
-    for (var i = 1; i < initPins.length; i++) {
-      initPins[i].style.display = 'block';
-    }
-
-    filtersBar.style.display = 'flex';
-  }
-
-  function initialButtonKeydownHandler(evt) {
-    if (evt.keyCode === KEY_ENTER) {
-      initialButtonMouseupHandler();
-    }
-  }
-
-  initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
-  initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 
   function closeButtonClickHandler() {
     var openedCard = document.querySelector('.map__card');
@@ -116,76 +69,6 @@ window.map = (function () {
     }
   }
 
-  initialButton.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
-
-    var offsetXY = map.getBoundingClientRect();
-
-    var startCoords = {
-      x: evt.clientX - offsetXY.left,
-      y: evt.clientY - offsetXY.top
-    };
-
-    var initialButtonMousemoveHandler = function (moveEvt) {
-      moveEvt.preventDefault();
-      var shift = {
-        x: startCoords.x - (moveEvt.clientX - offsetXY.left),
-        y: startCoords.y - (moveEvt.clientY - offsetXY.top)
-      };
-      var offsetX = initialButtonImg.offsetWidth / 2;
-      var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-      var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left - offsetX;
-      var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top - offsetY / 2;
-      var posXY = tracePinPen(pinCurrentX, pinCurrentY);
-
-      startCoords = {
-        x: moveEvt.clientX - offsetXY.left,
-        y: moveEvt.clientY - offsetXY.top
-      };
-
-      initialButton.style.left = posXY.x + 'px';
-      initialButton.style.top = posXY.y + 'px';
-
-      addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
-    };
-
-    function tracePinPen(x, y) {
-      var mapWidth = map.offsetWidth;
-      var pinOffsetX = initialButtonImg.offsetWidth;
-      var posX = x;
-      var posY = y;
-      var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-      var pinOffsetY = VERTICAL_MAX - offsetY;
-
-      if (x < HORIZONTAL_MIN) {
-        posX = HORIZONTAL_MIN;
-      }
-
-      if (x > mapWidth - pinOffsetX) {
-        posX = mapWidth - pinOffsetX;
-      }
-
-      if (y < VERTICAL_MIN) {
-        posY = VERTICAL_MIN - offsetY;
-      }
-
-      if (y > pinOffsetY) {
-        posY = pinOffsetY;
-      }
-      return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
-    }
-
-    var initialButtonMouseupMoveHandler = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', initialButtonMousemoveHandler);
-      document.removeEventListener('mouseup', initialButtonMouseupMoveHandler);
-    };
-
-    document.addEventListener('mousemove', initialButtonMousemoveHandler);
-    document.addEventListener('mouseup', initialButtonMouseupMoveHandler);
-  });
-
   return {
     adverts: adverts,
     templateNode: templateNode,
@@ -195,6 +78,8 @@ window.map = (function () {
     setInactiveForm: setInactiveForm,
     priceInput: priceInput,
     capacitySelect: capacitySelect,
-    disableCapacityOptions: disableCapacityOptions
+    disableCapacityOptions: disableCapacityOptions,
+    filtersBar: filtersBar,
+    addressInput: addressInput
   };
 })();

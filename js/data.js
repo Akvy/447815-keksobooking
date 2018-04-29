@@ -85,11 +85,7 @@ window.data = (function () {
   }
 
   return {
-    // OFFER_TYPE: OFFER_TYPE,
     BRIEF_TITLES: BRIEF_TITLES,
     createAdvertData: createAdvertData
-    // CHECK_TIME: CHECK_TIME,
-    // FEATURES: FEATURES,
-    // PHOTOS: PHOTOS
   };
 })();

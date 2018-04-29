@@ -6,6 +6,16 @@ window.data = (function () {
   var CHECK_TIME = ['12:00', '13:00', '14:00'];
   var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  var PIN_WIDTH = 50;
+  var PIN_HEIGHT = 70;
+  var MIN_PRICE = 1000;
+  var MAX_PRICE = 1000000;
+  var MAX_ROOMS = 5;
+  var MAX_GUESTS = 10;
+  var MIN_PIN_X = 300;
+  var MAX_PIN_X = 900;
+  var MIN_PIN_Y = 150;
+  var MAX_PIN_Y = 300;
   var nums = [];
 
   function countMinMax(min, max) {

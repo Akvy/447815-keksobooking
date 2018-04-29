@@ -95,7 +95,7 @@ window.initialPin = (function () {
         posX = mapWidth - pinOffsetX;
       }
 
-      if (y < VERTICAL_MIN) {
+      if (y < VERTICAL_MIN - offsetY) {
         posY = VERTICAL_MIN - offsetY;
       }
 

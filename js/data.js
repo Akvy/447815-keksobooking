@@ -6,18 +6,12 @@ window.data = (function () {
   var CHECK_TIME = ['12:00', '13:00', '14:00'];
   var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var HOUSE_TYPE = {
-    'palace': 'Дворец',
-    'bungalo': 'Бунгало',
-    'flat': 'Квартира',
-    'house': 'Дом'
-  };
-  var MIN_PRICE = 1000;
-  var MAX_PRICE = 1000000;
-  var MAX_ROOMS = 5;
-  var MAX_GUESTS = 10;
-  var randomizedNumbers = randomizeNumbers(BRIEF_TITLES.length);
   var nums = [];
+
+  function countMinMax(min, max) {
+    var minMaxRandom = min + Math.random() * (max - min);
+    return Math.round(minMaxRandom);
+  }
 
   function shuffleArrayCondition() {
     return Math.random() - 0.5;
@@ -35,9 +29,14 @@ window.data = (function () {
     return shuffleArray(nums);
   }
 
+  var randomizedNumbers = randomizeNumbers(BRIEF_TITLES.length);
+
+  var getRandomItem = function (array) {
+    return array[countMinMax(0, array.length - 1)];
+  };
+
   function createAdvertData(piece) {
     var author = 'img/avatars/user' + randomizedNumbers[piece] + '.png';
-    // var author = 'img/avatars/user' + window.map.randomizedNumbers[piece] + '.png';
     var title = shuffleArray(BRIEF_TITLES)[piece];
     var rentPrice = countMinMax(MIN_PRICE, MAX_PRICE);
     var offerTypeRand = getRandomItem(OFFER_TYPE);
@@ -75,17 +74,12 @@ window.data = (function () {
     };
   }
 
-  // Заполняет пустой массив объектами с объявлениями
-  var getAdverts = function (array, amount) {
-    for (var i = 0; i < amount.length; i++) {
-      array.push(window.data.createAdvertData(i));
-    }
-  };
-
   return {
-    createAdvertData: createAdvertData,
-    HOUSE_TYPE,
-    BRIEF_TITLES,
-    getAdverts: getAdverts
+    // OFFER_TYPE: OFFER_TYPE,
+    BRIEF_TITLES: BRIEF_TITLES,
+    createAdvertData: createAdvertData
+    // CHECK_TIME: CHECK_TIME,
+    // FEATURES: FEATURES,
+    // PHOTOS: PHOTOS
   };
 })();

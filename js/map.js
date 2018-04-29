@@ -72,17 +72,7 @@ window.map = (function () {
   return {
     returnMapData: function () {
       return {
-        adverts: adverts,
-        templateNode: templateNode,
-        card: card,
-        map: map,
-        pinClickHandler: pinClickHandler,
-        setInactiveForm: setInactiveForm,
-        priceInput: priceInput,
-        capacitySelect: capacitySelect,
-        disableCapacityOptions: disableCapacityOptions,
-        filtersBar: filtersBar,
-        addressInput: addressInput
+        adverts: adverts
       };
     },
     // adverts: adverts,

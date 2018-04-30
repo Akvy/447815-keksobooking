@@ -4,7 +4,6 @@ window.map = (function () {
   var KEY_ESC = 27;
   var dom = window.getDomElements;
   var initialButtonImg = dom.initialButton.querySelector('img');
-  // var card = dom.templateNode.content.cloneNode(true);
 
   function closeButtonClickHandler() {
     var openedCard = document.querySelector('.map__card');
@@ -18,19 +17,21 @@ window.map = (function () {
     }
   }
 
-  return {
-    getAdverts: function () {
-      var PINS_COUNT = 8;
-      var adverts = [];
+  function getAdverts() {
+    var PINS_COUNT = 8;
+    var adverts = [];
 
-      for (var i = 0; i < PINS_COUNT; i++) {
-        adverts.push(window.data.createAdvertData(i));
-      }
-      return adverts;
-    },
+    for (var i = 0; i < PINS_COUNT; i++) {
+      adverts.push(window.data.createAdvertData(i));
+    }
+    return adverts;
+  }
+
+  return {
+    advertsDone: getAdverts(),
     pinClickHandler: function (num) {
       return function () {
-        dom.map.insertBefore(window.card.renderCard(num, window.map.getAdverts()[num]), dom.mapFiltersContainer);
+        dom.map.insertBefore(window.card.renderCard(num, window.map.advertsDone[num]), dom.mapFiltersContainer);
 
         var closeButton = document.querySelector('.popup__close');
 

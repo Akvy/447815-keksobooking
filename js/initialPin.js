@@ -19,27 +19,25 @@ window.InitialPin = (function () {
     }
   };
 
-  function initialButtonMouseupHandler() {
-    var initPins = document.querySelectorAll('.map__pin');
-
-    dom.map.classList.remove('map--faded');
-    dom.inactiveMapform.classList.remove('ad-form--disabled');
-    dom.filtersBar.classList.remove('visually-hidden');
-
-    removeDisabledAttr(dom.fieldsets);
-
-    for (i = 1; i < initPins.length; i++) {
-      initPins[i].style.display = 'block';
-    }
-
-    dom.filtersBar.style.display = 'flex';
-  }
-
-  function initialButtonKeydownHandler(evt) {
+  dom.initialButton.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEY_ENTER) {
-      initialButtonMouseupHandler();
+      evt.preventDefault();
+
+      var initPins = document.querySelectorAll('.map__pin');
+
+      dom.map.classList.remove('map--faded');
+      dom.inactiveMapform.classList.remove('ad-form--disabled');
+      dom.filtersBar.classList.remove('visually-hidden');
+
+      removeDisabledAttr(dom.fieldsets);
+
+      for (i = 1; i < initPins.length; i++) {
+        initPins[i].style.display = 'block';
+      }
+
+      dom.filtersBar.style.display = 'flex';
     }
-  }
+  });
 
   dom.initialButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -100,19 +98,30 @@ window.InitialPin = (function () {
       return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
     }
 
-    var initialButtonMouseupMoveHandler = function (upEvt) {
+    var initialButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
+      var initPins = document.querySelectorAll('.map__pin');
+
+      dom.map.classList.remove('map--faded');
+      dom.inactiveMapform.classList.remove('ad-form--disabled');
+      dom.filtersBar.classList.remove('visually-hidden');
+
+      removeDisabledAttr(dom.fieldsets);
+
+      for (i = 1; i < initPins.length; i++) {
+        initPins[i].style.display = 'block';
+      }
+
+      dom.filtersBar.style.display = 'flex';
+
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
-      document.removeEventListener('mouseup', initialButtonMouseupMoveHandler);
+      document.removeEventListener('mouseup', initialButtonMouseupHandler);
     };
 
     document.addEventListener('mousemove', initialButtonMousemoveHandler);
-    document.addEventListener('mouseup', initialButtonMouseupMoveHandler);
+    document.addEventListener('mouseup', initialButtonMouseupHandler);
   });
-
-  dom.initialButton.addEventListener('mouseup', initialButtonMouseupHandler);
-  dom.initialButton.addEventListener('keydown', initialButtonKeydownHandler);
 })();
 
 

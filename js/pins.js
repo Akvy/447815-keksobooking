@@ -9,10 +9,10 @@ window.pins = (function () {
 
     // console.log(window.map.getAdverts());
 
-    for (var i = 0; i < window.map.getAdverts().length; i++) {
+    for (var i = 0; i < window.map.advertsDone.length; i++) {
       var card = templateNode.content.cloneNode(true);
       var button = card.querySelector('.map__pin');
-      pin = window.pin.renderPin(window.map.getAdverts()[i], i, button);
+      pin = window.pin.renderPin(window.map.advertsDone[i], i, button);
 
       fragment.appendChild(pin);
     }

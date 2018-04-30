@@ -7,8 +7,6 @@ window.pins = (function () {
     var pin = templateNode.content.querySelector('.map__pin');
     var fragment = document.createDocumentFragment();
 
-    // console.log(window.map.getAdverts());
-
     for (var i = 0; i < window.map.advertsDone.length; i++) {
       var card = templateNode.content.cloneNode(true);
       var button = card.querySelector('.map__pin');
@@ -22,8 +20,4 @@ window.pins = (function () {
   makePins();
 
   window.map.setInactiveForm();
-
-  return {
-    makePins: makePins,
-  };
 })();

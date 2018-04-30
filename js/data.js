@@ -46,7 +46,6 @@ window.data = (function () {
   };
 
   return {
-    // titlesAmount: titlesAmount,
     createAdvertData: function (piece) {
       var author = 'img/avatars/user' + randomizedNumbers[piece] + '.png';
       var title = shuffleArray(BRIEF_TITLES)[piece];
@@ -63,7 +62,6 @@ window.data = (function () {
       var locationY = positionY + PIN_HEIGHT;
 
       return {
-        titlesAmount:BRIEF_TITLES.length,
         author: {
           avatar: author
         },

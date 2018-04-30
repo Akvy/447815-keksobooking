@@ -1,55 +1,10 @@
 'use strict';
 
 window.map = (function () {
-  var templateNode = document.querySelector('template');
-  var card = templateNode.content.cloneNode(true);
-  var map = document.querySelector('.map');
   var KEY_ESC = 27;
-  var filtersBar = document.querySelector('.map__filters');
-  var addressInput = document.getElementById('address');
-  var adverts = [];
-
-  var getAdverts = function (array, amount) {
-    for (var i = 0; i < amount; i++) {
-      array.push(window.data.createAdvertData(i));
-    }
-  };
-
-  function pinClickHandler(num) {
-    return function () {
-      map.insertBefore(window.card.renderCard(num), document.querySelector('.map__filters-container'));
-
-      var closeButton = document.querySelector('.popup__close');
-
-      closeButton.addEventListener('click', closeButtonClickHandler);
-
-      document.addEventListener('keydown', closeButtonKeydownHandler);
-    };
-  }
-
-  getAdverts(adverts, window.data.createAdvertData().titlesAmount);
-
-  var priceInput = document.getElementById('price');
-  var capacitySelect = document.getElementById('capacity');
-
-  var setInactiveForm = function () {
-    var advertPins = document.querySelectorAll('.map__pin');
-
-    for (var i = 1; i < advertPins.length; i++) {
-      advertPins[i].style.display = 'none';
-
-    }
-
-    filtersBar.style.display = 'none';
-    priceInput.setAttribute('min', '1000');
-    priceInput.placeholder = '1 000';
-    addressInput.value = window.InitialPin.mainPinWidth + ', ' + window.InitialPin.mainPinHeight;
-
-    disableCapacityOptions();
-
-    capacitySelect.selectedIndex = 2;
-    capacitySelect.children[2].removeAttribute('disabled', '');
-  };
+  var dom = window.getDomElements;
+  var initialButtonImg = dom.initialButton.querySelector('img');
+  // var card = dom.templateNode.content.cloneNode(true);
 
   function closeButtonClickHandler() {
     var openedCard = document.querySelector('.map__card');
@@ -63,28 +18,51 @@ window.map = (function () {
     }
   }
 
-  function disableCapacityOptions() {
-    for (var i = 0; i < capacitySelect.children.length; i++) {
-      capacitySelect.children[i].setAttribute('disabled', '');
-    }
-  }
-
   return {
-    returnMapData: function () {
-      return {
-        adverts: adverts
+    getAdverts: function () {
+      var PINS_COUNT = 8;
+      var adverts = [];
+
+      for (var i = 0; i < PINS_COUNT; i++) {
+        adverts.push(window.data.createAdvertData(i));
+      }
+      return adverts;
+    },
+    pinClickHandler: function (num) {
+      return function () {
+        dom.map.insertBefore(window.card.renderCard(num, window.map.getAdverts()[num]), dom.mapFiltersContainer);
+
+        var closeButton = document.querySelector('.popup__close');
+
+        closeButton.addEventListener('click', closeButtonClickHandler);
+
+        document.addEventListener('keydown', closeButtonKeydownHandler);
       };
     },
-    // adverts: adverts,
-    templateNode: templateNode,
-    card: card,
-    map: map,
-    pinClickHandler: pinClickHandler,
-    setInactiveForm: setInactiveForm,
-    priceInput: priceInput,
-    capacitySelect: capacitySelect,
-    disableCapacityOptions: disableCapacityOptions,
-    filtersBar: filtersBar,
-    addressInput: addressInput
+    setInactiveForm: function () {
+      var advertPins = document.querySelectorAll('.map__pin');
+      var INITIAL_PIN_HEIGHT = 22;
+      var mainPinWidth = parseInt(dom.initialButton.style.left, 10) + initialButtonImg.offsetWidth / 2;
+      var mainPinHeight = parseInt(dom.initialButton.style.top, 10) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+
+      for (var i = 1; i < advertPins.length; i++) {
+        advertPins[i].style.display = 'none';
+      }
+
+      dom.filtersBar.style.display = 'none';
+      dom.priceInput.setAttribute('min', '1000');
+      dom.priceInput.placeholder = '1 000';
+      dom.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+
+      window.map.disableCapacityOptions();
+
+      dom.capacitySelect.selectedIndex = 2;
+      dom.capacitySelect.children[2].removeAttribute('disabled', '');
+    },
+    disableCapacityOptions: function () {
+      for (var i = 0; i < dom.capacitySelect.children.length; i++) {
+        dom.capacitySelect.children[i].setAttribute('disabled', '');
+      }
+    }
   };
 })();

@@ -1,15 +1,14 @@
 'use strict';
 
 window.pin = (function () {
-
   return {
-    renderPin: function (num, pin) {
+    renderPin: function (element, num, pin) {
       var img = pin.querySelector('img');
 
-      pin.style.left = window.map.returnMapData().adverts[num].location.x + 'px';
-      pin.style.top = window.map.returnMapData().adverts[num].location.y + 'px';
-      img.src = window.map.returnMapData().adverts[num].author.avatar;
-      img.alt = window.map.returnMapData().adverts[num].offer.title;
+      pin.style.left = element.location.x + 'px';
+      pin.style.top = element.location.y + 'px';
+      img.src = element.author.avatar;
+      img.alt = element.offer.title;
 
       pin.addEventListener('click', window.map.pinClickHandler(num));
 
@@ -17,5 +16,3 @@ window.pin = (function () {
     }
   };
 })();
-
-

@@ -1,6 +1,7 @@
 'use strict';
 
 window.form = (function () {
+  var dom = window.getDomElements;
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
   var timeOutSelect = document.getElementById('timeout');
@@ -10,8 +11,8 @@ window.form = (function () {
 
   var setMinPrice = function (num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
-      window.map.priceInput.setAttribute('min', minPrice);
-      window.map.priceInput.placeholder = placeHolder;
+      dom.priceInput.setAttribute('min', minPrice);
+      dom.priceInput.placeholder = placeHolder;
     }
   };
 
@@ -24,10 +25,10 @@ window.form = (function () {
 
   var addCapacityOption = function (from, to) {
     for (var i = from; i <= to; i++) {
-      window.map.capacitySelect.children[i].removeAttribute('disabled', '');
+      dom.capacitySelect.children[i].removeAttribute('disabled', '');
     }
 
-    window.map.capacitySelect.selectedIndex = to;
+    dom.capacitySelect.selectedIndex = to;
   };
 
   roomsSelect.addEventListener('change', function (evt) {

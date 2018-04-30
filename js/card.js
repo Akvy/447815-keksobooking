@@ -1,6 +1,7 @@
 'use strict';
 
 window.card = (function () {
+  var dom = window.getDomElements;
   var HOUSE_TYPE = {
     'palace': 'Дворец',
     'bungalo': 'Бунгало',
@@ -20,7 +21,7 @@ window.card = (function () {
   }
 
   function removeAdverts() {
-    var maps = window.map.map.querySelectorAll('.map__card');
+    var maps = dom.map.querySelectorAll('.map__card');
 
     for (var i = 0; i < maps.length; i++) {
       maps[i].remove();
@@ -30,7 +31,7 @@ window.card = (function () {
   }
 
   return {
-    renderCard: function (num) {
+    renderCard: function (num, element) {
       var templateClone = document.querySelector('template');
       var cardClone = templateClone.content.cloneNode(true);
       var cardItem = cardClone.querySelector('.map__card');
@@ -47,7 +48,7 @@ window.card = (function () {
         photosBlock: cardClone.querySelector('.popup__photos')
       };
       var imgItem = cardBlocks.photosBlock.querySelector('img');
-      var photos = window.map.returnMapData().adverts[num].offer.photos;
+      var photos = window.map.getAdverts()[num].offer.photos;
 
       removeAdverts();
       cardBlocks.photosBlock.removeChild(imgItem);
@@ -58,16 +59,16 @@ window.card = (function () {
         cardBlocks.photosBlock.appendChild(imgClone);
       }
 
-      cardBlocks.avatarBlock.src = window.map.returnMapData().adverts[num].author.avatar;
-      cardBlocks['titleBlock'].textContent = window.map.returnMapData().adverts[num].offer.title;
-      cardBlocks['addressBlock'].textContent = window.map.returnMapData().adverts[num].offer.address;
-      cardBlocks['priceBlock'].textContent = window.map.returnMapData().adverts[num].offer.price + '₽/ночь';
-      cardBlocks['typeBlock'].textContent = HOUSE_TYPE[window.map.returnMapData().adverts[num].offer.type];
-      cardBlocks['capacityBlock'].textContent = window.map.returnMapData().adverts[num].offer.rooms + ' комнаты для ' + window.map.returnMapData().adverts[num].offer.guests + ' гостей';
-      cardBlocks['checkBlock'].textContent = 'Заезд после ' + window.map.returnMapData().adverts[num].offer.checkin + ', выезд до ' + window.map.returnMapData().adverts[num].offer.checkout;
-      cardBlocks['descriptionBlock'].textContent = window.map.returnMapData().adverts[num].offer.description;
+      cardBlocks.avatarBlock.src = element.author.avatar;
+      cardBlocks['titleBlock'].textContent = element.offer.title;
+      cardBlocks['addressBlock'].textContent = element.offer.address;
+      cardBlocks['priceBlock'].textContent = element.offer.price + '₽/ночь';
+      cardBlocks['typeBlock'].textContent = HOUSE_TYPE[element.offer.type];
+      cardBlocks['capacityBlock'].textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+      cardBlocks['checkBlock'].textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+      cardBlocks['descriptionBlock'].textContent = element.offer.description;
 
-      renderServices(cardBlocks.featuresBlock, window.map.returnMapData().adverts[num].offer.features);
+      renderServices(cardBlocks.featuresBlock, element.offer.features);
 
       return cardItem;
     }

@@ -1,7 +1,7 @@
 'use strict';
 
 window.card = (function () {
-  var dom = window.getDomElements;
+  var dom = window.getdomelements;
   var HOUSE_TYPE = {
     'palace': 'Дворец',
     'bungalo': 'Бунгало',

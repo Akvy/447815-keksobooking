@@ -1,12 +1,12 @@
 'use strict';
 
-window.InitialPin = (function () {
-  var dom = window.getDomElements;
+window.initialpin = (function () {
   var HORIZONTAL_MIN = 0;
   var VERTICAL_MIN = 150;
   var VERTICAL_MAX = 500;
   var INITIAL_PIN_HEIGHT = 22;
   var KEY_ENTER = 13;
+  var dom = window.getdomelements;
   var initialButtonImg = dom.initialButton.querySelector('img');
 
   for (var i = 0; i < dom.fieldsets.length; i++) {

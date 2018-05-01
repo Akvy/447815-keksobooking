@@ -2,7 +2,9 @@
 
 window.map = (function () {
   var KEY_ESC = 27;
-  var dom = window.getDomElements;
+  var PINS_COUNT = 8;
+  var INITIAL_PIN_HEIGHT = 22;
+  var dom = window.getdomelements;
   var initialButtonImg = dom.initialButton.querySelector('img');
 
   function closeButtonClickHandler() {
@@ -18,7 +20,6 @@ window.map = (function () {
   }
 
   function getAdverts() {
-    var PINS_COUNT = 8;
     var adverts = [];
 
     for (var i = 0; i < PINS_COUNT; i++) {
@@ -42,9 +43,12 @@ window.map = (function () {
     },
     setInactiveForm: function () {
       var advertPins = document.querySelectorAll('.map__pin');
-      var INITIAL_PIN_HEIGHT = 22;
-      var mainPinWidth = parseInt(dom.initialButton.style.left, 10) + initialButtonImg.offsetWidth / 2;
-      var mainPinHeight = parseInt(dom.initialButton.style.top, 10) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      var initLeftCoord = parseInt(dom.initialButton.style.left, 10);
+      var initTopCoord = parseInt(dom.initialButton.style.top, 10);
+      var halfPinWidth = parseInt(initialButtonImg.offsetWidth / 2, 10);
+      var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      var mainPinWidth = initLeftCoord + halfPinWidth;
+      var mainPinHeight = initTopCoord + pinFullHeight;
 
       for (var i = 1; i < advertPins.length; i++) {
         advertPins[i].style.display = 'none';

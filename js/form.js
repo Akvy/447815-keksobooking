@@ -1,7 +1,7 @@
 'use strict';
 
 window.form = (function () {
-  var dom = window.getDomElements;
+  var dom = window.getdomelements;
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
   var timeOutSelect = document.getElementById('timeout');

@@ -8,6 +8,7 @@ window.form = (function () {
   var roomsSelect = document.getElementById('room_number');
   var adForm = document.querySelector('.ad-form');
   var successWindow = document.querySelector('.success');
+  var currentAddress = dom.addressInput.value;
 
   var setMinPrice = function (num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
@@ -61,40 +62,29 @@ window.form = (function () {
     timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
   });
 
-
-  // var form = userDialog.querySelector('.setup-wizard-form');
-  // form.addEventListener('submit', function (evt) {
-  //   window.upload(new FormData(form), function (response) {
-  //     userDialog.classList.add('hidden');
-  //   });
-  //   evt.preventDefault();
-  // });
-
-  // console.log(adForm);
-  // adForm.addEventListener('submit', function (evt) {
-  //   successWindow.classList.remove('hidden');
-  //   window.upload(new FormData(adForm));
-  //   evt.preventDefault();
-  // });
-
-// console.log(adForm);
-
-
-
-// console.log(new FormData(document.querySelector('.ad-form')));
-
   adForm.addEventListener('submit', function (evt) {
     adForm.classList.remove('hidden');
     window.upload(new FormData(adForm), function (response) {
+      successWindow.classList.remove('hidden');
+      console.log(response);
 
-      adForm.classList.add('hidden');
-      console.log(123);
+      setTimeout(function() {
+      //   var initialButtonImg = dom.initialButton.querySelector('img');
+      //         var initLeftCoord = parseInt(dom.initialButton.style.left, 10);
+      // var initTopCoord = parseInt(dom.initialButton.style.top, 10);
+      // var halfPinWidth = parseInt(initialButtonImg.offsetWidth / 2, 10);
+      // var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      // var mainPinWidth = initLeftCoord + halfPinWidth;
+      // var mainPinHeight = initTopCoord + pinFullHeight;
+
+        successWindow.classList.add('hidden');
+        adForm.reset();
+        dom.addressInput.value = currentAddress;
+        // dom.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+      }, 1500);
     });
     evt.preventDefault();
   });
-// console.log(adForm);
-// console.log(window.upload(new FormData(adForm)));
 })();
-
 
 

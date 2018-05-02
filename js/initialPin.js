@@ -39,6 +39,8 @@ window.initialpin = (function () {
     }
   });
 
+
+
   dom.initialButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 

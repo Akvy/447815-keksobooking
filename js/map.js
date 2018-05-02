@@ -29,6 +29,7 @@ window.map = (function () {
   }
 
   return {
+    // advertsDone: window.load(onLoad, onError),
     advertsDone: getAdverts(),
     pinClickHandler: function (num) {
       return function () {

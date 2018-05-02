@@ -48,7 +48,7 @@ window.card = (function () {
         photosBlock: cardClone.querySelector('.popup__photos')
       };
       var imgItem = cardBlocks.photosBlock.querySelector('img');
-      var photos = window.map.advertsDone[num].offer.photos;
+      var photos = window.map.adverts[num].offer.photos;
 
       removeAdverts();
       cardBlocks.photosBlock.removeChild(imgItem);

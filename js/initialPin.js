@@ -39,8 +39,6 @@ window.initialpin = (function () {
     }
   });
 
-
-
   dom.initialButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -100,16 +98,10 @@ window.initialpin = (function () {
       return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
     }
 
-      //     if (initPins) {
-      //   window.pins.removeAllPins();
-      // }
-
     var initialButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
-        window.load(window.pins.makePins, window.onError);
-
-      var initPins = document.querySelectorAll('.map__pin');
+      window.backend.load(window.pins.makePins, window.onError);
 
       dom.map.classList.remove('map--faded');
       dom.inactiveMapform.classList.remove('ad-form--disabled');
@@ -117,9 +109,9 @@ window.initialpin = (function () {
 
       removeDisabledAttr(dom.fieldsets);
 
-      for (i = 1; i < initPins.length; i++) {
-        initPins[i].style.display = 'block';
-      }
+      // for (i = 1; i < initPins.length; i++) {
+      //   initPins[i].style.display = 'block';
+      // }
 
       dom.filtersBar.style.display = 'flex';
 

@@ -2,8 +2,9 @@
 
 window.map = (function () {
   var KEY_ESC = 27;
-  var PINS_COUNT = 8;
+  // var PINS_COUNT = 8;
   var INITIAL_PIN_HEIGHT = 22;
+  var adverts = [];
   var dom = window.getdomelements;
   var initialButtonImg = dom.initialButton.querySelector('img');
 
@@ -19,21 +20,21 @@ window.map = (function () {
     }
   }
 
-  function getAdverts() {
-    var adverts = [];
-
-    for (var i = 0; i < PINS_COUNT; i++) {
-      adverts.push(window.data.createAdvertData(i));
+  function getAdverts(array) {
+    for (var i = 0; i < array.length; i++) {
+      adverts.push(array[i]);
     }
-    return adverts;
   }
 
+  window.backend.load(getAdverts);
+
   return {
-    // advertsDone: window.load(onLoad, onError),
-    advertsDone: getAdverts(),
+    adverts: adverts,
     pinClickHandler: function (num) {
       return function () {
-        dom.map.insertBefore(window.card.renderCard(num, window.map.advertsDone[num]), dom.mapFiltersContainer);
+        // dom.map.insertBefore(window.card.renderCard(num, window.map.advertsDone[num]), dom.mapFiltersContainer);
+        dom.map.insertBefore(window.card.renderCard(num, window.map.adverts[num]), dom.mapFiltersContainer);
+
 
         var closeButton = document.querySelector('.popup__close');
 

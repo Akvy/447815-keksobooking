@@ -100,8 +100,14 @@ window.initialpin = (function () {
       return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
     }
 
+      //     if (initPins) {
+      //   window.pins.removeAllPins();
+      // }
+
     var initialButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
+
+        window.load(window.pins.makePins, window.onError);
 
       var initPins = document.querySelectorAll('.map__pin');
 

@@ -61,9 +61,40 @@ window.form = (function () {
     timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
   });
 
-  adForm.addEventListener('submit', function () {
-    successWindow.classList.remove('hidden');
+
+  // var form = userDialog.querySelector('.setup-wizard-form');
+  // form.addEventListener('submit', function (evt) {
+  //   window.upload(new FormData(form), function (response) {
+  //     userDialog.classList.add('hidden');
+  //   });
+  //   evt.preventDefault();
+  // });
+
+  // console.log(adForm);
+  // adForm.addEventListener('submit', function (evt) {
+  //   successWindow.classList.remove('hidden');
+  //   window.upload(new FormData(adForm));
+  //   evt.preventDefault();
+  // });
+
+// console.log(adForm);
+
+
+
+// console.log(new FormData(document.querySelector('.ad-form')));
+
+  adForm.addEventListener('submit', function (evt) {
+    adForm.classList.remove('hidden');
+    window.upload(new FormData(adForm), function (response) {
+
+      adForm.classList.add('hidden');
+      console.log(123);
+    });
+    evt.preventDefault();
   });
+// console.log(adForm);
+// console.log(window.upload(new FormData(adForm)));
 })();
+
 
 

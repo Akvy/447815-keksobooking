@@ -65,9 +65,8 @@ window.form = (function () {
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     adForm.classList.remove('hidden');
-    window.upload(new FormData(adForm), function (response) {
+    window.upload(new FormData(adForm), function () {
       successWindow.classList.remove('hidden');
-      console.log(response);
 
       setTimeout(function () {
         successWindow.classList.add('hidden');

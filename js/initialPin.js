@@ -8,6 +8,8 @@ window.initialpin = (function () {
   var KEY_ENTER = 13;
   var dom = window.getdomelements;
   var initialButtonImg = dom.initialButton.querySelector('img');
+  var offsetX = initialButtonImg.offsetWidth / 2;
+  var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
 
   for (var i = 0; i < dom.fieldsets.length; i++) {
     dom.fieldsets[i].setAttribute('disabled', '');
@@ -55,8 +57,8 @@ window.initialpin = (function () {
         x: startCoords.x - (moveEvt.clientX - offsetXY.left),
         y: startCoords.y - (moveEvt.clientY - offsetXY.top)
       };
-      var offsetX = initialButtonImg.offsetWidth / 2;
-      var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      // var offsetX = initialButtonImg.offsetWidth / 2;
+      // var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left - offsetX;
       var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top - offsetY / 2;
       var posXY = tracePinPen(pinCurrentX, pinCurrentY);
@@ -77,7 +79,7 @@ window.initialpin = (function () {
       var pinOffsetX = initialButtonImg.offsetWidth;
       var posX = x;
       var posY = y;
-      var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      // var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var pinOffsetY = VERTICAL_MAX - offsetY;
 
       if (x < HORIZONTAL_MIN) {
@@ -109,10 +111,6 @@ window.initialpin = (function () {
 
       removeDisabledAttr(dom.fieldsets);
 
-      // for (i = 1; i < initPins.length; i++) {
-      //   initPins[i].style.display = 'block';
-      // }
-
       dom.filtersBar.style.display = 'flex';
 
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
@@ -122,6 +120,17 @@ window.initialpin = (function () {
     document.addEventListener('mousemove', initialButtonMousemoveHandler);
     document.addEventListener('mouseup', initialButtonMouseupHandler);
   });
+
+  return {
+    getInititalPinCoords: function () {
+      var mainPinAddress = dom.addressInput.value;
+      var coordLeft = parseInt(dom.initialButton.style.left, 10) + offsetX;
+      var coordTop = parseInt(dom.initialButton.style.top, 10) + offsetY;
+
+      dom.addressInput.value = coordLeft + ', ' + coordTop;
+      return mainPinAddress;
+    }
+  };
 })();
 
 

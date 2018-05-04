@@ -1,6 +1,7 @@
 'use strict';
 
 window.form = (function () {
+  var SHOW_TIME = 1500;
   var dom = window.getdomelements;
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
@@ -8,7 +9,6 @@ window.form = (function () {
   var roomsSelect = document.getElementById('room_number');
   var adForm = document.querySelector('.ad-form');
   var successWindow = document.querySelector('.success');
-  var currentAddress = dom.addressInput.value;
 
   var setMinPrice = function (num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
@@ -64,8 +64,8 @@ window.form = (function () {
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    adForm.classList.remove('hidden');
-    window.upload(new FormData(adForm), window.backend.onError);
+    window.backend.upload(new FormData(adForm), window.backend.onError);
+  });
 
   return {
     showSuccess: function () {
@@ -74,8 +74,8 @@ window.form = (function () {
       setTimeout(function () {
         successWindow.classList.add('hidden');
         adForm.reset();
-        dom.addressInput.value = currentAddress;
-      }, 1500);
+        window.initialpin.getInititalPinCoords();
+      }, SHOW_TIME);
     }
   };
 })();

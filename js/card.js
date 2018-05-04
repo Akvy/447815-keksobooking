@@ -26,8 +26,6 @@ window.card = (function () {
     for (var i = 0; i < maps.length; i++) {
       maps[i].remove();
     }
-
-    // return map;
   }
 
   return {

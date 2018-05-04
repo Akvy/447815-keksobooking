@@ -2,11 +2,11 @@
 
 window.map = (function () {
   var KEY_ESC = 27;
+  // var PINS_COUNT = 8;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
   var dom = window.getdomelements;
-  var mainButton = dom.initialButton;
-  var initialButtonImg = mainButton.querySelector('img');
+  var initialButtonImg = dom.initialButton.querySelector('img');
 
   function closeButtonClickHandler() {
     var openedCard = document.querySelector('.map__card');

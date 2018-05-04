@@ -65,7 +65,10 @@ window.form = (function () {
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     adForm.classList.remove('hidden');
-    window.upload(new FormData(adForm), function () {
+    window.upload(new FormData(adForm), window.backend.onError);
+
+  return {
+    showSuccess: function () {
       successWindow.classList.remove('hidden');
 
       setTimeout(function () {
@@ -73,8 +76,8 @@ window.form = (function () {
         adForm.reset();
         dom.addressInput.value = currentAddress;
       }, 1500);
-    });
-  });
+    }
+  };
 })();
 
 

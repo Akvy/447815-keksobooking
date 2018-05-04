@@ -4,14 +4,16 @@ window.backend = (function () {
   var TIMEOUT = 8000;
   var URL = 'https://js.dump.academy/keksobooking/';
 
-  window.upload = function (data, error) {
+  window.upload = function (data, onError) {
     var xhr = new XMLHttpRequest();
+    var error;
+
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
         case 200:
-          // console.log(xhr.status);
+          window.form.showSuccess();
           break;
 
         case 400:
@@ -31,18 +33,16 @@ window.backend = (function () {
       }
 
       if (error) {
-        window.backend.onError(error);
+        onError(error);
       }
     });
 
     xhr.addEventListener('error', function () {
-      error('Ошибка соединения');
-      // window.backend.onError('Ошибка соединения');
+      window.backend.onError('Ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      error('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-      // window.backend.onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
+      window.backend.onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
     });
 
     xhr.timeout = TIMEOUT;
@@ -52,8 +52,9 @@ window.backend = (function () {
   };
 
   return {
-    load: function (success, error) {
+    load: function (success) {
       var xhr = new XMLHttpRequest();
+      var error;
 
       xhr.responseType = 'json';
 
@@ -84,13 +85,11 @@ window.backend = (function () {
         }
 
         xhr.addEventListener('error', function () {
-          error('Ошибка соединения');
-          // window.backend.onError(error);
+          window.backend.onError('Ошибка соединения');
         });
 
         xhr.addEventListener('timeout', function () {
-          error('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-          // window.backend.onError(error);
+          window.backend.onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
         });
 
         xhr.timeout = TIMEOUT;
@@ -111,6 +110,19 @@ window.backend = (function () {
       setTimeout(function () {
         fragment.remove();
       }, 1500);
-    }
+    },
+    // onSuccess: function (message) {
+    //   var mainTag = document.querySelector('main');
+    //   var messageBlock = document.querySelector('.success');
+    //   var fragment = messageBlock.cloneNode(true);
+    //   var fragmentParagraph = fragment.querySelector('p');
+    //   fragmentParagraph.textContent = message;
+    //   fragment.classList.remove('hidden');
+    //   mainTag.insertBefore(fragment, messageBlock);
+
+    //   setTimeout(function () {
+    //     fragment.remove();
+    //   }, 1500);
+    // }
   };
 })();

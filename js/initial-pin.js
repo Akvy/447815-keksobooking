@@ -1,13 +1,15 @@
 'use strict';
 
-window.InitialPin = (function () {
-  var dom = window.getDomElements;
+window.initialPin = (function () {
   var HORIZONTAL_MIN = 0;
   var VERTICAL_MIN = 150;
   var VERTICAL_MAX = 500;
   var INITIAL_PIN_HEIGHT = 22;
   var KEY_ENTER = 13;
+  var dom = window.domElements;
   var initialButtonImg = dom.initialButton.querySelector('img');
+  var offsetX = initialButtonImg.offsetWidth / 2;
+  var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
 
   for (var i = 0; i < dom.fieldsets.length; i++) {
     dom.fieldsets[i].setAttribute('disabled', '');
@@ -15,7 +17,7 @@ window.InitialPin = (function () {
 
   var removeDisabledAttr = function (arr) {
     for (i = 0; i < arr.length; i++) {
-      arr[i].removeAttribute('disabled', '');
+      arr[i].removeAttribute('disabled');
     }
   };
 
@@ -55,8 +57,8 @@ window.InitialPin = (function () {
         x: startCoords.x - (moveEvt.clientX - offsetXY.left),
         y: startCoords.y - (moveEvt.clientY - offsetXY.top)
       };
-      var offsetX = initialButtonImg.offsetWidth / 2;
-      var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      // var offsetX = initialButtonImg.offsetWidth / 2;
+      // var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left - offsetX;
       var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top - offsetY / 2;
       var posXY = tracePinPen(pinCurrentX, pinCurrentY);
@@ -77,7 +79,7 @@ window.InitialPin = (function () {
       var pinOffsetX = initialButtonImg.offsetWidth;
       var posX = x;
       var posY = y;
-      var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      // var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var pinOffsetY = VERTICAL_MAX - offsetY;
 
       if (x < HORIZONTAL_MIN) {
@@ -101,17 +103,13 @@ window.InitialPin = (function () {
     var initialButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      var initPins = document.querySelectorAll('.map__pin');
+      window.backend.load(window.pins.makePins, window.backend.onError);
 
       dom.map.classList.remove('map--faded');
       dom.inactiveMapform.classList.remove('ad-form--disabled');
       dom.filtersBar.classList.remove('visually-hidden');
 
       removeDisabledAttr(dom.fieldsets);
-
-      for (i = 1; i < initPins.length; i++) {
-        initPins[i].style.display = 'block';
-      }
 
       dom.filtersBar.style.display = 'flex';
 
@@ -122,6 +120,17 @@ window.InitialPin = (function () {
     document.addEventListener('mousemove', initialButtonMousemoveHandler);
     document.addEventListener('mouseup', initialButtonMouseupHandler);
   });
+
+  return {
+    getInititalPinCoords: function () {
+      var mainPinAddress = dom.addressInput.value;
+      var coordLeft = dom.initialButton.offsetLeft + offsetX;
+      var coordTop = dom.initialButton.offsetTop + offsetY;
+
+      dom.addressInput.value = coordLeft + ', ' + coordTop;
+      return mainPinAddress;
+    }
+  };
 })();
 
 

@@ -1,13 +1,24 @@
 'use strict';
 
 window.form = (function () {
-  var dom = window.getDomElements;
+  var SHOW_TIME = 1500;
+  var dom = window.domElements;
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
   var timeOutSelect = document.getElementById('timeout');
   var roomsSelect = document.getElementById('room_number');
   var adForm = document.querySelector('.ad-form');
   var successWindow = document.querySelector('.success');
+
+  function showSuccess() {
+    successWindow.classList.remove('hidden');
+
+    setTimeout(function () {
+      successWindow.classList.add('hidden');
+      adForm.reset();
+      window.initialPin.getInititalPinCoords();
+    }, SHOW_TIME);
+  }
 
   var setMinPrice = function (num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
@@ -25,7 +36,7 @@ window.form = (function () {
 
   var addCapacityOption = function (from, to) {
     for (var i = from; i <= to; i++) {
-      dom.capacitySelect.children[i].removeAttribute('disabled', '');
+      dom.capacitySelect.children[i].removeAttribute('disabled');
     }
 
     dom.capacitySelect.selectedIndex = to;
@@ -61,8 +72,9 @@ window.form = (function () {
     timeOutSelect.selectedIndex = timeInSelect.selectedIndex;
   });
 
-  adForm.addEventListener('submit', function () {
-    successWindow.classList.remove('hidden');
+  adForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.upload(new FormData(adForm), showSuccess, window.backend.onError);
   });
 })();
 

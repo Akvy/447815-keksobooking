@@ -1,7 +1,7 @@
 'use strict';
 
 window.card = (function () {
-  var dom = window.getDomElements;
+  var dom = window.domElements;
   var HOUSE_TYPE = {
     'palace': 'Дворец',
     'bungalo': 'Бунгало',
@@ -17,7 +17,6 @@ window.card = (function () {
         elements[i].remove();
       }
     }
-    return services;
   }
 
   function removeAdverts() {
@@ -26,8 +25,6 @@ window.card = (function () {
     for (var i = 0; i < maps.length; i++) {
       maps[i].remove();
     }
-
-    // return map;
   }
 
   return {
@@ -48,7 +45,7 @@ window.card = (function () {
         photosBlock: cardClone.querySelector('.popup__photos')
       };
       var imgItem = cardBlocks.photosBlock.querySelector('img');
-      var photos = window.map.advertsDone[num].offer.photos;
+      var photos = window.map.adverts[num].offer.photos;
 
       removeAdverts();
       cardBlocks.photosBlock.removeChild(imgItem);

@@ -2,7 +2,10 @@
 
 window.map = (function () {
   var KEY_ESC = 27;
-  var dom = window.getDomElements;
+  // var PINS_COUNT = 8;
+  var INITIAL_PIN_HEIGHT = 22;
+  var adverts = [];
+  var dom = window.domElements;
   var initialButtonImg = dom.initialButton.querySelector('img');
 
   function closeButtonClickHandler() {
@@ -17,21 +20,21 @@ window.map = (function () {
     }
   }
 
-  function getAdverts() {
-    var PINS_COUNT = 8;
-    var adverts = [];
-
-    for (var i = 0; i < PINS_COUNT; i++) {
-      adverts.push(window.data.createAdvertData(i));
+  function getAdverts(array) {
+    for (var i = 0; i < array.length; i++) {
+      adverts.push(array[i]);
     }
-    return adverts;
   }
 
+  window.backend.load(getAdverts, window.backend.onError);
+
   return {
-    advertsDone: getAdverts(),
+    adverts: adverts,
     pinClickHandler: function (num) {
       return function () {
-        dom.map.insertBefore(window.card.renderCard(num, window.map.advertsDone[num]), dom.mapFiltersContainer);
+        var pinRender = window.card.renderCard(num, window.map.adverts[num]);
+
+        dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
 
         var closeButton = document.querySelector('.popup__close');
 
@@ -42,9 +45,12 @@ window.map = (function () {
     },
     setInactiveForm: function () {
       var advertPins = document.querySelectorAll('.map__pin');
-      var INITIAL_PIN_HEIGHT = 22;
-      var mainPinWidth = parseInt(dom.initialButton.style.left, 10) + initialButtonImg.offsetWidth / 2;
-      var mainPinHeight = parseInt(dom.initialButton.style.top, 10) + initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      var initLeftCoord = dom.initialButton.offsetLeft;
+      var initTopCoord = dom.initialButton.offsetTop;
+      var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
+      var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+      var mainPinWidth = initLeftCoord + halfPinWidth;
+      var mainPinHeight = initTopCoord + pinFullHeight;
 
       for (var i = 1; i < advertPins.length; i++) {
         advertPins[i].style.display = 'none';
@@ -58,7 +64,7 @@ window.map = (function () {
       window.map.disableCapacityOptions();
 
       dom.capacitySelect.selectedIndex = 2;
-      dom.capacitySelect.children[2].removeAttribute('disabled', '');
+      dom.capacitySelect.children[2].removeAttribute('disabled');
     },
     disableCapacityOptions: function () {
       for (var i = 0; i < dom.capacitySelect.children.length; i++) {

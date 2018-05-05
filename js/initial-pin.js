@@ -16,9 +16,9 @@ window.initialPin = (function () {
   }
 
   var removeDisabledAttr = function (arr) {
-    for (i = 0; i < arr.length; i++) {
-      arr[i].removeAttribute('disabled');
-    }
+    arr.forEach(function (item) {
+      item.removeAttribute('disabled');
+    })
   };
 
   dom.initialButton.addEventListener('keydown', function (evt) {

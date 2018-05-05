@@ -5,7 +5,7 @@ window.map = (function () {
   // var PINS_COUNT = 8;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
-  var dom = window.getdomelements;
+  var dom = window.domElements;
   var initialButtonImg = dom.initialButton.querySelector('img');
 
   function closeButtonClickHandler() {

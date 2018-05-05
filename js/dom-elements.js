@@ -1,6 +1,6 @@
 'use strict';
 
-window.getdomelements = (function () {
+window.domElements = (function () {
   return {
     map: document.querySelector('.map'),
     priceInput: document.getElementById('price'),

@@ -2,7 +2,7 @@
 
 window.form = (function () {
   var SHOW_TIME = 1500;
-  var dom = window.getdomelements;
+  var dom = window.domElements;
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
   var timeOutSelect = document.getElementById('timeout');
@@ -74,7 +74,7 @@ window.form = (function () {
       setTimeout(function () {
         successWindow.classList.add('hidden');
         adForm.reset();
-        window.initialpin.getInititalPinCoords();
+        window.initialPin.getInititalPinCoords();
       }, SHOW_TIME);
     }
   };

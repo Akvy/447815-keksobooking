@@ -17,7 +17,7 @@ window.initialPin = (function () {
 
   var removeDisabledAttr = function (arr) {
     for (i = 0; i < arr.length; i++) {
-      arr[i].removeAttribute('disabled', '');
+      arr[i].removeAttribute('disabled');
     }
   };
 

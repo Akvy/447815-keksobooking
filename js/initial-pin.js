@@ -103,7 +103,7 @@ window.initialPin = (function () {
     var initialButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      // window.backend.load(window.pins.makePins, window.backend.onError);
+      window.backend.load(window.pins.makePins, window.backend.onError);
 
       dom.map.classList.remove('map--faded');
       dom.inactiveMapform.classList.remove('ad-form--disabled');

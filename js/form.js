@@ -10,6 +10,16 @@ window.form = (function () {
   var adForm = document.querySelector('.ad-form');
   var successWindow = document.querySelector('.success');
 
+  function showSuccess() {
+    successWindow.classList.remove('hidden');
+
+    setTimeout(function () {
+      successWindow.classList.add('hidden');
+      adForm.reset();
+      window.initialPin.getInititalPinCoords();
+    }, SHOW_TIME);
+  }
+
   var setMinPrice = function (num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
       dom.priceInput.setAttribute('min', minPrice);
@@ -64,20 +74,8 @@ window.form = (function () {
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.upload(new FormData(adForm), window.backend.onError);
+    window.backend.upload(new FormData(adForm), showSuccess, window.backend.onError);
   });
-
-  return {
-    showSuccess: function () {
-      successWindow.classList.remove('hidden');
-
-      setTimeout(function () {
-        successWindow.classList.add('hidden');
-        adForm.reset();
-        window.initialPin.getInititalPinCoords();
-      }, SHOW_TIME);
-    }
-  };
 })();
 
 

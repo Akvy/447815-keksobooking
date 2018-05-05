@@ -52,7 +52,7 @@ window.backend = (function () {
       xhr.open('GET', (URL + 'data'));
       xhr.send();
     },
-    upload: function (data, onError) {
+    upload: function (data, onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -61,7 +61,7 @@ window.backend = (function () {
       xhr.addEventListener('load', function () {
         switch (xhr.status) {
           case 200:
-            window.form.showSuccess();
+            onSuccess();
             break;
 
           case 400:

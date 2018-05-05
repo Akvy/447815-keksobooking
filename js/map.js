@@ -32,7 +32,9 @@ window.map = (function () {
     adverts: adverts,
     pinClickHandler: function (num) {
       return function () {
-        dom.map.insertBefore(window.card.renderCard(num, window.map.adverts[num]), dom.mapFiltersContainer);
+        var pinRender = window.card.renderCard(num, window.map.adverts[num]);
+
+        dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
 
         var closeButton = document.querySelector('.popup__close');
 

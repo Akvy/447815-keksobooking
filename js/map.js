@@ -43,8 +43,8 @@ window.map = (function () {
     },
     setInactiveForm: function () {
       var advertPins = document.querySelectorAll('.map__pin');
-      var initLeftCoord = parseInt(dom.initialButton.style.left, 10);
-      var initTopCoord = parseInt(dom.initialButton.style.top, 10);
+      var initLeftCoord = dom.initialButton.offsetLeft;
+      var initTopCoord = dom.initialButton.offsetTop;
       var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
       var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var mainPinWidth = initLeftCoord + halfPinWidth;

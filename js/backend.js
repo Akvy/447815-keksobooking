@@ -6,7 +6,7 @@ window.backend = (function () {
   var URL = 'https://js.dump.academy/keksobooking/';
 
   return {
-    load: function (success) {
+    load: function (onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -15,7 +15,7 @@ window.backend = (function () {
       xhr.addEventListener('load', function () {
         switch (xhr.status) {
           case 200:
-            success(xhr.response);
+            onSuccess(xhr.response);
             break;
 
           case 400:
@@ -35,16 +35,16 @@ window.backend = (function () {
         }
 
         if (error) {
-          window.backend.onError(error);
+          onError(error);
         }
       });
 
       xhr.addEventListener('error', function () {
-        window.backend.onError('Ошибка соединения');
+        onError('Ошибка соединения');
       });
 
       xhr.addEventListener('timeout', function () {
-        window.backend.onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
+        onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
       });
 
       xhr.timeout = TIMEOUT;
@@ -52,7 +52,7 @@ window.backend = (function () {
       xhr.open('GET', (URL + 'data'));
       xhr.send();
     },
-    upload: function (data, onError) {
+    upload: function (onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -86,17 +86,17 @@ window.backend = (function () {
       });
 
       xhr.addEventListener('error', function () {
-        window.backend.onError('Ошибка соединения');
+        onError('Ошибка соединения');
       });
 
       xhr.addEventListener('timeout', function () {
-        window.backend.onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
+        onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
       });
 
       xhr.timeout = TIMEOUT;
 
       xhr.open('POST', URL);
-      xhr.send(data);
+      xhr.send(onSuccess);
     },
     onError: function (message) {
       var mainTag = document.querySelector('main');

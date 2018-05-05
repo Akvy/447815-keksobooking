@@ -26,15 +26,13 @@ window.map = (function () {
     }
   }
 
-  window.backend.load(getAdverts);
+  window.backend.load(getAdverts, window.backend.onError);
 
   return {
     adverts: adverts,
     pinClickHandler: function (num) {
       return function () {
-        // dom.map.insertBefore(window.card.renderCard(num, window.map.advertsDone[num]), dom.mapFiltersContainer);
         dom.map.insertBefore(window.card.renderCard(num, window.map.adverts[num]), dom.mapFiltersContainer);
-
 
         var closeButton = document.querySelector('.popup__close');
 
@@ -47,7 +45,7 @@ window.map = (function () {
       var advertPins = document.querySelectorAll('.map__pin');
       var initLeftCoord = parseInt(dom.initialButton.style.left, 10);
       var initTopCoord = parseInt(dom.initialButton.style.top, 10);
-      var halfPinWidth = parseInt(initialButtonImg.offsetWidth / 2, 10);
+      var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
       var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var mainPinWidth = initLeftCoord + halfPinWidth;
       var mainPinHeight = initTopCoord + pinFullHeight;

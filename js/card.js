@@ -17,7 +17,6 @@ window.card = (function () {
         elements[i].remove();
       }
     }
-    return services;
   }
 
   function removeAdverts() {

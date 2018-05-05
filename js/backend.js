@@ -52,7 +52,7 @@ window.backend = (function () {
       xhr.open('GET', (URL + 'data'));
       xhr.send();
     },
-    upload: function (onSuccess, onError) {
+    upload: function (data, onError) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -96,7 +96,7 @@ window.backend = (function () {
       xhr.timeout = TIMEOUT;
 
       xhr.open('POST', URL);
-      xhr.send(onSuccess);
+      xhr.send(data);
     },
     onError: function (message) {
       var mainTag = document.querySelector('main');

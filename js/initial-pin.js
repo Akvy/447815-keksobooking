@@ -17,7 +17,7 @@ window.initialPin = (function () {
 
   var removeDisabledAttr = function (arr) {
     for (i = 0; i < arr.length; i++) {
-      arr[i].removeAttribute('disabled', '');
+      arr[i].removeAttribute('disabled');
     }
   };
 
@@ -124,8 +124,8 @@ window.initialPin = (function () {
   return {
     getInititalPinCoords: function () {
       var mainPinAddress = dom.addressInput.value;
-      var coordLeft = parseInt(dom.initialButton.style.left, 10) + offsetX;
-      var coordTop = parseInt(dom.initialButton.style.top, 10) + offsetY;
+      var coordLeft = dom.initialButton.offsetLeft + offsetX;
+      var coordTop = dom.initialButton.offsetTop + offsetY;
 
       dom.addressInput.value = coordLeft + ', ' + coordTop;
       return mainPinAddress;

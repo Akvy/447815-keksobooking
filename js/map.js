@@ -43,8 +43,8 @@ window.map = (function () {
     },
     setInactiveForm: function () {
       var advertPins = document.querySelectorAll('.map__pin');
-      var initLeftCoord = parseInt(dom.initialButton.style.left, 10);
-      var initTopCoord = parseInt(dom.initialButton.style.top, 10);
+      var initLeftCoord = dom.initialButton.offsetLeft;
+      var initTopCoord = dom.initialButton.offsetTop;
       var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
       var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var mainPinWidth = initLeftCoord + halfPinWidth;
@@ -62,7 +62,7 @@ window.map = (function () {
       window.map.disableCapacityOptions();
 
       dom.capacitySelect.selectedIndex = 2;
-      dom.capacitySelect.children[2].removeAttribute('disabled', '');
+      dom.capacitySelect.children[2].removeAttribute('disabled');
     },
     disableCapacityOptions: function () {
       for (var i = 0; i < dom.capacitySelect.children.length; i++) {

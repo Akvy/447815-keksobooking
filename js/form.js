@@ -36,7 +36,7 @@ window.form = (function () {
 
   var addCapacityOption = function (from, to) {
     for (var i = from; i <= to; i++) {
-      dom.capacitySelect.children[i].removeAttribute('disabled', '');
+      dom.capacitySelect.children[i].removeAttribute('disabled');
     }
 
     dom.capacitySelect.selectedIndex = to;

@@ -62,7 +62,7 @@ window.map = (function () {
       window.map.disableCapacityOptions();
 
       dom.capacitySelect.selectedIndex = 2;
-      dom.capacitySelect.children[2].removeAttribute('disabled', '');
+      dom.capacitySelect.children[2].removeAttribute('disabled');
     },
     disableCapacityOptions: function () {
       for (var i = 0; i < dom.capacitySelect.children.length; i++) {

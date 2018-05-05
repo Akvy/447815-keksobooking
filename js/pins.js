@@ -9,7 +9,7 @@ window.pins = (function () {
       Object.keys(pins).forEach(function (elem) {
         var pin = pins[elem];
         if (!pin.classList.contains('map__pin--main')) {
-          pins[elem].parentNode.removeChild(pins[elem]);
+          pins[elem].parentNode.removeChild(pin);
         }
       });
     },

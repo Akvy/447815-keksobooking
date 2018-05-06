@@ -2,7 +2,6 @@
 
 window.map = (function () {
   var KEY_ESC = 27;
-  // var PINS_COUNT = 8;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
   var dom = window.domElements;
@@ -30,9 +29,9 @@ window.map = (function () {
 
   return {
     adverts: adverts,
-    pinClickHandler: function (num) {
+    pinClickHandler: function (num, element) {
       return function () {
-        var pinRender = window.card.renderCard(num, window.map.adverts[num]);
+        var pinRender = window.card.renderCard(element);
 
         dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
 

@@ -11,9 +11,14 @@ window.card = (function () {
 
   function renderServices(services, possibleServices) {
     var elements = services.querySelectorAll('li');
-
+    var classNameFeatures = possibleServices.map(function (element) {
+      return 'popup__feature--' + element;
+    });
     for (var i = 0; i < elements.length; i++) {
-      if (!possibleServices[i]) {
+      var existClass = classNameFeatures.some(function (element1) {
+        return elements[i].classList.contains(element1);
+      });
+      if (!existClass) {
         elements[i].remove();
       }
     }
@@ -28,7 +33,7 @@ window.card = (function () {
   }
 
   return {
-    renderCard: function (num, element) {
+    renderCard: function (element) {
       var templateClone = document.querySelector('template');
       var cardClone = templateClone.content.cloneNode(true);
       var cardItem = cardClone.querySelector('.map__card');
@@ -45,7 +50,7 @@ window.card = (function () {
         photosBlock: cardClone.querySelector('.popup__photos')
       };
       var imgItem = cardBlocks.photosBlock.querySelector('img');
-      var photos = window.map.adverts[num].offer.photos;
+      var photos = element.offer.photos;
 
       removeAdverts();
       cardBlocks.photosBlock.removeChild(imgItem);

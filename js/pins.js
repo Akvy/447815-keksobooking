@@ -1,6 +1,8 @@
 'use strict';
 
 window.pins = (function () {
+  var MAX_PINS = 5;
+
   window.map.setInactiveForm();
 
   return {
@@ -9,7 +11,7 @@ window.pins = (function () {
       Object.keys(pins).forEach(function (elem) {
         var pin = pins[elem];
         if (!pin.classList.contains('map__pin--main')) {
-          pins[elem].parentNode.removeChild(pin);
+          pin.parentNode.removeChild(pin);
         }
       });
     },
@@ -19,11 +21,14 @@ window.pins = (function () {
       var pin = templateNode.content.querySelector('.map__pin');
       var fragment = document.createDocumentFragment();
 
+      if (array.length - 1 > MAX_PINS) {
+        array.length = MAX_PINS;
+      }
+
       for (var i = 0; i < array.length; i++) {
         var card = templateNode.content.cloneNode(true);
         var button = card.querySelector('.map__pin');
         pin = window.pin.renderPin(array[i], i, button);
-
         fragment.appendChild(pin);
       }
       pins.appendChild(fragment);

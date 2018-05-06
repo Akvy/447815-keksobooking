@@ -102,7 +102,6 @@ window.form = (function () {
   resetButton.addEventListener('click', function (evt) {
     evt.preventDefault();
 
-    var advertPins = document.querySelectorAll('.map__pin');
     var initLeftCoord = dom.initialButton.offsetLeft;
     var initTopCoord = dom.initialButton.offsetTop;
     var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);

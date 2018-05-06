@@ -29,22 +29,9 @@ window.map = (function () {
 
   return {
     adverts: adverts,
-    // pinClickHandler: function (num) {
-    //   return function () {
-    //     var pinRender = window.card.renderCard(num, window.map.adverts[num]);
-
-    //     dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
-
-    //     var closeButton = document.querySelector('.popup__close');
-
-    //     closeButton.addEventListener('click', closeButtonClickHandler);
-
-    //     document.addEventListener('keydown', closeButtonKeydownHandler);
-    //   };
-    // },
     pinClickHandler: function (num, element) {
       return function () {
-        var pinRender = window.card.renderCard(num, element[num]);
+        var pinRender = window.card.renderCard(element);
 
         dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
 

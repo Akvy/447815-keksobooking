@@ -28,7 +28,7 @@ window.card = (function () {
   }
 
   return {
-    renderCard: function (num, element) {
+    renderCard: function (element) {
       var templateClone = document.querySelector('template');
       var cardClone = templateClone.content.cloneNode(true);
       var cardItem = cardClone.querySelector('.map__card');
@@ -45,7 +45,7 @@ window.card = (function () {
         photosBlock: cardClone.querySelector('.popup__photos')
       };
       var imgItem = cardBlocks.photosBlock.querySelector('img');
-      var photos = window.map.adverts[num].offer.photos;
+      var photos = element.offer.photos;
 
       removeAdverts();
       cardBlocks.photosBlock.removeChild(imgItem);

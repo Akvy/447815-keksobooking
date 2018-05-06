@@ -3,13 +3,13 @@
 window.backend = (function () {
   var TIMEOUT = 8000;
   var SHOW_TIME = 1500;
+  var URL = 'https://js.dump.academy/keksobooking/';
   var Code = {
     SUCCESS: 200,
     BAD_REQUEST: 400,
     NOT_FOUND: 404,
     SERVER_ERROR: 500
   };
-  var URL = 'https://js.dump.academy/keksobooking/';
 
   return {
     load: function (onSuccess, onError) {

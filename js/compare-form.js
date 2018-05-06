@@ -123,5 +123,6 @@ window.compareForm = (function () {
   // var pinRender = window.card.renderCard(0, filteredAdverts[0]);
   // dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
   window.pins.makePins(filteredAdverts);
+
   });
 })();

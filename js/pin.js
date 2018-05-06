@@ -10,7 +10,9 @@ window.pin = (function () {
       img.src = element.author.avatar;
       img.alt = element.offer.title;
 
-      pin.addEventListener('click', window.map.pinClickHandler(num, element));
+      // pin.addEventListener('click', window.map.pinClickHandler(num));
+      var clickEvent = window.map.pinClickHandler(num, element);
+      pin.addEventListener('click', clickEvent);
       // pin.addEventListener('click', window.compareForm.newPinClickHandler(num));
 
       return pin;

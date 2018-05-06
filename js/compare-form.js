@@ -7,7 +7,7 @@ window.compareForm = (function () {
   var housingRooms = document.getElementById('housing-rooms');
   var housingGuests = document.getElementById('housing-guests');
   var housingFeatures = document.getElementById('housing-features');
-  var faetureButtons = housingFeatures.querySelectorAll('input');
+  var featureButtons = housingFeatures.querySelectorAll('input');
 
   // console.log(faetureButtons);
 
@@ -36,70 +36,52 @@ window.compareForm = (function () {
     return housingGuests.value === 'any' || +housingGuests.value === element.offer.guests;
   }
 
-  function compareFeatures(element) {
-
-  }
-
   dom.filtersBar.addEventListener('change', function () {
   var mapCard = document.querySelector('.map__card');
 
-  function getFeatureButtons (element) {
-    return element.join() === buttonValues.join();
-  }
+  // function getFeatureButtons (element) {
+  //   return element.join() === buttonValues.join();
+  // }
   // console.log(advertsFeatures.some(getFeatureButtons), advertsFeatures);
 
-  var buttonValues = Array.from(faetureButtons).filter(function (element) {
+  // var buttonValues = Array.from(featureButtons).filter(function (element) {
+  //   return element.checked;
+  // });
+
+  var buttonValues = Array.from(featureButtons).filter(function (element) {
     return element.checked;
   }).map(function (element) {
     return element.value;
   });
 
+  console.log(buttonValues);
+
   var advertsFeatures = window.map.adverts.map(function(element) {
     return element.offer.features;
   });
 
-  // console.log(buttonValues, advertsFeatures);
+  function isSameFeatures() {
+    var flag = true;
+    console.log(123);
+    advertsFeatures.forEach(function(elem) {
+      if(!buttonValues.some(function (elem1) { return elem === elem1 })) {
+      flag = false;
+    }
+  });
+    return flag;
+  }
+
+  // console.log(isSameFeatures());
 
   var filteredAdverts = window.map.adverts.filter(function(item) {
-    return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item);
+    return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item) && isSameFeatures();
   });
-
-  // console.log(filteredAdverts);
-
-  // console.log(advertsFeatures);
 
   window.pins.removeAllPins();
 
   if (mapCard) {
     mapCard.remove();
   }
-
-  // function compareAdverts (element) {
-  //   return element.join() === buttonValues.join();
-  // }
-
-  function compareAdverts (element) {
-    return element === buttonValues;
-    // console.log(element, buttonValues);
-    // console.log(123);
-  }
-
-// advertsFeatures[0].some(compareAdverts);
-  // console.log(advertsFeatures[0], advertsFeatures[0].some(compareAdverts), buttonValues);
-
-console.log(advertsFeatures[0].join() === buttonValues.join(), advertsFeatures[1].join() === buttonValues.join(), advertsFeatures[2].join() === buttonValues.join());
-
-
-  // console.log(  advertsFeatures[0].filter(function (element, i) {
-  //   return element === buttonValues[i];
-  // }));
-
-  // console.log(buttonValues.join() === advertsFeatures[1].join(), advertsFeatures[1], buttonValues);
-
-
-  // console.log(advertsFeatures[0], advertsFeatures.some(compareAdverts));
-
-
 
   window.pins.makePins(filteredAdverts);
 

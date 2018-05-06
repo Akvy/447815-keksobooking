@@ -29,6 +29,10 @@ window.initialPin = (function () {
 
       var initPins = document.querySelectorAll('.map__pin');
 
+      if (dom.map.classList.contains('map--faded')) {
+        window.backend.load(window.pins.makePins, window.backend.onError);
+      }
+
       dom.map.classList.remove('map--faded');
       dom.inactiveMapform.classList.remove('ad-form--disabled');
       dom.filtersBar.classList.remove('visually-hidden');

@@ -2,6 +2,8 @@
 
 window.form = (function () {
   var SHOW_TIME = 1500;
+  var PIN_INITIAL_LEFT_COORD = 570;
+  var PIN_INITIAL_TOP_COORD = 375;
   var dom = window.domElements;
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
@@ -11,12 +13,29 @@ window.form = (function () {
   var successWindow = document.querySelector('.success');
 
   function showSuccess() {
+    var mapCard = document.querySelector('.map__card');
+
     successWindow.classList.remove('hidden');
 
     setTimeout(function () {
       successWindow.classList.add('hidden');
+      dom.map.classList.add('map--faded');
+      window.map.disableCapacityOptions();
+      dom.inactiveMapform.classList.add('ad-form--disabled');
+      dom.filtersBar.classList.add('visually-hidden');
       adForm.reset();
+      dom.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
+      dom.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
       window.initialPin.getInititalPinCoords();
+      window.map.setInactiveForm();
+
+      if (mapCard) {
+        mapCard.remove();
+      }
+
+      for (var i = 0; i < adForm.children.length; i++) {
+        adForm.children[i].setAttribute('disabled', '');
+      }
     }, SHOW_TIME);
   }
 

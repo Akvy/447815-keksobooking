@@ -45,6 +45,8 @@ window.compareForm = (function () {
     lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
   };
 
+  // debounce(console.log(123));
+
   dom.filtersBar.addEventListener('change', function () {
     var mapCard = document.querySelector('.map__card');
 
@@ -77,7 +79,7 @@ window.compareForm = (function () {
           flag = false;
         }
       });
-      return flag;
+      return flag && (element.offer.features.length >= buttonValues.length);
     }
 
     var filteredAdverts = window.map.adverts.filter(function (item) {

@@ -9,8 +9,6 @@ window.compareForm = (function () {
   var housingFeatures = document.getElementById('housing-features');
   var featureButtons = housingFeatures.querySelectorAll('input');
 
-  // console.log(faetureButtons);
-
   function compareType(element) {
     return housingType.value === 'any' || housingType.value === element.offer.type;
   }
@@ -36,54 +34,65 @@ window.compareForm = (function () {
     return housingGuests.value === 'any' || +housingGuests.value === element.offer.guests;
   }
 
-  dom.filtersBar.addEventListener('change', function () {
-  var mapCard = document.querySelector('.map__card');
+  var debounce = function (fun) {
+    var DEBOUNCE_INTERVAL = 3000;
+    var lastTimeout;
+    // console.log(123);
 
-  // function getFeatureButtons (element) {
-  //   return element.join() === buttonValues.join();
-  // }
-  // console.log(advertsFeatures.some(getFeatureButtons), advertsFeatures);
-
-  // var buttonValues = Array.from(featureButtons).filter(function (element) {
-  //   return element.checked;
-  // });
-
-  var buttonValues = Array.from(featureButtons).filter(function (element) {
-    return element.checked;
-  }).map(function (element) {
-    return element.value;
-  });
-
-  console.log(buttonValues);
-
-  var advertsFeatures = window.map.adverts.map(function(element) {
-    return element.offer.features;
-  });
-
-  function isSameFeatures() {
-    var flag = true;
-    console.log(123);
-    advertsFeatures.forEach(function(elem) {
-      if(!buttonValues.some(function (elem1) { return elem === elem1 })) {
-      flag = false;
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
     }
-  });
-    return flag;
-  }
+    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+  };
 
-  // console.log(isSameFeatures());
+  dom.filtersBar.addEventListener('change', function () {
+    var mapCard = document.querySelector('.map__card');
 
-  var filteredAdverts = window.map.adverts.filter(function(item) {
-    return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item) && isSameFeatures();
-  });
+    // function getFeatureButtons (element) {
+    //   return element.join() === buttonValues.join();
+    // }
+    // console.log(advertsFeatures.some(getFeatureButtons), advertsFeatures);
 
-  window.pins.removeAllPins();
+    // var buttonValues = Array.from(featureButtons).filter(function (element) {
+    //   return element.checked;
+    // });
 
-  if (mapCard) {
-    mapCard.remove();
-  }
+    var buttonValues = Array.from(featureButtons).filter(function (element) {
+      return element.checked;
+    }).map(function (element) {
+      return element.value;
+    });
 
-  window.pins.makePins(filteredAdverts);
+    // var advertsFeatures = window.map.adverts.map(function (element) {
+    //   return element.offer.features;
+    // });
+
+    function isSameFeatures(element) {
+      var flag = true;
+      // console.log(123);
+      buttonValues.forEach(function (elem) {
+        if (!element.offer.features.some(function (elem1) {
+          return elem === elem1;
+        })) {
+          flag = false;
+        }
+      });
+      return flag;
+    }
+
+    var filteredAdverts = window.map.adverts.filter(function (item) {
+      return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item) && isSameFeatures(item);
+    });
+
+    window.pins.removeAllPins();
+
+    if (mapCard) {
+      mapCard.remove();
+    }
+
+    debounce(window.pins.makePins(filteredAdverts));
+
+    // window.pins.makePins(filteredAdverts);
 
   });
 })();

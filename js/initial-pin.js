@@ -7,7 +7,7 @@ window.initialPin = (function () {
     HORIZONTAL_MIN: 0,
     VERTICAL_MIN: 150,
     VERTICAL_MAX: 500
-  }
+  };
   var dom = window.domElements;
   var initialButtonImg = dom.initialButton.querySelector('img');
   var offsetX = initialButtonImg.offsetWidth / 2;
@@ -20,7 +20,7 @@ window.initialPin = (function () {
   var removeDisabledAttr = function (arr) {
     arr.forEach(function (item) {
       item.removeAttribute('disabled');
-    })
+    });
   };
 
   dom.initialButton.addEventListener('keydown', function (evt) {
@@ -102,7 +102,9 @@ window.initialPin = (function () {
     var initialButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      window.backend.load(window.pins.makePins, window.backend.onError);
+      if (dom.map.classList.contains('map--faded')) {
+        window.backend.load(window.pins.makePins, window.backend.onError);
+      }
 
       dom.map.classList.remove('map--faded');
       dom.inactiveMapform.classList.remove('ad-form--disabled');

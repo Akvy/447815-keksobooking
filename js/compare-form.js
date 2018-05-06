@@ -90,25 +90,32 @@ window.compareForm = (function () {
     return false;
   }
 
-  // function checkAdvert() {
-  //   for (var i = 0; i < window.map.adverts.length; i++) {
-  //     if (compareType(i) && comparePrice(i)) {
-  //       renderPin()
-  //     }
-  //   }
-
-  // }
-
-
   dom.filtersBar.addEventListener('change', function () {
 
-  for (var i = 0; i < window.map.adverts.length; i++) {
-    console.log(compareGuests(window.map.adverts[i]));
-  }
-
-  console.log(housingRooms.value, typeof housingRooms.value);
-console.log(window.map.adverts);
- // console.log(window.map.adverts[0]);
- // console.log(checkFeaturedishwasher());
+  var filteredAdverts = window.map.adverts.filter(function(item) {
+    return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item);
   });
+
+  window.pins.removeAllPins();
+  window.pins.makePins(filteredAdverts);
+
+
+  // console.log(filteredAdverts);
+
+  // console.log(window.map.adverts);
+  });
+
+  // return {
+  //   newPinClickHandler: function (num) {
+  //     return function () {
+  //       dom.map.insertBefore(window.card.renderCard(num, filteredAdverts[num]), dom.mapFiltersContainer);
+
+  //       var closeButton = document.querySelector('.popup__close');
+
+  //       closeButton.addEventListener('click', closeButtonClickHandler);
+
+  //       document.addEventListener('keydown', closeButtonKeydownHandler);
+  //     };
+  //   }
+  // }
 })();

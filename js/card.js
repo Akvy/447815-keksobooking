@@ -11,9 +11,14 @@ window.card = (function () {
 
   function renderServices(services, possibleServices) {
     var elements = services.querySelectorAll('li');
-
+    var classNameFeatures = possibleServices.map(function (element) {
+      return 'popup__feature--' + element;
+    });
     for (var i = 0; i < elements.length; i++) {
-      if (!possibleServices[i]) {
+      var existClass = classNameFeatures.some(function (element1) {
+        return elements[i].classList.contains(element1);
+      });
+      if (!existClass) {
         elements[i].remove();
       }
     }

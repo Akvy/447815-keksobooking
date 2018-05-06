@@ -1,6 +1,7 @@
 'use strict';
 
 window.compareForm = (function () {
+  var DEBOUNCE_INTERVAL = 300;
   var dom = window.domElements;
   var housingType = document.getElementById('housing-type');
   var housingPrice = document.getElementById('housing-price');
@@ -35,17 +36,13 @@ window.compareForm = (function () {
   }
 
   var debounce = function (fun) {
-    var DEBOUNCE_INTERVAL = 3000;
     var lastTimeout;
-    // console.log(123);
 
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
     lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
   };
-
-  // debounce(console.log(123));
 
   dom.filtersBar.addEventListener('change', function () {
     var mapCard = document.querySelector('.map__card');

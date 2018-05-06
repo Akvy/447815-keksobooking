@@ -36,12 +36,37 @@ window.compareForm = (function () {
     return housingGuests.value === 'any' || +housingGuests.value === element.offer.guests;
   }
 
+  function compareFeatures(element) {
+
+  }
+
   dom.filtersBar.addEventListener('change', function () {
   var mapCard = document.querySelector('.map__card');
+
+  function getFeatureButtons (element) {
+    return element.join() === buttonValues.join();
+  }
+  // console.log(advertsFeatures.some(getFeatureButtons), advertsFeatures);
+
+  var buttonValues = Array.from(faetureButtons).filter(function (element) {
+    return element.checked;
+  }).map(function (element) {
+    return element.value;
+  });
+
+  var advertsFeatures = window.map.adverts.map(function(element) {
+    return element.offer.features;
+  });
+
+  // console.log(buttonValues, advertsFeatures);
 
   var filteredAdverts = window.map.adverts.filter(function(item) {
     return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item);
   });
+
+  // console.log(filteredAdverts);
+
+  // console.log(advertsFeatures);
 
   window.pins.removeAllPins();
 
@@ -49,20 +74,32 @@ window.compareForm = (function () {
     mapCard.remove();
   }
 
-  // if (faetureButtons[0].checked || faetureButtons[1].checked) {
-  //   console.log(123);
+  // function compareAdverts (element) {
+  //   return element.join() === buttonValues.join();
   // }
-  var filteredFeatures = Array.from(faetureButtons).filter(function (element) {
-    return element.checked;
-  });
 
-  // console.log(filteredFeatures[0]);
+  function compareAdverts (element) {
+    return element === buttonValues;
+    // console.log(element, buttonValues);
+    // console.log(123);
+  }
 
-  filteredFeatures.filter(function () {
+// advertsFeatures[0].some(compareAdverts);
+  // console.log(advertsFeatures[0], advertsFeatures[0].some(compareAdverts), buttonValues);
 
-  });
+console.log(advertsFeatures[0].join() === buttonValues.join(), advertsFeatures[1].join() === buttonValues.join(), advertsFeatures[2].join() === buttonValues.join());
 
-  console.log(filteredFeatures[0] ,filteredAdverts[0].offer.features);
+
+  // console.log(  advertsFeatures[0].filter(function (element, i) {
+  //   return element === buttonValues[i];
+  // }));
+
+  // console.log(buttonValues.join() === advertsFeatures[1].join(), advertsFeatures[1], buttonValues);
+
+
+  // console.log(advertsFeatures[0], advertsFeatures.some(compareAdverts));
+
+
 
   window.pins.makePins(filteredAdverts);
 

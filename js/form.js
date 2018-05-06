@@ -4,6 +4,7 @@ window.form = (function () {
   var SHOW_TIME = 1500;
   var PIN_INITIAL_LEFT_COORD = 570;
   var PIN_INITIAL_TOP_COORD = 375;
+  var INITIAL_PIN_HEIGHT = 22;
   var dom = window.domElements;
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
@@ -11,6 +12,8 @@ window.form = (function () {
   var roomsSelect = document.getElementById('room_number');
   var adForm = document.querySelector('.ad-form');
   var successWindow = document.querySelector('.success');
+  var resetButton = document.querySelector('.ad-form__reset');
+  var initialButtonImg = dom.initialButton.querySelector('img');
 
   function showSuccess() {
     var mapCard = document.querySelector('.map__card');
@@ -94,6 +97,21 @@ window.form = (function () {
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(adForm), showSuccess, window.backend.onError);
+  });
+
+  resetButton.addEventListener('click', function (evt) {
+    evt.preventDefault();
+
+    var advertPins = document.querySelectorAll('.map__pin');
+    var initLeftCoord = dom.initialButton.offsetLeft;
+    var initTopCoord = dom.initialButton.offsetTop;
+    var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
+    var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var mainPinWidth = initLeftCoord + halfPinWidth;
+    var mainPinHeight = initTopCoord + pinFullHeight;
+
+    adForm.reset();
+    dom.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
   });
 })();
 

@@ -1,6 +1,10 @@
 'use strict';
 
 window.compareForm = (function () {
+  var Price = {
+    LOW: 10000,
+    HIGH: 50000
+  };
   var dom = window.domElements;
   var housingType = document.getElementById('housing-type');
   var housingPrice = document.getElementById('housing-price');
@@ -15,11 +19,11 @@ window.compareForm = (function () {
 
   function comparePrice(element) {
     var elementPrice = element.offer.price;
-    if (elementPrice < 10000) {
+    if (elementPrice < Price.LOW) {
       elementPrice = 'low';
-    } else if (elementPrice >= 10000 && elementPrice < 50000) {
+    } else if (elementPrice >= Price.LOW && elementPrice < Price.HIGH) {
       elementPrice = 'middle';
-    } else if (elementPrice >= 50000) {
+    } else if (elementPrice >= Price.HIGH) {
       elementPrice = 'high';
     }
 

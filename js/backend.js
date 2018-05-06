@@ -3,6 +3,12 @@
 window.backend = (function () {
   var TIMEOUT = 8000;
   var SHOW_TIME = 1500;
+  var Code = {
+    SUCCESS: 200,
+    BAD_REQUEST: 400,
+    NOT_FOUND: 404,
+    SERVER_ERROR: 500
+  };
   var URL = 'https://js.dump.academy/keksobooking/';
 
   return {
@@ -14,19 +20,19 @@ window.backend = (function () {
 
       xhr.addEventListener('load', function () {
         switch (xhr.status) {
-          case 200:
+          case Code.SUCCESS:
             onSuccess(xhr.response);
             break;
 
-          case 400:
+          case Code.BAD_REQUEST:
             error = 'Ошибка ' + xhr.status + ': Неверный запрос';
             break;
 
-          case 404:
+          case Code.NOT_FOUND:
             error = 'Ошибка ' + xhr.status + ': Ничего не найдено';
             break;
 
-          case 500:
+          case Code.SERVER_ERROR:
             error = 'Ошибка ' + xhr.status + ': Внутренняя ошибка сервера';
             break;
 
@@ -60,19 +66,19 @@ window.backend = (function () {
 
       xhr.addEventListener('load', function () {
         switch (xhr.status) {
-          case 200:
+          case Code.SUCCESS:
             onSuccess();
             break;
 
-          case 400:
+          case Code.BAD_REQUEST:
             error = 'Ошибка ' + xhr.status + ': Неверный запрос';
             break;
 
-          case 404:
+          case Code.NOT_FOUND:
             error = 'Ошибка ' + xhr.status + ': Ничего не найдено';
             break;
 
-          case 500:
+          case Code.SERVER_ERROR:
             error = 'Ошибка ' + xhr.status + ': Внутренняя ошибка сервера';
             break;
 

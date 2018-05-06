@@ -38,13 +38,21 @@ window.compareForm = (function () {
     return housingGuests.value === 'any' || +housingGuests.value === element.offer.guests;
   }
 
+  var checkboxes = [
+    wifiCheckbox.checked,
+    dishwasherCheckbox.checked,
+    parkingCheckbox.checked,
+    washerCheckbox.checked,
+    elevatorCheckbox.checked,
+    conditionerCheckbox.checked
+  ]
 
-  function checkFeature() { //i вставить потом + параметр фичи
-    if (wifiCheckbox.checked && window.map.adverts[0].offer.features.filter(function (item) { return item === 'wifi'; }).length) {
-      return true;
-    }
-    return false;
-  }
+  // function checkFeature() { //i вставить потом + параметр фичи
+  //   if (wifiCheckbox.checked && window.map.adverts[0].offer.features.filter(function (item) { return item === 'wifi'; }).length) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
 
   function checkWifi(i) {
@@ -90,32 +98,30 @@ window.compareForm = (function () {
     return false;
   }
 
+  // Array.prototype.diff = function(arr2) {
+  //   var ret = [];
+  //   this.sort();
+  //   arr2.sort();
+  //   for(var i = 0; i < this.length; i += 1) {
+  //       if(arr2.indexOf(this[i]) > -1){
+  //           ret.push(this[i]);
+  //       }
+  //   }
+  //   return ret;
+  // };
+
   dom.filtersBar.addEventListener('change', function () {
 
   var filteredAdverts = window.map.adverts.filter(function(item) {
     return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item);
   });
 
+
+  // var Arr2 = filteredAdverts.slice();
+
   window.pins.removeAllPins();
+  // var pinRender = window.card.renderCard(0, filteredAdverts[0]);
+  // dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
   window.pins.makePins(filteredAdverts);
-
-
-  // console.log(filteredAdverts);
-
-  // console.log(window.map.adverts);
   });
-
-  // return {
-  //   newPinClickHandler: function (num) {
-  //     return function () {
-  //       dom.map.insertBefore(window.card.renderCard(num, filteredAdverts[num]), dom.mapFiltersContainer);
-
-  //       var closeButton = document.querySelector('.popup__close');
-
-  //       closeButton.addEventListener('click', closeButtonClickHandler);
-
-  //       document.addEventListener('keydown', closeButtonKeydownHandler);
-  //     };
-  //   }
-  // }
 })();

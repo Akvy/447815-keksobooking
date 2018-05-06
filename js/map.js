@@ -2,7 +2,6 @@
 
 window.map = (function () {
   var KEY_ESC = 27;
-  // var PINS_COUNT = 8;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
   var dom = window.domElements;
@@ -30,9 +29,22 @@ window.map = (function () {
 
   return {
     adverts: adverts,
-    pinClickHandler: function (num) {
+    // pinClickHandler: function (num) {
+    //   return function () {
+    //     var pinRender = window.card.renderCard(num, window.map.adverts[num]);
+
+    //     dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
+
+    //     var closeButton = document.querySelector('.popup__close');
+
+    //     closeButton.addEventListener('click', closeButtonClickHandler);
+
+    //     document.addEventListener('keydown', closeButtonKeydownHandler);
+    //   };
+    // },
+    pinClickHandler: function (num, element) {
       return function () {
-        var pinRender = window.card.renderCard(num, window.map.adverts[num]);
+        var pinRender = window.card.renderCard(num, element[num]);
 
         dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
 

@@ -11,9 +11,11 @@
   var timeOutSelect = document.getElementById('timeout');
   var roomsSelect = document.getElementById('room_number');
   var adForm = document.querySelector('.ad-form');
+  var filtersForm = document.querySelector('.map__filters');
   var successWindow = document.querySelector('.success');
   var resetButton = document.querySelector('.ad-form__reset');
   var initialButtonImg = domElements.initialButton.querySelector('img');
+
 
   function showSuccess() {
     var mapCard = document.querySelector('.map__card');
@@ -27,6 +29,7 @@
       domElements.inactiveMapform.classList.add('ad-form--disabled');
       domElements.filtersBar.classList.add('visually-hidden');
       adForm.reset();
+      filtersForm.reset();
       domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
       domElements.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
       window.getInititalPinCoords();
@@ -100,16 +103,37 @@
   });
 
   resetButton.addEventListener('click', function (evt) {
+    var mapCard = document.querySelector('.map__card');
+
     evt.preventDefault();
 
-    var initLeftCoord = domElements.initialButton.offsetLeft;
-    var initTopCoord = domElements.initialButton.offsetTop;
-    var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
-    var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-    var mainPinWidth = initLeftCoord + halfPinWidth;
-    var mainPinHeight = initTopCoord + pinFullHeight;
-
+    domElements.map.classList.add('map--faded');
+    window.disableCapacityOptions();
+    domElements.inactiveMapform.classList.add('ad-form--disabled');
+    domElements.filtersBar.classList.add('visually-hidden');
     adForm.reset();
-    domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+    filtersForm.reset();
+    domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
+    domElements.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
+    window.getInititalPinCoords();
+    window.setInactiveForm();
+
+    if (mapCard) {
+      mapCard.remove();
+    }
+
+    for (var i = 0; i < adForm.children.length; i++) {
+      adForm.children[i].setAttribute('disabled', '');
+    }
+
+    // var initLeftCoord = domElements.initialButton.offsetLeft;
+    // var initTopCoord = domElements.initialButton.offsetTop;
+    // var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
+    // var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    // var mainPinWidth = initLeftCoord + halfPinWidth;
+    // var mainPinHeight = initTopCoord + pinFullHeight;
+
+    // adForm.reset();
+    // domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
   });
 })();

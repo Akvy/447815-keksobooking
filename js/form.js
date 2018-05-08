@@ -125,15 +125,5 @@
     for (var i = 0; i < adForm.children.length; i++) {
       adForm.children[i].setAttribute('disabled', '');
     }
-
-    // var initLeftCoord = domElements.initialButton.offsetLeft;
-    // var initTopCoord = domElements.initialButton.offsetTop;
-    // var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
-    // var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-    // var mainPinWidth = initLeftCoord + halfPinWidth;
-    // var mainPinHeight = initTopCoord + pinFullHeight;
-
-    // adForm.reset();
-    // domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
   });
 })();

@@ -1,6 +1,6 @@
 'use strict';
 
-window.compareForm = (function () {
+(function () {
   var Price = {
     LOW: 10000,
     HIGH: 50000
@@ -12,7 +12,6 @@ window.compareForm = (function () {
   var housingGuests = document.getElementById('housing-guests');
   var housingFeatures = document.getElementById('housing-features');
   var featureButtons = housingFeatures.querySelectorAll('input');
-  // var adverts = window.getAdverts();
 
   function compareType(element) {
     return housingType.value === 'any' || housingType.value === element.offer.type;
@@ -39,7 +38,7 @@ window.compareForm = (function () {
     return housingGuests.value === 'any' || +housingGuests.value === element.offer.guests;
   }
 
-  var changePins = function () {
+  function changePins() {
     var mapCard = document.querySelector('.map__card');
 
     var buttonValues = Array.from(featureButtons).filter(function (element) {
@@ -64,13 +63,13 @@ window.compareForm = (function () {
       return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item) && isSameFeatures(item);
     });
 
-    window.pins.removeAllPins();
+    window.removeAllPins();
 
     if (mapCard) {
       mapCard.remove();
     }
-    window.pins.makePins(filteredAdverts);
-  };
+    window.makePins(filteredAdverts);
+  }
 
   domElements.filtersBar.addEventListener('change', function () {
     window.debounce(changePins);

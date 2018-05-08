@@ -12,110 +12,110 @@
   };
 
   window.load = function (onSuccess, onError) {
-      var xhr = new XMLHttpRequest();
-      var error;
+    var xhr = new XMLHttpRequest();
+    var error;
 
-      xhr.responseType = 'json';
+    xhr.responseType = 'json';
 
-      xhr.addEventListener('load', function () {
-        switch (xhr.status) {
-          case Code.SUCCESS:
-            onSuccess(xhr.response);
-            break;
+    xhr.addEventListener('load', function () {
+      switch (xhr.status) {
+        case Code.SUCCESS:
+          onSuccess(xhr.response);
+          break;
 
-          case Code.BAD_REQUEST:
-            error = 'Ошибка ' + xhr.status + ': Неверный запрос';
-            break;
+        case Code.BAD_REQUEST:
+          error = 'Ошибка ' + xhr.status + ': Неверный запрос';
+          break;
 
-          case Code.NOT_FOUND:
-            error = 'Ошибка ' + xhr.status + ': Ничего не найдено';
-            break;
+        case Code.NOT_FOUND:
+          error = 'Ошибка ' + xhr.status + ': Ничего не найдено';
+          break;
 
-          case Code.SERVER_ERROR:
-            error = 'Ошибка ' + xhr.status + ': Внутренняя ошибка сервера';
-            break;
+        case Code.SERVER_ERROR:
+          error = 'Ошибка ' + xhr.status + ': Внутренняя ошибка сервера';
+          break;
 
-          default:
-            error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
-        }
+        default:
+          error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
+      }
 
-        if (error) {
-          onError(error);
-        }
-      });
+      if (error) {
+        onError(error);
+      }
+    });
 
-      xhr.addEventListener('error', function () {
-        onError('Ошибка соединения');
-      });
+    xhr.addEventListener('error', function () {
+      onError('Ошибка соединения');
+    });
 
-      xhr.addEventListener('timeout', function () {
-        onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-      });
+    xhr.addEventListener('timeout', function () {
+      onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
+    });
 
-      xhr.timeout = TIMEOUT;
+    xhr.timeout = TIMEOUT;
 
-      xhr.open('GET', (URL + 'data'));
-      xhr.send();
-    };
+    xhr.open('GET', (URL + 'data'));
+    xhr.send();
+  };
 
-    window.upload = function (data, onSuccess, onError) {
-      var xhr = new XMLHttpRequest();
-      var error;
+  window.upload = function (data, onSuccess, onError) {
+    var xhr = new XMLHttpRequest();
+    var error;
 
-      xhr.responseType = 'json';
+    xhr.responseType = 'json';
 
-      xhr.addEventListener('load', function () {
-        switch (xhr.status) {
-          case Code.SUCCESS:
-            onSuccess();
-            break;
+    xhr.addEventListener('load', function () {
+      switch (xhr.status) {
+        case Code.SUCCESS:
+          onSuccess();
+          break;
 
-          case Code.BAD_REQUEST:
-            error = 'Ошибка ' + xhr.status + ': Неверный запрос';
-            break;
+        case Code.BAD_REQUEST:
+          error = 'Ошибка ' + xhr.status + ': Неверный запрос';
+          break;
 
-          case Code.NOT_FOUND:
-            error = 'Ошибка ' + xhr.status + ': Ничего не найдено';
-            break;
+        case Code.NOT_FOUND:
+          error = 'Ошибка ' + xhr.status + ': Ничего не найдено';
+          break;
 
-          case Code.SERVER_ERROR:
-            error = 'Ошибка ' + xhr.status + ': Внутренняя ошибка сервера';
-            break;
+        case Code.SERVER_ERROR:
+          error = 'Ошибка ' + xhr.status + ': Внутренняя ошибка сервера';
+          break;
 
-          default:
-            error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
-        }
+        default:
+          error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
+      }
 
-        if (error) {
-          onError(error);
-        }
-      });
+      if (error) {
+        onError(error);
+      }
+    });
 
-      xhr.addEventListener('error', function () {
-        onError('Ошибка соединения');
-      });
+    xhr.addEventListener('error', function () {
+      onError('Ошибка соединения');
+    });
 
-      xhr.addEventListener('timeout', function () {
-        onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-      });
+    xhr.addEventListener('timeout', function () {
+      onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
+    });
 
-      xhr.timeout = TIMEOUT;
+    xhr.timeout = TIMEOUT;
 
-      xhr.open('POST', URL);
-      xhr.send(data);
-    };
+    xhr.open('POST', URL);
+    xhr.send(data);
+  };
 
-    window.onError = function (message) {
-      var mainTag = document.querySelector('main');
-      var messageBlock = document.querySelector('.success');
-      var fragment = messageBlock.cloneNode(true);
-      var fragmentParagraph = fragment.querySelector('p');
-      fragmentParagraph.textContent = message;
-      fragment.classList.remove('hidden');
-      mainTag.insertBefore(fragment, messageBlock);
+  window.onError = function (message) {
+    var mainTag = document.querySelector('main');
+    var messageBlock = document.querySelector('.success');
+    var fragment = messageBlock.cloneNode(true);
+    var fragmentParagraph = fragment.querySelector('p');
+    fragmentParagraph.textContent = message;
+    fragment.classList.remove('hidden');
+    mainTag.insertBefore(fragment, messageBlock);
 
-      setTimeout(function () {
-        fragment.remove();
-      }, SHOW_TIME);
-    };
+    setTimeout(function () {
+      fragment.remove();
+    }, SHOW_TIME);
+  };
 })();

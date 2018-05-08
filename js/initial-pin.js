@@ -1,6 +1,6 @@
 'use strict';
 
-window.initialPin = (function () {
+(function () {
   var INITIAL_PIN_HEIGHT = 22;
   var KEY_ENTER = 13;
   var MapLimit = {
@@ -17,11 +17,11 @@ window.initialPin = (function () {
     domElements.fieldsets[i].setAttribute('disabled', '');
   }
 
-  var removeDisabledAttr = function (arr) {
+  function removeDisabledAttr(arr) {
     arr.forEach(function (item) {
       item.removeAttribute('disabled');
     });
-  };
+  }
 
   domElements.initialButton.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEY_ENTER) {
@@ -30,7 +30,7 @@ window.initialPin = (function () {
       var initPins = document.querySelectorAll('.map__pin');
 
       if (domElements.map.classList.contains('map--faded')) {
-        window.load(window.pins.makePins, window.onError);
+        window.load(window.makePins, window.onError);
       }
 
       domElements.map.classList.remove('map--faded');
@@ -57,7 +57,7 @@ window.initialPin = (function () {
       y: evt.clientY - offsetXY.top
     };
 
-    var initialButtonMousemoveHandler = function (moveEvt) {
+    function initialButtonMousemoveHandler(moveEvt) {
       moveEvt.preventDefault();
       var shift = {
         x: startCoords.x - (moveEvt.clientX - offsetXY.left),
@@ -76,7 +76,7 @@ window.initialPin = (function () {
       domElements.initialButton.style.top = posXY.y + 'px';
 
       domElements.addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
-    };
+    }
 
     function tracePinPen(x, y) {
       var mapWidth = domElements.map.offsetWidth;
@@ -103,11 +103,11 @@ window.initialPin = (function () {
       return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
     }
 
-    var initialButtonMouseupHandler = function (upEvt) {
+    function initialButtonMouseupHandler(upEvt) {
       upEvt.preventDefault();
 
       if (domElements.map.classList.contains('map--faded')) {
-        window.load(window.pins.makePins, window.onError);
+        window.load(window.makePins, window.onError);
       }
 
       domElements.map.classList.remove('map--faded');
@@ -120,22 +120,19 @@ window.initialPin = (function () {
 
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
       document.removeEventListener('mouseup', initialButtonMouseupHandler);
-    };
+    }
 
     document.addEventListener('mousemove', initialButtonMousemoveHandler);
     document.addEventListener('mouseup', initialButtonMouseupHandler);
   });
 
-  return {
-    getInititalPinCoords: function () {
-      var mainPinAddress = domElements.addressInput.value;
-      var coordLeft = domElements.initialButton.offsetLeft + offsetX;
-      var coordTop = domElements.initialButton.offsetTop + offsetY;
+  window.getInititalPinCoords = function () {
+    var mainPinAddress = domElements.addressInput.value;
+    var coordLeft = domElements.initialButton.offsetLeft + offsetX;
+    var coordTop = domElements.initialButton.offsetTop + offsetY;
 
-      domElements.addressInput.value = coordLeft + ', ' + coordTop;
-      return mainPinAddress;
-    }
+    domElements.addressInput.value = coordLeft + ', ' + coordTop;
+    return mainPinAddress;
   };
 })();
-
 

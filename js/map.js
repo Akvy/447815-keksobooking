@@ -19,14 +19,14 @@
     }
   }
 
-  window.getAdverts = function(array) {
+  window.getAdverts = function (array) {
     for (var i = 0; i < array.length; i++) {
       adverts.push(array[i]);
     }
     // return adverts;
-  }
+  };
 
-  window.load(getAdverts, window.onError);
+  window.load(window.getAdverts, window.onError);
 
   window.adverts = adverts;
 
@@ -42,7 +42,7 @@
 
   window.pinClickHandler = function (num, element) {
     return function () {
-      var pinRender = window.card.renderCard(element);
+      var pinRender = window.renderCard(element);
 
       domElements.map.insertBefore(pinRender, domElements.mapFiltersContainer);
 

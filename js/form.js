@@ -1,6 +1,6 @@
 'use strict';
 
-window.form = (function () {
+(function () {
   var SHOW_TIME = 1500;
   var PIN_INITIAL_LEFT_COORD = 570;
   var PIN_INITIAL_TOP_COORD = 375;
@@ -29,7 +29,7 @@ window.form = (function () {
       adForm.reset();
       domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
       domElements.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
-      window.initialPin.getInititalPinCoords();
+      window.getInititalPinCoords();
       window.setInactiveForm();
 
       if (mapCard) {
@@ -42,12 +42,12 @@ window.form = (function () {
     }, SHOW_TIME);
   }
 
-  var setMinPrice = function (num, minPrice, placeHolder) {
+  function setMinPrice(num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
       domElements.priceInput.setAttribute('min', minPrice);
       domElements.priceInput.placeholder = placeHolder;
     }
-  };
+  }
 
   typeSelect.addEventListener('change', function () {
     setMinPrice(0, '1000', '1 000');
@@ -56,13 +56,13 @@ window.form = (function () {
     setMinPrice(3, '10000', '10 000');
   });
 
-  var addCapacityOption = function (from, to) {
+  function addCapacityOption(from, to) {
     for (var i = from; i <= to; i++) {
       domElements.capacitySelect.children[i].removeAttribute('disabled');
     }
 
     domElements.capacitySelect.selectedIndex = to;
-  };
+  }
 
   roomsSelect.addEventListener('change', function (evt) {
     var target = evt.target;
@@ -113,5 +113,3 @@ window.form = (function () {
     domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
   });
 })();
-
-

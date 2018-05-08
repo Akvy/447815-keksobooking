@@ -49,12 +49,12 @@
 
   window.setInactiveForm = function () {
     var advertPins = document.querySelectorAll('.map__pin');
-    var initLeftCoord = domElements.initialButton.offsetLeft;
-    var initTopCoord = domElements.initialButton.offsetTop;
+    var initialLeftCoordinate = domElements.initialButton.offsetLeft;
+    var initialTopCoordinate = domElements.initialButton.offsetTop;
     var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
     var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-    var mainPinWidth = initLeftCoord + halfPinWidth;
-    var mainPinHeight = initTopCoord + pinFullHeight;
+    var mainPinWidth = initialLeftCoordinate + halfPinWidth;
+    var mainPinHeight = initialTopCoordinate + pinFullHeight;
 
     for (var i = 1; i < advertPins.length; i++) {
       advertPins[i].style.display = 'none';

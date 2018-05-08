@@ -52,7 +52,7 @@
 
     var offsetXY = domElements.map.getBoundingClientRect();
 
-    var startCoords = {
+    var initialCoordinates = {
       x: evt.clientX - offsetXY.left,
       y: evt.clientY - offsetXY.top
     };
@@ -60,47 +60,47 @@
     function initialButtonMousemoveHandler(moveEvt) {
       moveEvt.preventDefault();
       var shift = {
-        x: startCoords.x - (moveEvt.clientX - offsetXY.left),
-        y: startCoords.y - (moveEvt.clientY - offsetXY.top)
+        x: initialCoordinates.x - (moveEvt.clientX - offsetXY.left),
+        y: initialCoordinates.y - (moveEvt.clientY - offsetXY.top)
       };
       var pinCurrentX = moveEvt.clientX - shift.x - offsetXY.left - offsetX;
       var pinCurrentY = moveEvt.clientY - shift.y - offsetXY.top - offsetY / 2;
-      var posXY = tracePinPen(pinCurrentX, pinCurrentY);
+      var pinCoordinates = tracePinPen(pinCurrentX, pinCurrentY);
 
-      startCoords = {
+      initialCoordinates = {
         x: moveEvt.clientX - offsetXY.left,
         y: moveEvt.clientY - offsetXY.top
       };
 
-      domElements.initialButton.style.left = posXY.x + 'px';
-      domElements.initialButton.style.top = posXY.y + 'px';
+      domElements.initialButton.style.left = pinCoordinates.x + 'px';
+      domElements.initialButton.style.top = pinCoordinates.y + 'px';
 
-      domElements.addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
+      domElements.addressInput.value = pinCoordinates.x + offsetX + ', ' + (pinCoordinates.y + offsetY);
     }
 
     function tracePinPen(x, y) {
       var mapWidth = domElements.map.offsetWidth;
       var pinOffsetX = initialButtonImg.offsetWidth;
-      var posX = x;
-      var posY = y;
+      var pinPositionX = x;
+      var pinPositionY = y;
       var pinOffsetY = MapLimit.VERTICAL_MAX - offsetY;
 
       if (x < MapLimit.HORIZONTAL_MIN) {
-        posX = MapLimit.HORIZONTAL_MIN;
+        pinPositionX = MapLimit.HORIZONTAL_MIN;
       }
 
       if (x > mapWidth - pinOffsetX) {
-        posX = mapWidth - pinOffsetX;
+        pinPositionX = mapWidth - pinOffsetX;
       }
 
       if (y < MapLimit.VERTICAL_MIN - offsetY) {
-        posY = MapLimit.VERTICAL_MIN - offsetY;
+        pinPositionY = MapLimit.VERTICAL_MIN - offsetY;
       }
 
       if (y > pinOffsetY) {
-        posY = pinOffsetY;
+        pinPositionY = pinOffsetY;
       }
-      return {x: parseInt(posX, 10), y: parseInt(posY, 10)};
+      return {x: parseInt(pinPositionX, 10), y: parseInt(pinPositionY, 10)};
     }
 
     function initialButtonMouseupHandler(upEvt) {

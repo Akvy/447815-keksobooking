@@ -4,9 +4,13 @@
   window.renderPin = function (element, num, pin) {
     var img = pin.querySelector('img');
     var clickEvent = window.pinClickHandler(num, element);
+    var pinOffsetLeft = 25;
+    var pinOffsetTop = 70;
 
-    pin.style.left = element.location.x + 'px';
-    pin.style.top = element.location.y + 'px';
+    console.log(pinOffsetTop);
+
+    pin.style.left = (element.location.x - pinOffsetLeft) + 'px';
+    pin.style.top = (element.location.y - pinOffsetTop) + 'px';
     img.src = element.author.avatar;
     img.alt = element.offer.title;
 

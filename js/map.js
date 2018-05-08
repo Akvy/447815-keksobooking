@@ -30,6 +30,8 @@
 
   window.adverts = adverts;
 
+  console.log(window.adverts);
+
   // function getAdverts(array) {
   //   for (var i = 0; i < array.length; i++) {
   //     adverts.push(array[i]);

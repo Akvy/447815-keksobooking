@@ -48,15 +48,14 @@
     });
 
     function isSameFeatures(element) {
-      var flag = true;
       buttonValues.forEach(function (elem) {
         if (!element.offer.features.some(function (elem1) {
           return elem === elem1;
         })) {
-          flag = false;
+         return false;
         }
       });
-      return flag && (element.offer.features.length >= buttonValues.length);
+      return element.offer.features.length >= buttonValues.length;
     }
 
     var filteredAdverts = window.adverts.filter(function (item) {

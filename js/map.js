@@ -9,8 +9,11 @@
 
   function closeButtonClickHandler() {
     var openedCard = document.querySelector('.map__card');
+    var closeButton = document.querySelector('.popup__close');
 
     openedCard.classList.add('visually-hidden');
+    closeButton.removeEventListener('click', closeButtonClickHandler);
+    document.removeEventListener('keydown', closeButtonKeydownHandler);
   }
 
   function closeButtonKeydownHandler(evt) {
@@ -29,16 +32,6 @@
   window.load(window.getAdverts, window.onError);
 
   window.adverts = adverts;
-
-  // function getAdverts(array) {
-  //   for (var i = 0; i < array.length; i++) {
-  //     adverts.push(array[i]);
-  //   }
-  // }
-
-  // window.load(getAdverts, window.onError);
-
-  // adverts: adverts,
 
   window.pinClickHandler = function (num, element) {
     return function () {

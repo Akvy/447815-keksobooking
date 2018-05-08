@@ -26,7 +26,6 @@
     for (var i = 0; i < array.length; i++) {
       adverts.push(array[i]);
     }
-    // return adverts;
   };
 
   window.load(window.getAdverts, window.onError);

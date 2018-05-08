@@ -4,8 +4,8 @@ window.map = (function () {
   var KEY_ESC = 27;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
-  var dom = window.domElements;
-  var initialButtonImg = dom.initialButton.querySelector('img');
+  var domElements = window.domElements();
+  var initialButtonImg = domElements.initialButton.querySelector('img');
 
   function closeButtonClickHandler() {
     var openedCard = document.querySelector('.map__card');
@@ -25,7 +25,7 @@ window.map = (function () {
     }
   }
 
-  window.backend.load(getAdverts, window.backend.onError);
+  window.load(getAdverts, window.onError);
 
   return {
     adverts: adverts,
@@ -33,7 +33,7 @@ window.map = (function () {
       return function () {
         var pinRender = window.card.renderCard(element);
 
-        dom.map.insertBefore(pinRender, dom.mapFiltersContainer);
+        domElements.map.insertBefore(pinRender, domElements.mapFiltersContainer);
 
         var closeButton = document.querySelector('.popup__close');
 
@@ -44,8 +44,8 @@ window.map = (function () {
     },
     setInactiveForm: function () {
       var advertPins = document.querySelectorAll('.map__pin');
-      var initLeftCoord = dom.initialButton.offsetLeft;
-      var initTopCoord = dom.initialButton.offsetTop;
+      var initLeftCoord = domElements.initialButton.offsetLeft;
+      var initTopCoord = domElements.initialButton.offsetTop;
       var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
       var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
       var mainPinWidth = initLeftCoord + halfPinWidth;
@@ -55,19 +55,19 @@ window.map = (function () {
         advertPins[i].style.display = 'none';
       }
 
-      dom.filtersBar.style.display = 'none';
-      dom.priceInput.setAttribute('min', '1000');
-      dom.priceInput.placeholder = '1 000';
-      dom.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+      domElements.filtersBar.style.display = 'none';
+      domElements.priceInput.setAttribute('min', '1000');
+      domElements.priceInput.placeholder = '1 000';
+      domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
 
       window.map.disableCapacityOptions();
 
-      dom.capacitySelect.selectedIndex = 2;
-      dom.capacitySelect.children[2].removeAttribute('disabled');
+      domElements.capacitySelect.selectedIndex = 2;
+      domElements.capacitySelect.children[2].removeAttribute('disabled');
     },
     disableCapacityOptions: function () {
-      for (var i = 0; i < dom.capacitySelect.children.length; i++) {
-        dom.capacitySelect.children[i].setAttribute('disabled', '');
+      for (var i = 0; i < domElements.capacitySelect.children.length; i++) {
+        domElements.capacitySelect.children[i].setAttribute('disabled', '');
       }
     }
   };

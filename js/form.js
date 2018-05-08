@@ -5,7 +5,7 @@ window.form = (function () {
   var PIN_INITIAL_LEFT_COORD = 570;
   var PIN_INITIAL_TOP_COORD = 375;
   var INITIAL_PIN_HEIGHT = 22;
-  var dom = window.domElements;
+  var domElements = window.domElements();
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
   var timeOutSelect = document.getElementById('timeout');
@@ -13,7 +13,7 @@ window.form = (function () {
   var adForm = document.querySelector('.ad-form');
   var successWindow = document.querySelector('.success');
   var resetButton = document.querySelector('.ad-form__reset');
-  var initialButtonImg = dom.initialButton.querySelector('img');
+  var initialButtonImg = domElements.initialButton.querySelector('img');
 
   function showSuccess() {
     var mapCard = document.querySelector('.map__card');
@@ -22,13 +22,13 @@ window.form = (function () {
 
     setTimeout(function () {
       successWindow.classList.add('hidden');
-      dom.map.classList.add('map--faded');
+      domElements.map.classList.add('map--faded');
       window.map.disableCapacityOptions();
-      dom.inactiveMapform.classList.add('ad-form--disabled');
-      dom.filtersBar.classList.add('visually-hidden');
+      domElements.inactiveMapform.classList.add('ad-form--disabled');
+      domElements.filtersBar.classList.add('visually-hidden');
       adForm.reset();
-      dom.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
-      dom.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
+      domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
+      domElements.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
       window.initialPin.getInititalPinCoords();
       window.map.setInactiveForm();
 
@@ -44,8 +44,8 @@ window.form = (function () {
 
   var setMinPrice = function (num, minPrice, placeHolder) {
     if (typeSelect.selectedIndex === num) {
-      dom.priceInput.setAttribute('min', minPrice);
-      dom.priceInput.placeholder = placeHolder;
+      domElements.priceInput.setAttribute('min', minPrice);
+      domElements.priceInput.placeholder = placeHolder;
     }
   };
 
@@ -58,10 +58,10 @@ window.form = (function () {
 
   var addCapacityOption = function (from, to) {
     for (var i = from; i <= to; i++) {
-      dom.capacitySelect.children[i].removeAttribute('disabled');
+      domElements.capacitySelect.children[i].removeAttribute('disabled');
     }
 
-    dom.capacitySelect.selectedIndex = to;
+    domElements.capacitySelect.selectedIndex = to;
   };
 
   roomsSelect.addEventListener('change', function (evt) {
@@ -96,21 +96,21 @@ window.form = (function () {
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.upload(new FormData(adForm), showSuccess, window.backend.onError);
+    window.upload(new FormData(adForm), showSuccess, window.onError);
   });
 
   resetButton.addEventListener('click', function (evt) {
     evt.preventDefault();
 
-    var initLeftCoord = dom.initialButton.offsetLeft;
-    var initTopCoord = dom.initialButton.offsetTop;
+    var initLeftCoord = domElements.initialButton.offsetLeft;
+    var initTopCoord = domElements.initialButton.offsetTop;
     var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
     var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
     var mainPinWidth = initLeftCoord + halfPinWidth;
     var mainPinHeight = initTopCoord + pinFullHeight;
 
     adForm.reset();
-    dom.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+    domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
   });
 })();
 

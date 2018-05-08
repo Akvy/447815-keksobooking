@@ -7,7 +7,7 @@ window.card = (function () {
     'flat': 'Квартира',
     'house': 'Дом'
   };
-  var dom = window.domElements;
+  var domElements = window.domElements();
 
   function renderServices(services, possibleServices) {
     var elements = services.querySelectorAll('li');
@@ -26,7 +26,7 @@ window.card = (function () {
   }
 
   function removeAdverts() {
-    var maps = dom.map.querySelectorAll('.map__card');
+    var maps = domElements.map.querySelectorAll('.map__card');
 
     for (var i = 0; i < maps.length; i++) {
       maps[i].remove();

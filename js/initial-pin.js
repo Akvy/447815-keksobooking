@@ -8,13 +8,13 @@ window.initialPin = (function () {
     VERTICAL_MIN: 150,
     VERTICAL_MAX: 500
   };
-  var dom = window.domElements;
-  var initialButtonImg = dom.initialButton.querySelector('img');
+  var domElements = window.domElements();
+  var initialButtonImg = domElements.initialButton.querySelector('img');
   var offsetX = initialButtonImg.offsetWidth / 2;
   var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
 
-  for (var i = 0; i < dom.fieldsets.length; i++) {
-    dom.fieldsets[i].setAttribute('disabled', '');
+  for (var i = 0; i < domElements.fieldsets.length; i++) {
+    domElements.fieldsets[i].setAttribute('disabled', '');
   }
 
   var removeDisabledAttr = function (arr) {
@@ -23,34 +23,34 @@ window.initialPin = (function () {
     });
   };
 
-  dom.initialButton.addEventListener('keydown', function (evt) {
+  domElements.initialButton.addEventListener('keydown', function (evt) {
     if (evt.keyCode === KEY_ENTER) {
       evt.preventDefault();
 
       var initPins = document.querySelectorAll('.map__pin');
 
-      if (dom.map.classList.contains('map--faded')) {
-        window.backend.load(window.pins.makePins, window.backend.onError);
+      if (domElements.map.classList.contains('map--faded')) {
+        window.load(window.pins.makePins, window.onError);
       }
 
-      dom.map.classList.remove('map--faded');
-      dom.inactiveMapform.classList.remove('ad-form--disabled');
-      dom.filtersBar.classList.remove('visually-hidden');
+      domElements.map.classList.remove('map--faded');
+      domElements.inactiveMapform.classList.remove('ad-form--disabled');
+      domElements.filtersBar.classList.remove('visually-hidden');
 
-      removeDisabledAttr(dom.fieldsets);
+      removeDisabledAttr(domElements.fieldsets);
 
       for (i = 1; i < initPins.length; i++) {
         initPins[i].style.display = 'block';
       }
 
-      dom.filtersBar.style.display = 'flex';
+      domElements.filtersBar.style.display = 'flex';
     }
   });
 
-  dom.initialButton.addEventListener('mousedown', function (evt) {
+  domElements.initialButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
-    var offsetXY = dom.map.getBoundingClientRect();
+    var offsetXY = domElements.map.getBoundingClientRect();
 
     var startCoords = {
       x: evt.clientX - offsetXY.left,
@@ -72,14 +72,14 @@ window.initialPin = (function () {
         y: moveEvt.clientY - offsetXY.top
       };
 
-      dom.initialButton.style.left = posXY.x + 'px';
-      dom.initialButton.style.top = posXY.y + 'px';
+      domElements.initialButton.style.left = posXY.x + 'px';
+      domElements.initialButton.style.top = posXY.y + 'px';
 
-      dom.addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
+      domElements.addressInput.value = posXY.x + offsetX + ', ' + (posXY.y + offsetY);
     };
 
     function tracePinPen(x, y) {
-      var mapWidth = dom.map.offsetWidth;
+      var mapWidth = domElements.map.offsetWidth;
       var pinOffsetX = initialButtonImg.offsetWidth;
       var posX = x;
       var posY = y;
@@ -106,17 +106,17 @@ window.initialPin = (function () {
     var initialButtonMouseupHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      if (dom.map.classList.contains('map--faded')) {
-        window.backend.load(window.pins.makePins, window.backend.onError);
+      if (domElements.map.classList.contains('map--faded')) {
+        window.load(window.pins.makePins, window.onError);
       }
 
-      dom.map.classList.remove('map--faded');
-      dom.inactiveMapform.classList.remove('ad-form--disabled');
-      dom.filtersBar.classList.remove('visually-hidden');
+      domElements.map.classList.remove('map--faded');
+      domElements.inactiveMapform.classList.remove('ad-form--disabled');
+      domElements.filtersBar.classList.remove('visually-hidden');
 
-      removeDisabledAttr(dom.fieldsets);
+      removeDisabledAttr(domElements.fieldsets);
 
-      dom.filtersBar.style.display = 'flex';
+      domElements.filtersBar.style.display = 'flex';
 
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
       document.removeEventListener('mouseup', initialButtonMouseupHandler);
@@ -128,11 +128,11 @@ window.initialPin = (function () {
 
   return {
     getInititalPinCoords: function () {
-      var mainPinAddress = dom.addressInput.value;
-      var coordLeft = dom.initialButton.offsetLeft + offsetX;
-      var coordTop = dom.initialButton.offsetTop + offsetY;
+      var mainPinAddress = domElements.addressInput.value;
+      var coordLeft = domElements.initialButton.offsetLeft + offsetX;
+      var coordTop = domElements.initialButton.offsetTop + offsetY;
 
-      dom.addressInput.value = coordLeft + ', ' + coordTop;
+      domElements.addressInput.value = coordLeft + ', ' + coordTop;
       return mainPinAddress;
     }
   };

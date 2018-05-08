@@ -1,6 +1,6 @@
 'use strict';
 
-window.backend = (function () {
+(function () {
   var TIMEOUT = 8000;
   var SHOW_TIME = 1500;
   var URL = 'https://js.dump.academy/keksobooking/';
@@ -11,8 +11,7 @@ window.backend = (function () {
     SERVER_ERROR: 500
   };
 
-  return {
-    load: function (onSuccess, onError) {
+  window.load = function (onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -57,8 +56,9 @@ window.backend = (function () {
 
       xhr.open('GET', (URL + 'data'));
       xhr.send();
-    },
-    upload: function (data, onSuccess, onError) {
+    };
+
+    window.upload = function (data, onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -103,8 +103,9 @@ window.backend = (function () {
 
       xhr.open('POST', URL);
       xhr.send(data);
-    },
-    onError: function (message) {
+    };
+
+    window.onError = function (message) {
       var mainTag = document.querySelector('main');
       var messageBlock = document.querySelector('.success');
       var fragment = messageBlock.cloneNode(true);
@@ -116,6 +117,5 @@ window.backend = (function () {
       setTimeout(function () {
         fragment.remove();
       }, SHOW_TIME);
-    }
-  };
+    };
 })();

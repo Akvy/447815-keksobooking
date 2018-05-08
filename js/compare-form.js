@@ -5,7 +5,7 @@ window.compareForm = (function () {
     LOW: 10000,
     HIGH: 50000
   };
-  var dom = window.domElements;
+  var domElements = window.domElements();
   var housingType = document.getElementById('housing-type');
   var housingPrice = document.getElementById('housing-price');
   var housingRooms = document.getElementById('housing-rooms');
@@ -71,7 +71,7 @@ window.compareForm = (function () {
     window.pins.makePins(filteredAdverts);
   };
 
-  dom.filtersBar.addEventListener('change', function () {
+  domElements.filtersBar.addEventListener('change', function () {
     window.debounce(changePins);
   });
 })();

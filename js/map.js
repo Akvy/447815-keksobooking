@@ -1,10 +1,10 @@
 'use strict';
 
-window.map = (function () {
+(function () {
   var KEY_ESC = 27;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
-  var domElements = window.domElements();
+  var domElements = window.getDomElements();
   var initialButtonImg = domElements.initialButton.querySelector('img');
 
   function closeButtonClickHandler() {
@@ -19,56 +19,68 @@ window.map = (function () {
     }
   }
 
-  function getAdverts(array) {
+  window.getAdverts = function(array) {
     for (var i = 0; i < array.length; i++) {
       adverts.push(array[i]);
     }
+    // return adverts;
   }
 
   window.load(getAdverts, window.onError);
 
-  return {
-    adverts: adverts,
-    pinClickHandler: function (num, element) {
-      return function () {
-        var pinRender = window.card.renderCard(element);
+  window.adverts = adverts;
 
-        domElements.map.insertBefore(pinRender, domElements.mapFiltersContainer);
+  // function getAdverts(array) {
+  //   for (var i = 0; i < array.length; i++) {
+  //     adverts.push(array[i]);
+  //   }
+  // }
 
-        var closeButton = document.querySelector('.popup__close');
+  // window.load(getAdverts, window.onError);
 
-        closeButton.addEventListener('click', closeButtonClickHandler);
+  // adverts: adverts,
 
-        document.addEventListener('keydown', closeButtonKeydownHandler);
-      };
-    },
-    setInactiveForm: function () {
-      var advertPins = document.querySelectorAll('.map__pin');
-      var initLeftCoord = domElements.initialButton.offsetLeft;
-      var initTopCoord = domElements.initialButton.offsetTop;
-      var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
-      var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
-      var mainPinWidth = initLeftCoord + halfPinWidth;
-      var mainPinHeight = initTopCoord + pinFullHeight;
+  window.pinClickHandler = function (num, element) {
+    return function () {
+      var pinRender = window.card.renderCard(element);
 
-      for (var i = 1; i < advertPins.length; i++) {
-        advertPins[i].style.display = 'none';
-      }
+      domElements.map.insertBefore(pinRender, domElements.mapFiltersContainer);
 
-      domElements.filtersBar.style.display = 'none';
-      domElements.priceInput.setAttribute('min', '1000');
-      domElements.priceInput.placeholder = '1 000';
-      domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+      var closeButton = document.querySelector('.popup__close');
 
-      window.map.disableCapacityOptions();
+      closeButton.addEventListener('click', closeButtonClickHandler);
 
-      domElements.capacitySelect.selectedIndex = 2;
-      domElements.capacitySelect.children[2].removeAttribute('disabled');
-    },
-    disableCapacityOptions: function () {
-      for (var i = 0; i < domElements.capacitySelect.children.length; i++) {
-        domElements.capacitySelect.children[i].setAttribute('disabled', '');
-      }
+      document.addEventListener('keydown', closeButtonKeydownHandler);
+    };
+  };
+
+  window.setInactiveForm = function () {
+    var advertPins = document.querySelectorAll('.map__pin');
+    var initLeftCoord = domElements.initialButton.offsetLeft;
+    var initTopCoord = domElements.initialButton.offsetTop;
+    var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
+    var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var mainPinWidth = initLeftCoord + halfPinWidth;
+    var mainPinHeight = initTopCoord + pinFullHeight;
+
+    for (var i = 1; i < advertPins.length; i++) {
+      advertPins[i].style.display = 'none';
+    }
+
+    domElements.filtersBar.style.display = 'none';
+    domElements.priceInput.setAttribute('min', '1000');
+    domElements.priceInput.placeholder = '1 000';
+    domElements.addressInput.value = mainPinWidth + ', ' + mainPinHeight;
+
+    window.disableCapacityOptions();
+
+    domElements.capacitySelect.selectedIndex = 2;
+    domElements.capacitySelect.children[2].removeAttribute('disabled');
+  };
+
+  window.disableCapacityOptions = function () {
+    for (var i = 0; i < domElements.capacitySelect.children.length; i++) {
+      domElements.capacitySelect.children[i].setAttribute('disabled', '');
     }
   };
 })();

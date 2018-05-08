@@ -5,7 +5,7 @@ window.form = (function () {
   var PIN_INITIAL_LEFT_COORD = 570;
   var PIN_INITIAL_TOP_COORD = 375;
   var INITIAL_PIN_HEIGHT = 22;
-  var domElements = window.domElements();
+  var domElements = window.getDomElements();
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
   var timeOutSelect = document.getElementById('timeout');
@@ -23,14 +23,14 @@ window.form = (function () {
     setTimeout(function () {
       successWindow.classList.add('hidden');
       domElements.map.classList.add('map--faded');
-      window.map.disableCapacityOptions();
+      window.disableCapacityOptions();
       domElements.inactiveMapform.classList.add('ad-form--disabled');
       domElements.filtersBar.classList.add('visually-hidden');
       adForm.reset();
       domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
       domElements.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
       window.initialPin.getInititalPinCoords();
-      window.map.setInactiveForm();
+      window.setInactiveForm();
 
       if (mapCard) {
         mapCard.remove();
@@ -67,7 +67,7 @@ window.form = (function () {
   roomsSelect.addEventListener('change', function (evt) {
     var target = evt.target;
 
-    window.map.disableCapacityOptions();
+    window.disableCapacityOptions();
 
     if (!target.selectedIndex) {
       addCapacityOption(2, 2);

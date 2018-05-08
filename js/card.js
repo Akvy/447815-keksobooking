@@ -7,7 +7,7 @@ window.card = (function () {
     'flat': 'Квартира',
     'house': 'Дом'
   };
-  var domElements = window.domElements();
+  var domElements = window.getDomElements();
 
   function renderServices(services, possibleServices) {
     var elements = services.querySelectorAll('li');

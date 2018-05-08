@@ -3,7 +3,7 @@
 window.pins = (function () {
   var MAX_PINS = 5;
 
-  window.map.setInactiveForm();
+  window.setInactiveForm();
 
   return {
     removeAllPins: function () {

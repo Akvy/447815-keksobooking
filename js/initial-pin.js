@@ -8,7 +8,7 @@ window.initialPin = (function () {
     VERTICAL_MIN: 150,
     VERTICAL_MAX: 500
   };
-  var domElements = window.domElements();
+  var domElements = window.getDomElements();
   var initialButtonImg = domElements.initialButton.querySelector('img');
   var offsetX = initialButtonImg.offsetWidth / 2;
   var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;

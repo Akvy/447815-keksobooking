@@ -52,7 +52,7 @@
         if (!element.offer.features.some(function (elem1) {
           return elem === elem1;
         })) {
-         return false;
+          return false;
         }
       });
       return element.offer.features.length >= buttonValues.length;

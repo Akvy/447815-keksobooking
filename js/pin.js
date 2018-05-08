@@ -2,15 +2,16 @@
 
 (function () {
   window.renderPin = function (element, num, pin) {
+    var Pin = {
+      WIDTH: 50,
+      HEIGHT: 70
+    };
     var img = pin.querySelector('img');
+    var pinLeftOffset = Math.round(Pin.WIDTH / 2);
     var clickEvent = window.pinClickHandler(num, element);
-    var pinOffsetLeft = 25;
-    var pinOffsetTop = 70;
 
-    console.log(pinOffsetTop);
-
-    pin.style.left = (element.location.x - pinOffsetLeft) + 'px';
-    pin.style.top = (element.location.y - pinOffsetTop) + 'px';
+    pin.style.left = (element.location.x - pinLeftOffset) + 'px';
+    pin.style.top = (element.location.y - Pin.HEIGHT) + 'px';
     img.src = element.author.avatar;
     img.alt = element.offer.title;
 

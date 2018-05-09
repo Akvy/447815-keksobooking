@@ -107,7 +107,9 @@
       upEvt.preventDefault();
 
       if (domElements.map.classList.contains('map--faded')) {
-        window.load(window.makePins, window.onError);
+        var initianAdverts = window.adverts.slice();
+
+        window.makePins(initianAdverts);
       }
 
       domElements.map.classList.remove('map--faded');

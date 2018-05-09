@@ -17,6 +17,7 @@
   function resetPage() {
     var mapCard = document.querySelector('.map__card');
     var closeButton = document.querySelector('.popup__close');
+    var adFormItems = Array.from(adForm.children);
 
     domElements.map.classList.add('map--faded');
     window.disableCapacityOptions();
@@ -35,9 +36,9 @@
       mapCard.remove();
     }
 
-    for (var i = 0; i < adForm.children.length; i++) {
-      adForm.children[i].setAttribute('disabled', '');
-    }
+    adFormItems.forEach(function (elem) {
+      elem.setAttribute('disabled', '');
+    });
   }
 
   function showSuccess() {

@@ -12,10 +12,11 @@
   var initialButtonImg = domElements.initialButton.querySelector('img');
   var offsetX = initialButtonImg.offsetWidth / 2;
   var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+  var fieldsetsElements = Array.from(domElements.fieldsets);
 
-  for (var i = 0; i < domElements.fieldsets.length; i++) {
-    domElements.fieldsets[i].setAttribute('disabled', '');
-  }
+  fieldsetsElements.forEach(function (elem) {
+    elem.setAttribute('disabled', '');
+  });
 
   function removeDisabledAttr(arr) {
     arr.forEach(function (item) {
@@ -27,7 +28,7 @@
     if (evt.keyCode === KEY_ENTER) {
       evt.preventDefault();
 
-      var initPins = document.querySelectorAll('.map__pin');
+      var initialPins = document.querySelectorAll('.map__pin');
 
       if (domElements.map.classList.contains('map--faded')) {
         window.load(window.makePins, window.errorHandler);
@@ -39,8 +40,8 @@
 
       removeDisabledAttr(domElements.fieldsets);
 
-      for (i = 1; i < initPins.length; i++) {
-        initPins[i].style.display = 'block';
+      for (var i = 1; i < initialPins.length; i++) {
+        initialPins[i].style.display = 'block';
       }
 
       domElements.filtersBar.style.display = 'flex';

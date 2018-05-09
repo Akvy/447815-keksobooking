@@ -28,9 +28,9 @@
   function removeAdverts() {
     var maps = domElements.map.querySelectorAll('.map__card');
 
-    for (var i = 0; i < maps.length; i++) {
-      maps[i].remove();
-    }
+    maps.forEach(function (elem) {
+      elem.remove();
+    });
   }
 
   window.renderCard = function (element) {

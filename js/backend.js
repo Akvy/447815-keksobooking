@@ -11,6 +11,18 @@
     SERVER_ERROR: 500
   };
 
+  function treatDefaultErrors(request, param) {
+    request.addEventListener('error', function () {
+      param('Ошибка соединения');
+    });
+
+    request.addEventListener('timeout', function () {
+      param('Ошибка, превышено время ожидания ответа в ' + request.timeout + ' мс');
+    });
+
+    request.timeout = TIMEOUT;
+  }
+
   window.load = function (successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     var error;
@@ -44,15 +56,7 @@
       }
     });
 
-    xhr.addEventListener('error', function () {
-      errorHandler('Ошибка соединения');
-    });
-
-    xhr.addEventListener('timeout', function () {
-      errorHandler('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-    });
-
-    xhr.timeout = TIMEOUT;
+    treatDefaultErrors(xhr, errorHandler);
 
     xhr.open('GET', (URL + 'data'));
     xhr.send();
@@ -91,15 +95,7 @@
       }
     });
 
-    xhr.addEventListener('error', function () {
-      errorHandler('Ошибка соединения');
-    });
-
-    xhr.addEventListener('timeout', function () {
-      errorHandler('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-    });
-
-    xhr.timeout = TIMEOUT;
+    treatDefaultErrors(xhr, errorHandler);
 
     xhr.open('POST', URL);
     xhr.send(data);

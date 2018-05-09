@@ -6,11 +6,11 @@
     HIGH: 50000
   };
   var domElements = window.getDomElements();
-  var housingType = document.getElementById('housing-type');
-  var housingPrice = document.getElementById('housing-price');
-  var housingRooms = document.getElementById('housing-rooms');
-  var housingGuests = document.getElementById('housing-guests');
-  var housingFeatures = document.getElementById('housing-features');
+  var housingType = document.querySelector('#housing-type');
+  var housingPrice = document.querySelector('#housing-price');
+  var housingRooms = document.querySelector('#housing-rooms');
+  var housingGuests = document.querySelector('#housing-guests');
+  var housingFeatures = document.querySelector('#housing-features');
   var featureButtons = housingFeatures.querySelectorAll('input');
 
   function compareType(element) {

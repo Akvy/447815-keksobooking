@@ -6,10 +6,10 @@
   var PIN_INITIAL_TOP_COORD = 375;
   // var INITIAL_PIN_HEIGHT = 22;
   var domElements = window.getDomElements();
-  var typeSelect = document.getElementById('type');
-  var timeInSelect = document.getElementById('timein');
-  var timeOutSelect = document.getElementById('timeout');
-  var roomsSelect = document.getElementById('room_number');
+  var typeSelect = document.querySelector('#type');
+  var timeInSelect = document.querySelector('#timein');
+  var timeOutSelect = document.querySelector('#timeout');
+  var roomsSelect = document.querySelector('#room_number');
   var adForm = document.querySelector('.ad-form');
   var filtersForm = document.querySelector('.map__filters');
   var successWindow = document.querySelector('.success');

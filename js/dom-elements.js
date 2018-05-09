@@ -4,11 +4,11 @@
   window.getDomElements = function () {
     return {
       map: document.querySelector('.map'),
-      priceInput: document.getElementById('price'),
+      priceInput: document.querySelector('#price'),
       templateNode: document.querySelector('template'),
       filtersBar: document.querySelector('.map__filters'),
-      addressInput: document.getElementById('address'),
-      capacitySelect: document.getElementById('capacity'),
+      addressInput: document.querySelector('#address'),
+      capacitySelect: document.querySelector('#capacity'),
       mapFiltersContainer: document.querySelector('.map__filters-container'),
       initialButton: document.querySelector('.map__pin--main'),
       inactiveMapform: document.querySelector('.ad-form'),

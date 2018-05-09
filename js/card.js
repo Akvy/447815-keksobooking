@@ -26,9 +26,9 @@
   }
 
   function removeAdverts() {
-    var maps = domElements.map.querySelectorAll('.map__card');
+    var cards = domElements.map.querySelectorAll('.map__card');
 
-    maps.forEach(function (elem) {
+    cards.forEach(function (elem) {
       elem.remove();
     });
   }
@@ -49,16 +49,16 @@
       avatarBlock: cardClone.querySelector('.popup__avatar'),
       photosBlock: cardClone.querySelector('.popup__photos')
     };
-    var imgItem = cardBlocks.photosBlock.querySelector('img');
+    var imageItem = cardBlocks.photosBlock.querySelector('img');
     var photos = element.offer.photos;
 
     removeAdverts();
-    cardBlocks.photosBlock.removeChild(imgItem);
+    cardBlocks.photosBlock.removeChild(imageItem);
 
     for (var i = 0; i < photos.length; i++) {
-      var imgClone = imgItem.cloneNode(true);
-      imgClone.src = photos[i];
-      cardBlocks.photosBlock.appendChild(imgClone);
+      var imageClone = imageItem.cloneNode(true);
+      imageClone.src = photos[i];
+      cardBlocks.photosBlock.appendChild(imageClone);
     }
 
     cardBlocks.avatarBlock.src = element.author.avatar;

@@ -9,9 +9,9 @@
     VERTICAL_MAX: 500
   };
   var domElements = window.getDomElements();
-  var initialButtonImg = domElements.initialButton.querySelector('img');
-  var offsetX = initialButtonImg.offsetWidth / 2;
-  var offsetY = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+  var initialButtonImage = domElements.initialButton.querySelector('img');
+  var offsetX = initialButtonImage.offsetWidth / 2;
+  var offsetY = initialButtonImage.offsetHeight + INITIAL_PIN_HEIGHT;
   var fieldsetsElements = Array.from(domElements.fieldsets);
 
   fieldsetsElements.forEach(function (elem) {
@@ -81,7 +81,7 @@
 
     function tracePinPen(x, y) {
       var mapWidth = domElements.map.offsetWidth;
-      var pinOffsetX = initialButtonImg.offsetWidth;
+      var pinOffsetX = initialButtonImage.offsetWidth;
       var pinPositionX = x;
       var pinPositionY = y;
       var pinOffsetY = MapLimit.VERTICAL_MAX - offsetY;
@@ -131,10 +131,10 @@
 
   window.getInititalPinCoords = function () {
     var mainPinAddress = domElements.addressInput.value;
-    var coordLeft = domElements.initialButton.offsetLeft + offsetX;
-    var coordTop = domElements.initialButton.offsetTop + offsetY;
+    var coordinateLeft = domElements.initialButton.offsetLeft + offsetX;
+    var coordinateTop = domElements.initialButton.offsetTop + offsetY;
 
-    domElements.addressInput.value = coordLeft + ', ' + coordTop;
+    domElements.addressInput.value = coordinateLeft + ', ' + coordinateTop;
     return mainPinAddress;
   };
 })();

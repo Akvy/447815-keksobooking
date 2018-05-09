@@ -5,7 +5,7 @@
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
   var domElements = window.getDomElements();
-  var initialButtonImg = domElements.initialButton.querySelector('img');
+  var initialButtonImage = domElements.initialButton.querySelector('img');
 
   window.closeButtonClickHandler = function () {
     var openedCard = document.querySelector('.map__card');
@@ -23,9 +23,9 @@
   };
 
   window.getAdverts = function (array) {
-    for (var i = 0; i < array.length; i++) {
-      adverts.push(array[i]);
-    }
+    array.forEach(function (elem) {
+      adverts.push(elem);
+    });
   };
 
   window.load(window.getAdverts, window.errorHandler);
@@ -50,8 +50,8 @@
     var advertPins = document.querySelectorAll('.map__pin');
     var initialLeftCoordinate = domElements.initialButton.offsetLeft;
     var initialTopCoordinate = domElements.initialButton.offsetTop;
-    var halfPinWidth = Math.round(initialButtonImg.offsetWidth / 2);
-    var pinFullHeight = initialButtonImg.offsetHeight + INITIAL_PIN_HEIGHT;
+    var halfPinWidth = Math.round(initialButtonImage.offsetWidth / 2);
+    var pinFullHeight = initialButtonImage.offsetHeight + INITIAL_PIN_HEIGHT;
     var mainPinWidth = initialLeftCoordinate + halfPinWidth;
     var mainPinHeight = initialTopCoordinate + pinFullHeight;
 
@@ -71,8 +71,10 @@
   };
 
   window.disableCapacityOptions = function () {
-    for (var i = 0; i < domElements.capacitySelect.children.length; i++) {
-      domElements.capacitySelect.children[i].setAttribute('disabled', '');
-    }
+    var capacityOptions = Array.from(domElements.capacitySelect.children);
+
+    capacityOptions.forEach(function (elem) {
+      elem.setAttribute('disabled', '');
+    });
   };
 })();

@@ -2,8 +2,8 @@
 
 (function () {
   var SHOW_TIME = 1500;
-  var PIN_INITIAL_LEFT_COORD = 570;
-  var PIN_INITIAL_TOP_COORD = 375;
+  var PIN_INITIAL_LEFT_COORDINATE = 570;
+  var PIN_INITIAL_TOP_COORDINATE = 375;
   var domElements = window.getDomElements();
   var typeSelect = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
@@ -25,8 +25,8 @@
     domElements.filtersBar.classList.add('visually-hidden');
     adForm.reset();
     filtersForm.reset();
-    domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORD + 'px';
-    domElements.initialButton.style.top = PIN_INITIAL_TOP_COORD + 'px';
+    domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORDINATE + 'px';
+    domElements.initialButton.style.top = PIN_INITIAL_TOP_COORDINATE + 'px';
     window.getInititalPinCoords();
     window.setInactiveForm();
 

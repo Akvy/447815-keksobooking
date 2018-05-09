@@ -11,7 +11,7 @@
     SERVER_ERROR: 500
   };
 
-  window.load = function (onSuccess, onError) {
+  window.load = function (successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     var error;
 
@@ -20,7 +20,7 @@
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
         case Code.SUCCESS:
-          onSuccess(xhr.response);
+          successHandler(xhr.response);
           break;
 
         case Code.BAD_REQUEST:
@@ -40,16 +40,16 @@
       }
 
       if (error) {
-        onError(error);
+        errorHandler(error);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Ошибка соединения');
+      errorHandler('Ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
+      errorHandler('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
     });
 
     xhr.timeout = TIMEOUT;
@@ -58,7 +58,7 @@
     xhr.send();
   };
 
-  window.upload = function (data, onSuccess, onError) {
+  window.upload = function (data, successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     var error;
 
@@ -67,7 +67,7 @@
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
         case Code.SUCCESS:
-          onSuccess();
+          successHandler();
           break;
 
         case Code.BAD_REQUEST:
@@ -87,16 +87,16 @@
       }
 
       if (error) {
-        onError(error);
+        errorHandler(error);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError('Ошибка соединения');
+      errorHandler('Ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
+      errorHandler('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
     });
 
     xhr.timeout = TIMEOUT;
@@ -105,7 +105,7 @@
     xhr.send(data);
   };
 
-  window.onError = function (message) {
+  window.errorHandler = function (message) {
     var mainTag = document.querySelector('main');
     var messageBlock = document.querySelector('.success');
     var fragment = messageBlock.cloneNode(true);

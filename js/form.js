@@ -103,7 +103,7 @@
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(adForm), showSuccess, window.onError);
+    window.upload(new FormData(adForm), showSuccess, window.errorHandler);
   });
 
   resetButton.addEventListener('click', function (evt) {

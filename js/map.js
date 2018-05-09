@@ -28,7 +28,7 @@
     }
   };
 
-  window.load(window.getAdverts, window.onError);
+  window.load(window.getAdverts, window.errorHandler);
 
   window.adverts = adverts;
 

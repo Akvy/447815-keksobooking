@@ -30,7 +30,7 @@
       var initPins = document.querySelectorAll('.map__pin');
 
       if (domElements.map.classList.contains('map--faded')) {
-        window.load(window.makePins, window.onError);
+        window.load(window.makePins, window.errorHandler);
       }
 
       domElements.map.classList.remove('map--faded');

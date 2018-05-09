@@ -4,7 +4,7 @@
   var SHOW_TIME = 1500;
   var PIN_INITIAL_LEFT_COORD = 570;
   var PIN_INITIAL_TOP_COORD = 375;
-  var INITIAL_PIN_HEIGHT = 22;
+  // var INITIAL_PIN_HEIGHT = 22;
   var domElements = window.getDomElements();
   var typeSelect = document.getElementById('type');
   var timeInSelect = document.getElementById('timein');
@@ -14,11 +14,12 @@
   var filtersForm = document.querySelector('.map__filters');
   var successWindow = document.querySelector('.success');
   var resetButton = document.querySelector('.ad-form__reset');
-  var initialButtonImg = domElements.initialButton.querySelector('img');
+  // var initialButtonImg = domElements.initialButton.querySelector('img');
 
 
   function showSuccess() {
     var mapCard = document.querySelector('.map__card');
+    var closeButton = document.querySelector('.popup__close');
 
     successWindow.classList.remove('hidden');
 
@@ -39,8 +40,8 @@
         mapCard.remove();
       }
 
-      closeButton.removeEventListener('click', closeButtonClickHandler);
-      document.removeEventListener('keydown', closeButtonKeydownHandler);
+      closeButton.removeEventListener('click', window.closeButtonClickHandler);
+      document.removeEventListener('keydown', window.closeButtonKeydownHandler);
 
       for (var i = 0; i < adForm.children.length; i++) {
         adForm.children[i].setAttribute('disabled', '');
@@ -107,6 +108,7 @@
 
   resetButton.addEventListener('click', function (evt) {
     var mapCard = document.querySelector('.map__card');
+    var closeButton = document.querySelector('.popup__close');
 
     evt.preventDefault();
 
@@ -125,8 +127,8 @@
       mapCard.remove();
     }
 
-    closeButton.removeEventListener('click', closeButtonClickHandler);
-    document.removeEventListener('keydown', closeButtonKeydownHandler);
+    closeButton.removeEventListener('click', window.closeButtonClickHandler);
+    document.removeEventListener('keydown', window.closeButtonKeydownHandler);
 
     for (var i = 0; i < adForm.children.length; i++) {
       adForm.children[i].setAttribute('disabled', '');

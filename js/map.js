@@ -7,20 +7,20 @@
   var domElements = window.getDomElements();
   var initialButtonImg = domElements.initialButton.querySelector('img');
 
-  function closeButtonClickHandler() {
+  window.closeButtonClickHandler = function () {
     var openedCard = document.querySelector('.map__card');
     var closeButton = document.querySelector('.popup__close');
 
     openedCard.classList.add('visually-hidden');
-    closeButton.removeEventListener('click', closeButtonClickHandler);
-    document.removeEventListener('keydown', closeButtonKeydownHandler);
-  }
+    closeButton.removeEventListener('click', window.closeButtonClickHandler);
+    document.removeEventListener('keydown', window.closeButtonKeydownHandler);
+  };
 
-  function closeButtonKeydownHandler(evt) {
+  window.closeButtonKeydownHandler = function (evt) {
     if (evt.keyCode === KEY_ESC) {
-      closeButtonClickHandler();
+      window.closeButtonClickHandler();
     }
-  }
+  };
 
   window.getAdverts = function (array) {
     for (var i = 0; i < array.length; i++) {
@@ -40,9 +40,9 @@
 
       var closeButton = document.querySelector('.popup__close');
 
-      closeButton.addEventListener('click', closeButtonClickHandler);
+      closeButton.addEventListener('click', window.closeButtonClickHandler);
 
-      document.addEventListener('keydown', closeButtonKeydownHandler);
+      document.addEventListener('keydown', window.closeButtonKeydownHandler);
     };
   };
 

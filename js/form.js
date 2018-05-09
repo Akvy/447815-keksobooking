@@ -39,6 +39,9 @@
         mapCard.remove();
       }
 
+      closeButton.removeEventListener('click', closeButtonClickHandler);
+      document.removeEventListener('keydown', closeButtonKeydownHandler);
+
       for (var i = 0; i < adForm.children.length; i++) {
         adForm.children[i].setAttribute('disabled', '');
       }
@@ -121,6 +124,9 @@
     if (mapCard) {
       mapCard.remove();
     }
+
+    closeButton.removeEventListener('click', closeButtonClickHandler);
+    document.removeEventListener('keydown', closeButtonKeydownHandler);
 
     for (var i = 0; i < adForm.children.length; i++) {
       adForm.children[i].setAttribute('disabled', '');

@@ -48,13 +48,14 @@
     });
 
     function isSameFeatures(element) {
-      buttonValues.forEach(function (elem) {
-        if (!element.offer.features.some(function (elem1) {
-          return elem === elem1;
-        })) {
-          return;
+      for (var i = 0; i < buttonValues.length; i++) {
+        var isExist = element.offer.features.some(function (item) {
+          return buttonValues[i] === item;
+        });
+        if (!isExist) {
+          return false;
         }
-      });
+      }
       return element.offer.features.length >= buttonValues.length;
     }
 

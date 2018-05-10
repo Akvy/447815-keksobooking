@@ -14,6 +14,8 @@
   var successWindow = document.querySelector('.success');
   var resetButton = document.querySelector('.ad-form__reset');
 
+  domElements.initialButton.addEventListener('keydown', window.initialPin.initialButtonKeydownHandler);
+
   function resetPage() {
     var mapCard = document.querySelector('.map__card');
     var closeButton = document.querySelector('.popup__close');
@@ -32,6 +34,7 @@
     window.pins.removeAll();
     resetButton.removeEventListener('click', window.form.resetButtonClickHandler);
     domElements.filtersBar.removeEventListener('change', window.compareForm.filtersBarChangeHandler);
+    domElements.initialButton.addEventListener('keydown', window.initialPin.initialButtonKeydownHandler);
 
     if (mapCard) {
       closeButton.removeEventListener('click', window.map.closeButtonClickHandler);

@@ -25,32 +25,6 @@
     });
   }
 
-  domElements.initialButton.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === KEY_ENTER) {
-      evt.preventDefault();
-
-      var advertsPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-      if (domElements.map.classList.contains('map--faded')) {
-        window.backend.load(window.pins.makeAll, window.backend.errorHandler);
-      }
-
-      domElements.map.classList.remove('map--faded');
-      domElements.inactiveMapform.classList.remove('ad-form--disabled');
-      domElements.filtersBar.classList.remove('visually-hidden');
-
-      removeDisabledAttr(domElements.fieldsets);
-
-      advertsPins.forEach(function (element) {
-        element.style.display = 'block';
-      });
-
-      domElements.filtersBar.style.display = 'flex';
-      resetButton.addEventListener('click', window.form.resetButtonClickHandler);
-      domElements.filtersBar.addEventListener('change', window.compareForm.filtersBarChangeHandler);
-    }
-  });
-
   domElements.initialButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -132,6 +106,7 @@
 
     document.addEventListener('mousemove', initialButtonMousemoveHandler);
     document.addEventListener('mouseup', initialButtonMouseupHandler);
+    domElements.initialButton.removeEventListener('keydown', window.initialPin.initialButtonKeydownHandler);
   });
 
   window.initialPin = {
@@ -142,6 +117,32 @@
 
       domElements.addressInput.value = coordinateLeft + ', ' + coordinateTop;
       return mainPinAddress;
+    },
+    initialButtonKeydownHandler: function (evt) {
+      if (evt.keyCode === KEY_ENTER) {
+        evt.preventDefault();
+
+        var advertsPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+        if (domElements.map.classList.contains('map--faded')) {
+          window.backend.load(window.pins.makeAll, window.backend.errorHandler);
+        }
+
+        domElements.map.classList.remove('map--faded');
+        domElements.inactiveMapform.classList.remove('ad-form--disabled');
+        domElements.filtersBar.classList.remove('visually-hidden');
+
+        removeDisabledAttr(domElements.fieldsets);
+
+        advertsPins.forEach(function (element) {
+          element.style.display = 'block';
+        });
+
+        domElements.filtersBar.style.display = 'flex';
+        resetButton.addEventListener('click', window.form.resetButtonClickHandler);
+        domElements.filtersBar.addEventListener('change', window.compareForm.filtersBarChangeHandler);
+        domElements.initialButton.removeEventListener('keydown', window.initialPin.initialButtonKeydownHandler);
+      }
     }
   };
 })();

@@ -11,7 +11,6 @@
   var housingRooms = document.querySelector('#housing-rooms');
   var housingGuests = document.querySelector('#housing-guests');
   var housingFeatures = document.querySelector('#housing-features');
-  var featureButtons = housingFeatures.querySelectorAll('input');
 
   function compareType(element) {
     return housingType.value === 'any' || housingType.value === element.offer.type;
@@ -40,10 +39,9 @@
 
   function changePins() {
     var mapCard = document.querySelector('.map__card');
+    var featureButtons = housingFeatures.querySelectorAll('input:checked');
 
-    var buttonValues = Array.from(featureButtons).filter(function (element) {
-      return element.checked;
-    }).map(function (element) {
+    var buttonValues = Array.from(featureButtons).map(function (element) {
       return element.value;
     });
 

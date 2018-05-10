@@ -7,12 +7,10 @@
 
   window.removeAllPins = function () {
     var pins = document.querySelectorAll('.map__pin');
-    Object.keys(pins).forEach(function (elem) {
-      var pin = pins[elem];
-      if (!pin.classList.contains('map__pin--main')) {
-        pin.parentNode.removeChild(pin);
-      }
-    });
+
+    for (var i = 1; i < pins.length; i++) {
+      pins[i].parentNode.removeChild(pins[i]);
+    }
   };
 
   window.makePins = function (array) {

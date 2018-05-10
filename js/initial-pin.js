@@ -8,7 +8,7 @@
     VERTICAL_MIN: 150,
     VERTICAL_MAX: 500
   };
-  var domElements = window.getDomElements();
+  var domElements = window.domElements.getDomElements();
   var initialButtonImage = domElements.initialButton.querySelector('img');
   var offsetX = initialButtonImage.offsetWidth / 2;
   var offsetY = initialButtonImage.offsetHeight + INITIAL_PIN_HEIGHT;
@@ -32,7 +32,7 @@
       var initialPins = document.querySelectorAll('.map__pin');
 
       if (domElements.map.classList.contains('map--faded')) {
-        window.load(window.makePins, window.errorHandler);
+        window.load(window.makePins, window.backend.errorHandler);
       }
 
       domElements.map.classList.remove('map--faded');
@@ -46,7 +46,7 @@
       }
 
       domElements.filtersBar.style.display = 'flex';
-      resetButton.addEventListener('click', resetButtonClickHandler);
+      resetButton.addEventListener('click', window.resetButtonClickHandler);
     }
   });
 
@@ -125,7 +125,7 @@
 
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
       document.removeEventListener('mouseup', initialButtonMouseupHandler);
-      resetButton.addEventListener('click', resetButtonClickHandler);
+      resetButton.addEventListener('click', window.resetButtonClickHandler);
     }
 
     document.addEventListener('mousemove', initialButtonMousemoveHandler);

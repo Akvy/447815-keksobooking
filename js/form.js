@@ -4,7 +4,7 @@
   var SHOW_TIME = 1500;
   var PIN_INITIAL_LEFT_COORDINATE = 570;
   var PIN_INITIAL_TOP_COORDINATE = 375;
-  var domElements = window.getDomElements();
+  var domElements = window.domElements.getDomElements();
   var typeSelect = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
@@ -30,7 +30,7 @@
     window.getInititalPinCoords();
     window.setInactiveForm();
     window.removeAllPins();
-    resetButton.removeEventListener('click', resetButtonClickHandler);
+    resetButton.removeEventListener('click', window.resetButtonClickHandler);
 
     if (mapCard) {
       closeButton.removeEventListener('click', window.closeButtonClickHandler);
@@ -107,17 +107,12 @@
 
   adForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(new FormData(adForm), showSuccess, window.errorHandler);
+    window.backend.upload(new FormData(adForm), showSuccess, window.backend.errorHandler);
   });
-
-
 
   window.resetButtonClickHandler = function (evt) {
     evt.preventDefault();
 
     resetPage();
-
-
-  }
-
+  };
 })();

@@ -4,7 +4,7 @@
   var KEY_ESC = 27;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
-  var domElements = window.getDomElements();
+  var domElements = window.domElements.getDomElements();
   var initialButtonImage = domElements.initialButton.querySelector('img');
 
   window.closeButtonClickHandler = function () {
@@ -28,7 +28,7 @@
     });
   };
 
-  window.load(window.getAdverts, window.errorHandler);
+  window.backend.load(window.getAdverts, window.backend.errorHandler);
 
   window.adverts = adverts;
 

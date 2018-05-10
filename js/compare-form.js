@@ -5,7 +5,7 @@
     LOW: 10000,
     HIGH: 50000
   };
-  var domElements = window.getDomElements();
+  var domElements = window.domElements.getDomElements();
   var housingType = document.querySelector('#housing-type');
   var housingPrice = document.querySelector('#housing-price');
   var housingRooms = document.querySelector('#housing-rooms');
@@ -72,6 +72,6 @@
   }
 
   domElements.filtersBar.addEventListener('change', function () {
-    window.debounce(changePins);
+    window.debounce.removeBounce(changePins);
   });
 })();

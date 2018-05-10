@@ -30,6 +30,7 @@
     window.getInititalPinCoords();
     window.setInactiveForm();
     window.removeAllPins();
+    resetButton.removeEventListener('click', resetButtonClickHandler);
 
     if (mapCard) {
       closeButton.removeEventListener('click', window.closeButtonClickHandler);
@@ -116,13 +117,7 @@
 
     resetPage();
 
-    resetButton.removeEventListener('click', resetButtonClickHandler);
+
   }
 
-
-  // resetButton.addEventListener('click', function (evt) {
-  //   evt.preventDefault();
-
-  //   resetPage();
-  // });
 })();

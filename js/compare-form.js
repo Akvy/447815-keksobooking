@@ -38,22 +38,19 @@
 
   function changePins() {
     var mapCard = document.querySelector('.map__card');
-    var featureButtons = housingFeatures.querySelectorAll('input:checked');
-
-    var buttonValues = Array.from(featureButtons).map(function (element) {
-      return element.value;
-    });
 
     function isSameFeatures(element) {
-      for (var i = 0; i < buttonValues.length; i++) {
+      var featureButtons = housingFeatures.querySelectorAll('input:checked');
+
+      for (var i = 0; i < featureButtons.length; i++) {
         var isExist = element.offer.features.some(function (item) {
-          return buttonValues[i] === item;
+          return featureButtons[i].value === item;
         });
         if (!isExist) {
           return false;
         }
       }
-      return element.offer.features.length >= buttonValues.length;
+      return element.offer.features.length >= featureButtons.length;
     }
 
     var filteredAdverts = window.map.adverts.filter(function (item) {
@@ -71,6 +68,7 @@
   window.compareForm = {
     filtersBarChangeHandler: function () {
       window.debounce.removeBounce(changePins);
+      document.removeEventListener('keydown', window.map.closeButtonKeydownHandler);
     }
   };
 })();

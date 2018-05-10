@@ -7,11 +7,11 @@
 
   window.pins = {
     removeAll: function () {
-      var pins = document.querySelectorAll('.map__pin');
+      var advertsPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-      for (var i = 1; i < pins.length; i++) {
-        pins[i].parentNode.removeChild(pins[i]);
-      }
+      advertsPins.forEach(function (element) {
+        element.parentNode.removeChild(element);
+      });
     },
     makeAll: function (array) {
       var templateNode = document.querySelector('template');

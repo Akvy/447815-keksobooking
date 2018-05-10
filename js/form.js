@@ -109,9 +109,20 @@
     window.upload(new FormData(adForm), showSuccess, window.errorHandler);
   });
 
-  resetButton.addEventListener('click', function (evt) {
+
+
+  window.resetButtonClickHandler = function (evt) {
     evt.preventDefault();
 
     resetPage();
-  });
+
+    resetButton.removeEventListener('click', resetButtonClickHandler);
+  }
+
+
+  // resetButton.addEventListener('click', function (evt) {
+  //   evt.preventDefault();
+
+  //   resetPage();
+  // });
 })();

@@ -13,6 +13,7 @@
   var offsetX = initialButtonImage.offsetWidth / 2;
   var offsetY = initialButtonImage.offsetHeight + INITIAL_PIN_HEIGHT;
   var fieldsetsElements = Array.from(domElements.fieldsets);
+  var resetButton = document.querySelector('.ad-form__reset');
 
   fieldsetsElements.forEach(function (elem) {
     elem.setAttribute('disabled', '');
@@ -45,6 +46,7 @@
       }
 
       domElements.filtersBar.style.display = 'flex';
+      resetButton.addEventListener('click', resetButtonClickHandler);
     }
   });
 
@@ -123,6 +125,7 @@
 
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
       document.removeEventListener('mouseup', initialButtonMouseupHandler);
+      resetButton.addEventListener('click', resetButtonClickHandler);
     }
 
     document.addEventListener('mousemove', initialButtonMousemoveHandler);

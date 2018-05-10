@@ -7,7 +7,7 @@
     'flat': 'Квартира',
     'house': 'Дом'
   };
-  var domElements = window.domElements.getDomElements();
+  var domElements = window.domElements.get();
 
   function renderServices(services, possibleServices) {
     var elements = services.querySelectorAll('li');

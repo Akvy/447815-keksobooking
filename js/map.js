@@ -4,7 +4,7 @@
   var KEY_ESC = 27;
   var INITIAL_PIN_HEIGHT = 22;
   var adverts = [];
-  var domElements = window.domElements.getDomElements();
+  var domElements = window.domElements.get();
   var initialButtonImage = domElements.initialButton.querySelector('img');
 
   function getAdverts(array) {

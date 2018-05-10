@@ -4,7 +4,7 @@
   var SHOW_TIME = 1500;
   var PIN_INITIAL_LEFT_COORDINATE = 570;
   var PIN_INITIAL_TOP_COORDINATE = 375;
-  var domElements = window.domElements.getDomElements();
+  var domElements = window.domElements.get();
   var typeSelect = document.querySelector('#type');
   var timeInSelect = document.querySelector('#timein');
   var timeOutSelect = document.querySelector('#timeout');
@@ -27,7 +27,7 @@
     filtersForm.reset();
     domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORDINATE + 'px';
     domElements.initialButton.style.top = PIN_INITIAL_TOP_COORDINATE + 'px';
-    window.initialPin.getInititalPinCoords();
+    window.initialPin.getCoordinates();
     window.map.setInactiveForm();
     window.pins.removeAll();
     resetButton.removeEventListener('click', window.form.resetButtonClickHandler);

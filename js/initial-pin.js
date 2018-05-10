@@ -8,7 +8,7 @@
     VERTICAL_MIN: 150,
     VERTICAL_MAX: 500
   };
-  var domElements = window.domElements.getDomElements();
+  var domElements = window.domElements.get();
   var initialButtonImage = domElements.initialButton.querySelector('img');
   var offsetX = initialButtonImage.offsetWidth / 2;
   var offsetY = initialButtonImage.offsetHeight + INITIAL_PIN_HEIGHT;
@@ -135,7 +135,7 @@
   });
 
   window.initialPin = {
-    getInititalPinCoords: function () {
+    getCoordinates: function () {
       var mainPinAddress = domElements.addressInput.value;
       var coordinateLeft = domElements.initialButton.offsetLeft + offsetX;
       var coordinateTop = domElements.initialButton.offsetTop + offsetY;

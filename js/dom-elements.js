@@ -2,7 +2,7 @@
 
 (function () {
   window.domElements = {
-    getDomElements: function () {
+    get: function () {
       return {
         map: document.querySelector('.map'),
         priceInput: document.querySelector('#price'),

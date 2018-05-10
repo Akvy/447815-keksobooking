@@ -29,6 +29,7 @@
     domElements.initialButton.style.top = PIN_INITIAL_TOP_COORDINATE + 'px';
     window.getInititalPinCoords();
     window.setInactiveForm();
+    window.removeAllPins();
 
     if (mapCard) {
       closeButton.removeEventListener('click', window.closeButtonClickHandler);

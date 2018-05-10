@@ -32,7 +32,7 @@
       var initialPins = document.querySelectorAll('.map__pin');
 
       if (domElements.map.classList.contains('map--faded')) {
-        window.load(window.makePins, window.backend.errorHandler);
+        window.backend.load(window.pins.makeAll, window.backend.errorHandler);
       }
 
       domElements.map.classList.remove('map--faded');
@@ -46,7 +46,8 @@
       }
 
       domElements.filtersBar.style.display = 'flex';
-      resetButton.addEventListener('click', window.resetButtonClickHandler);
+      resetButton.addEventListener('click', window.form.resetButtonClickHandler);
+      domElements.filtersBar.addEventListener('change', window.compareForm.filtersBarChangeHandler);
     }
   });
 
@@ -110,9 +111,9 @@
       upEvt.preventDefault();
 
       if (domElements.map.classList.contains('map--faded')) {
-        var initianAdverts = window.adverts.slice();
+        var initianAdverts = window.map.adverts.slice();
 
-        window.makePins(initianAdverts);
+        window.pins.makeAll(initianAdverts);
       }
 
       domElements.map.classList.remove('map--faded');
@@ -125,20 +126,23 @@
 
       document.removeEventListener('mousemove', initialButtonMousemoveHandler);
       document.removeEventListener('mouseup', initialButtonMouseupHandler);
-      resetButton.addEventListener('click', window.resetButtonClickHandler);
+      resetButton.addEventListener('click', window.form.resetButtonClickHandler);
+      domElements.filtersBar.addEventListener('change', window.compareForm.filtersBarChangeHandler);
     }
 
     document.addEventListener('mousemove', initialButtonMousemoveHandler);
     document.addEventListener('mouseup', initialButtonMouseupHandler);
   });
 
-  window.getInititalPinCoords = function () {
-    var mainPinAddress = domElements.addressInput.value;
-    var coordinateLeft = domElements.initialButton.offsetLeft + offsetX;
-    var coordinateTop = domElements.initialButton.offsetTop + offsetY;
+  window.initialPin = {
+    getInititalPinCoords: function () {
+      var mainPinAddress = domElements.addressInput.value;
+      var coordinateLeft = domElements.initialButton.offsetLeft + offsetX;
+      var coordinateTop = domElements.initialButton.offsetTop + offsetY;
 
-    domElements.addressInput.value = coordinateLeft + ', ' + coordinateTop;
-    return mainPinAddress;
+      domElements.addressInput.value = coordinateLeft + ', ' + coordinateTop;
+      return mainPinAddress;
+    }
   };
 })();
 

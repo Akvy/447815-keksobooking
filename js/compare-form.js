@@ -5,7 +5,6 @@
     LOW: 10000,
     HIGH: 50000
   };
-  var domElements = window.domElements.getDomElements();
   var housingType = document.querySelector('#housing-type');
   var housingPrice = document.querySelector('#housing-price');
   var housingRooms = document.querySelector('#housing-rooms');
@@ -57,19 +56,21 @@
       return element.offer.features.length >= buttonValues.length;
     }
 
-    var filteredAdverts = window.adverts.filter(function (item) {
+    var filteredAdverts = window.map.adverts.filter(function (item) {
       return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item) && isSameFeatures(item);
     });
 
-    window.removeAllPins();
+    window.pins.removeAll();
 
     if (mapCard) {
       mapCard.remove();
     }
-    window.makePins(filteredAdverts);
+    window.pins.makeAll(filteredAdverts);
   }
 
-  domElements.filtersBar.addEventListener('change', function () {
-    window.debounce.removeBounce(changePins);
-  });
+  window.compareForm = {
+    filtersBarChangeHandler: function () {
+      window.debounce.removeBounce(changePins);
+    }
+  };
 })();

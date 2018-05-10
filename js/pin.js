@@ -1,22 +1,25 @@
 'use strict';
 
 (function () {
-  window.renderPin = function (element, num, pin) {
-    var Pin = {
-      WIDTH: 50,
-      HEIGHT: 70
-    };
-    var pinImage = pin.querySelector('img');
-    var pinLeftOffset = Math.round(Pin.WIDTH / 2);
-    var clickEvent = window.pinClickHandler(num, element);
+  var Pin = {
+    WIDTH: 50,
+    HEIGHT: 70
+  };
 
-    pin.style.left = (element.location.x - pinLeftOffset) + 'px';
-    pin.style.top = (element.location.y - Pin.HEIGHT) + 'px';
-    pinImage.src = element.author.avatar;
-    pinImage.alt = element.offer.title;
+  window.pin = {
+    render: function (element, num, pin) {
+      var pinImage = pin.querySelector('img');
+      var pinLeftOffset = Math.round(Pin.WIDTH / 2);
+      var clickEvent = window.map.pinClickHandler(num, element);
 
-    pin.addEventListener('click', clickEvent);
+      pin.style.left = (element.location.x - pinLeftOffset) + 'px';
+      pin.style.top = (element.location.y - Pin.HEIGHT) + 'px';
+      pinImage.src = element.author.avatar;
+      pinImage.alt = element.offer.title;
 
-    return pin;
+      pin.addEventListener('click', clickEvent);
+
+      return pin;
+    }
   };
 })();

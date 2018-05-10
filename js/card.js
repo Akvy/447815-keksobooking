@@ -33,45 +33,47 @@
     });
   }
 
-  window.renderCard = function (element) {
-    var templateClone = document.querySelector('template');
-    var cardClone = templateClone.content.cloneNode(true);
-    var cardItem = cardClone.querySelector('.map__card');
-    var cardBlocks = {
-      titleBlock: cardClone.querySelector('.popup__title'),
-      addressBlock: cardClone.querySelector('.popup__text--address'),
-      priceBlock: cardClone.querySelector('.popup__text--price'),
-      typeBlock: cardClone.querySelector('.popup__type'),
-      capacityBlock: cardClone.querySelector('.popup__text--capacity'),
-      checkBlock: cardClone.querySelector('.popup__text--time'),
-      featuresBlock: cardClone.querySelector('.popup__features'),
-      descriptionBlock: cardClone.querySelector('.popup__description'),
-      avatarBlock: cardClone.querySelector('.popup__avatar'),
-      photosBlock: cardClone.querySelector('.popup__photos')
-    };
-    var imageItem = cardBlocks.photosBlock.querySelector('img');
-    var photos = element.offer.photos;
+  window.card = {
+    render: function (element) {
+      var templateClone = document.querySelector('template');
+      var cardClone = templateClone.content.cloneNode(true);
+      var cardItem = cardClone.querySelector('.map__card');
+      var cardBlocks = {
+        titleBlock: cardClone.querySelector('.popup__title'),
+        addressBlock: cardClone.querySelector('.popup__text--address'),
+        priceBlock: cardClone.querySelector('.popup__text--price'),
+        typeBlock: cardClone.querySelector('.popup__type'),
+        capacityBlock: cardClone.querySelector('.popup__text--capacity'),
+        checkBlock: cardClone.querySelector('.popup__text--time'),
+        featuresBlock: cardClone.querySelector('.popup__features'),
+        descriptionBlock: cardClone.querySelector('.popup__description'),
+        avatarBlock: cardClone.querySelector('.popup__avatar'),
+        photosBlock: cardClone.querySelector('.popup__photos')
+      };
+      var imageItem = cardBlocks.photosBlock.querySelector('img');
+      var photos = element.offer.photos;
 
-    removeAdverts();
-    cardBlocks.photosBlock.removeChild(imageItem);
+      removeAdverts();
+      cardBlocks.photosBlock.removeChild(imageItem);
 
-    for (var i = 0; i < photos.length; i++) {
-      var imageClone = imageItem.cloneNode(true);
-      imageClone.src = photos[i];
-      cardBlocks.photosBlock.appendChild(imageClone);
+      for (var i = 0; i < photos.length; i++) {
+        var imageClone = imageItem.cloneNode(true);
+        imageClone.src = photos[i];
+        cardBlocks.photosBlock.appendChild(imageClone);
+      }
+
+      cardBlocks.avatarBlock.src = element.author.avatar;
+      cardBlocks['titleBlock'].textContent = element.offer.title;
+      cardBlocks['addressBlock'].textContent = element.offer.address;
+      cardBlocks['priceBlock'].textContent = element.offer.price + '₽/ночь';
+      cardBlocks['typeBlock'].textContent = HOUSE_TYPE[element.offer.type];
+      cardBlocks['capacityBlock'].textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
+      cardBlocks['checkBlock'].textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+      cardBlocks['descriptionBlock'].textContent = element.offer.description;
+
+      renderServices(cardBlocks.featuresBlock, element.offer.features);
+
+      return cardItem;
     }
-
-    cardBlocks.avatarBlock.src = element.author.avatar;
-    cardBlocks['titleBlock'].textContent = element.offer.title;
-    cardBlocks['addressBlock'].textContent = element.offer.address;
-    cardBlocks['priceBlock'].textContent = element.offer.price + '₽/ночь';
-    cardBlocks['typeBlock'].textContent = HOUSE_TYPE[element.offer.type];
-    cardBlocks['capacityBlock'].textContent = element.offer.rooms + ' комнаты для ' + element.offer.guests + ' гостей';
-    cardBlocks['checkBlock'].textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
-    cardBlocks['descriptionBlock'].textContent = element.offer.description;
-
-    renderServices(cardBlocks.featuresBlock, element.offer.features);
-
-    return cardItem;
   };
 })();

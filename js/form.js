@@ -20,21 +20,22 @@
     var adFormItems = Array.from(adForm.children);
 
     domElements.map.classList.add('map--faded');
-    window.disableCapacityOptions();
+    window.map.disableCapacityOptions();
     domElements.inactiveMapform.classList.add('ad-form--disabled');
     domElements.filtersBar.classList.add('visually-hidden');
     adForm.reset();
     filtersForm.reset();
     domElements.initialButton.style.left = PIN_INITIAL_LEFT_COORDINATE + 'px';
     domElements.initialButton.style.top = PIN_INITIAL_TOP_COORDINATE + 'px';
-    window.getInititalPinCoords();
-    window.setInactiveForm();
-    window.removeAllPins();
-    resetButton.removeEventListener('click', window.resetButtonClickHandler);
+    window.initialPin.getInititalPinCoords();
+    window.map.setInactiveForm();
+    window.pins.removeAll();
+    resetButton.removeEventListener('click', window.form.resetButtonClickHandler);
+    domElements.filtersBar.removeEventListener('change', window.compareForm.filtersBarChangeHandler);
 
     if (mapCard) {
-      closeButton.removeEventListener('click', window.closeButtonClickHandler);
-      document.removeEventListener('keydown', window.closeButtonKeydownHandler);
+      closeButton.removeEventListener('click', window.map.closeButtonClickHandler);
+      document.removeEventListener('keydown', window.map.closeButtonKeydownHandler);
       mapCard.remove();
     }
 
@@ -78,7 +79,7 @@
   roomsSelect.addEventListener('change', function (evt) {
     var target = evt.target;
 
-    window.disableCapacityOptions();
+    window.map.disableCapacityOptions();
 
     if (!target.selectedIndex) {
       addCapacityOption(2, 2);
@@ -110,9 +111,11 @@
     window.backend.upload(new FormData(adForm), showSuccess, window.backend.errorHandler);
   });
 
-  window.resetButtonClickHandler = function (evt) {
-    evt.preventDefault();
+  window.form = {
+    resetButtonClickHandler: function (evt) {
+      evt.preventDefault();
 
-    resetPage();
+      resetPage();
+    }
   };
 })();

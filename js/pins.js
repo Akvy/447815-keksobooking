@@ -9,8 +9,8 @@
     removeAll: function () {
       var advertsPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-      advertsPins.forEach(function (element) {
-        element.parentNode.removeChild(element);
+      advertsPins.forEach(function (element, index, array) {
+        array[index].remove();
       });
     },
     makeAll: function (array) {

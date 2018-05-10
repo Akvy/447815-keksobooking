@@ -29,7 +29,7 @@
     if (evt.keyCode === KEY_ENTER) {
       evt.preventDefault();
 
-      var initialPins = document.querySelectorAll('.map__pin');
+      var advertsPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
       if (domElements.map.classList.contains('map--faded')) {
         window.backend.load(window.pins.makeAll, window.backend.errorHandler);
@@ -41,9 +41,9 @@
 
       removeDisabledAttr(domElements.fieldsets);
 
-      for (var i = 1; i < initialPins.length; i++) {
-        initialPins[i].style.display = 'block';
-      }
+      advertsPins.forEach(function (element) {
+        element.style.display = 'block';
+      });
 
       domElements.filtersBar.style.display = 'flex';
       resetButton.addEventListener('click', window.form.resetButtonClickHandler);

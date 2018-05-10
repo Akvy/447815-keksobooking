@@ -44,7 +44,7 @@
       };
     },
     setInactiveForm: function () {
-      var advertPins = document.querySelectorAll('.map__pin');
+      var advertsPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
       var initialLeftCoordinate = domElements.initialButton.offsetLeft;
       var initialTopCoordinate = domElements.initialButton.offsetTop;
       var halfPinWidth = Math.round(initialButtonImage.offsetWidth / 2);
@@ -52,9 +52,9 @@
       var mainPinWidth = initialLeftCoordinate + halfPinWidth;
       var mainPinHeight = initialTopCoordinate + pinFullHeight;
 
-      for (var i = 1; i < advertPins.length; i++) {
-        advertPins[i].style.display = 'none';
-      }
+      advertsPins.forEach(function (element) {
+        element.style.display = 'none';
+      });
 
       domElements.filtersBar.style.display = 'none';
       domElements.priceInput.setAttribute('min', '1000');

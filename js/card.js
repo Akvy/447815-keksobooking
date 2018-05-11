@@ -1,13 +1,13 @@
 'use strict';
 
-window.card = (function () {
+(function () {
   var HOUSE_TYPE = {
     'palace': 'Дворец',
     'bungalo': 'Бунгало',
     'flat': 'Квартира',
     'house': 'Дом'
   };
-  var dom = window.domElements;
+  var domElements = window.domElements.get();
 
   function renderServices(services, possibleServices) {
     var elements = services.querySelectorAll('li');
@@ -26,15 +26,15 @@ window.card = (function () {
   }
 
   function removeAdverts() {
-    var maps = dom.map.querySelectorAll('.map__card');
+    var cards = domElements.map.querySelectorAll('.map__card');
 
-    for (var i = 0; i < maps.length; i++) {
-      maps[i].remove();
-    }
+    cards.forEach(function (elem) {
+      elem.remove();
+    });
   }
 
-  return {
-    renderCard: function (element) {
+  window.card = {
+    render: function (element) {
       var templateClone = document.querySelector('template');
       var cardClone = templateClone.content.cloneNode(true);
       var cardItem = cardClone.querySelector('.map__card');
@@ -50,16 +50,16 @@ window.card = (function () {
         avatarBlock: cardClone.querySelector('.popup__avatar'),
         photosBlock: cardClone.querySelector('.popup__photos')
       };
-      var imgItem = cardBlocks.photosBlock.querySelector('img');
+      var imageItem = cardBlocks.photosBlock.querySelector('img');
       var photos = element.offer.photos;
 
       removeAdverts();
-      cardBlocks.photosBlock.removeChild(imgItem);
+      cardBlocks.photosBlock.removeChild(imageItem);
 
       for (var i = 0; i < photos.length; i++) {
-        var imgClone = imgItem.cloneNode(true);
-        imgClone.src = photos[i];
-        cardBlocks.photosBlock.appendChild(imgClone);
+        var imageClone = imageItem.cloneNode(true);
+        imageClone.src = photos[i];
+        cardBlocks.photosBlock.appendChild(imageClone);
       }
 
       cardBlocks.avatarBlock.src = element.author.avatar;

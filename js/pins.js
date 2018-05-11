@@ -1,34 +1,29 @@
 'use strict';
 
-window.pins = (function () {
+(function () {
   var MAX_PINS = 5;
 
   window.map.setInactiveForm();
 
-  return {
-    removeAllPins: function () {
-      var pins = document.querySelectorAll('.map__pin');
-      Object.keys(pins).forEach(function (elem) {
-        var pin = pins[elem];
-        if (!pin.classList.contains('map__pin--main')) {
-          pin.parentNode.removeChild(pin);
-        }
+  window.pins = {
+    removeAll: function () {
+      var advertsPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+      advertsPins.forEach(function (element, index, array) {
+        array[index].remove();
       });
     },
-    makePins: function (array) {
+    makeAll: function (array) {
       var templateNode = document.querySelector('template');
       var pins = document.querySelector('.map__pins');
       var pin = templateNode.content.querySelector('.map__pin');
       var fragment = document.createDocumentFragment();
+      var trimmedArray = array.slice(0, MAX_PINS);
 
-      if (array.length - 1 > MAX_PINS) {
-        array.length = MAX_PINS;
-      }
-
-      for (var i = 0; i < array.length; i++) {
+      for (var i = 0; i < trimmedArray.length; i++) {
         var card = templateNode.content.cloneNode(true);
         var button = card.querySelector('.map__pin');
-        pin = window.pin.renderPin(array[i], i, button);
+        pin = window.pin.render(trimmedArray[i], i, button);
         fragment.appendChild(pin);
       }
       pins.appendChild(fragment);

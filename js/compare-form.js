@@ -1,17 +1,15 @@
 'use strict';
 
-window.compareForm = (function () {
+(function () {
   var Price = {
     LOW: 10000,
     HIGH: 50000
   };
-  var dom = window.domElements;
-  var housingType = document.getElementById('housing-type');
-  var housingPrice = document.getElementById('housing-price');
-  var housingRooms = document.getElementById('housing-rooms');
-  var housingGuests = document.getElementById('housing-guests');
-  var housingFeatures = document.getElementById('housing-features');
-  var featureButtons = housingFeatures.querySelectorAll('input');
+  var housingType = document.querySelector('#housing-type');
+  var housingPrice = document.querySelector('#housing-price');
+  var housingRooms = document.querySelector('#housing-rooms');
+  var housingGuests = document.querySelector('#housing-guests');
+  var housingFeatures = document.querySelector('#housing-features');
 
   function compareType(element) {
     return housingType.value === 'any' || housingType.value === element.offer.type;
@@ -38,40 +36,39 @@ window.compareForm = (function () {
     return housingGuests.value === 'any' || +housingGuests.value === element.offer.guests;
   }
 
-  var changePins = function () {
+  function changePins() {
     var mapCard = document.querySelector('.map__card');
 
-    var buttonValues = Array.from(featureButtons).filter(function (element) {
-      return element.checked;
-    }).map(function (element) {
-      return element.value;
-    });
-
     function isSameFeatures(element) {
-      var flag = true;
-      buttonValues.forEach(function (elem) {
-        if (!element.offer.features.some(function (elem1) {
-          return elem === elem1;
-        })) {
-          flag = false;
+      var featureButtons = housingFeatures.querySelectorAll('input:checked');
+
+      for (var i = 0; i < featureButtons.length; i++) {
+        var isExist = element.offer.features.some(function (item) {
+          return featureButtons[i].value === item;
+        });
+        if (!isExist) {
+          return false;
         }
-      });
-      return flag && (element.offer.features.length >= buttonValues.length);
+      }
+      return element.offer.features.length >= featureButtons.length;
     }
 
     var filteredAdverts = window.map.adverts.filter(function (item) {
       return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item) && isSameFeatures(item);
     });
 
-    window.pins.removeAllPins();
+    window.pins.removeAll();
 
     if (mapCard) {
       mapCard.remove();
     }
-    window.pins.makePins(filteredAdverts);
-  };
+    window.pins.makeAll(filteredAdverts);
+  }
 
-  dom.filtersBar.addEventListener('change', function () {
-    window.debounce(changePins);
-  });
+  window.compareForm = {
+    filtersBarChangeHandler: function () {
+      window.debounce.add(changePins);
+      document.removeEventListener('keydown', window.map.closeButtonKeydownHandler);
+    }
+  };
 })();

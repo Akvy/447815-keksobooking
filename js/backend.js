@@ -1,6 +1,6 @@
 'use strict';
 
-window.backend = (function () {
+(function () {
   var TIMEOUT = 8000;
   var SHOW_TIME = 1500;
   var URL = 'https://js.dump.academy/keksobooking/';
@@ -11,8 +11,20 @@ window.backend = (function () {
     SERVER_ERROR: 500
   };
 
-  return {
-    load: function (onSuccess, onError) {
+  function treatDefaultErrors(request, param) {
+    request.addEventListener('error', function () {
+      param('Ошибка соединения');
+    });
+
+    request.addEventListener('timeout', function () {
+      param('Ошибка, превышено время ожидания ответа в ' + request.timeout + ' мс');
+    });
+
+    request.timeout = TIMEOUT;
+  }
+
+  window.backend = {
+    load: function (successHandler, errorHandler) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -21,7 +33,7 @@ window.backend = (function () {
       xhr.addEventListener('load', function () {
         switch (xhr.status) {
           case Code.SUCCESS:
-            onSuccess(xhr.response);
+            successHandler(xhr.response);
             break;
 
           case Code.BAD_REQUEST:
@@ -41,24 +53,16 @@ window.backend = (function () {
         }
 
         if (error) {
-          onError(error);
+          errorHandler(error);
         }
       });
 
-      xhr.addEventListener('error', function () {
-        onError('Ошибка соединения');
-      });
-
-      xhr.addEventListener('timeout', function () {
-        onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-      });
-
-      xhr.timeout = TIMEOUT;
+      treatDefaultErrors(xhr, errorHandler);
 
       xhr.open('GET', (URL + 'data'));
       xhr.send();
     },
-    upload: function (data, onSuccess, onError) {
+    upload: function (data, successHandler, errorHandler) {
       var xhr = new XMLHttpRequest();
       var error;
 
@@ -67,7 +71,7 @@ window.backend = (function () {
       xhr.addEventListener('load', function () {
         switch (xhr.status) {
           case Code.SUCCESS:
-            onSuccess();
+            successHandler();
             break;
 
           case Code.BAD_REQUEST:
@@ -87,24 +91,16 @@ window.backend = (function () {
         }
 
         if (error) {
-          onError(error);
+          errorHandler(error);
         }
       });
 
-      xhr.addEventListener('error', function () {
-        onError('Ошибка соединения');
-      });
-
-      xhr.addEventListener('timeout', function () {
-        onError('Ошибка, превышено время ожидания ответа в ' + xhr.timeout + ' мс');
-      });
-
-      xhr.timeout = TIMEOUT;
+      treatDefaultErrors(xhr, errorHandler);
 
       xhr.open('POST', URL);
       xhr.send(data);
     },
-    onError: function (message) {
+    errorHandler: function (message) {
       var mainTag = document.querySelector('main');
       var messageBlock = document.querySelector('.success');
       var fragment = messageBlock.cloneNode(true);

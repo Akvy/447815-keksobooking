@@ -19,7 +19,7 @@
     elem.setAttribute('disabled', '');
   });
 
-  function removeDisabledAttr(arr) {
+  function removeDisabledAttribute(arr) {
     arr.forEach(function (item) {
       item.removeAttribute('disabled');
     });
@@ -94,7 +94,7 @@
       domElements.inactiveMapform.classList.remove('ad-form--disabled');
       domElements.filtersBar.classList.remove('visually-hidden');
 
-      removeDisabledAttr(domElements.fieldsets);
+      removeDisabledAttribute(domElements.fieldsets);
 
       domElements.filtersBar.style.display = 'flex';
 
@@ -132,7 +132,7 @@
         domElements.inactiveMapform.classList.remove('ad-form--disabled');
         domElements.filtersBar.classList.remove('visually-hidden');
 
-        removeDisabledAttr(domElements.fieldsets);
+        removeDisabledAttribute(domElements.fieldsets);
 
         advertsPins.forEach(function (element) {
           element.style.display = 'block';

@@ -67,7 +67,7 @@
 
   window.compareForm = {
     filtersBarChangeHandler: function () {
-      window.debounce.removeBounce(changePins);
+      window.debounce.add(changePins);
       document.removeEventListener('keydown', window.map.closeButtonKeydownHandler);
     }
   };

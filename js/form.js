@@ -42,8 +42,8 @@
       mapCard.remove();
     }
 
-    adFormItems.forEach(function (elem) {
-      elem.setAttribute('disabled', '');
+    adFormItems.forEach(function (element) {
+      element.setAttribute('disabled', '');
     });
   }
 

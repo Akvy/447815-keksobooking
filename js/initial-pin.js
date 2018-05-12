@@ -15,12 +15,12 @@
   var fieldsetsElements = Array.from(domElements.fieldsets);
   var resetButton = document.querySelector('.ad-form__reset');
 
-  fieldsetsElements.forEach(function (elem) {
-    elem.setAttribute('disabled', '');
+  fieldsetsElements.forEach(function (element) {
+    element.setAttribute('disabled', '');
   });
 
-  function removeDisabledAttribute(arr) {
-    arr.forEach(function (item) {
+  function removeDisabledAttribute(elements) {
+    elements.forEach(function (item) {
       item.removeAttribute('disabled');
     });
   }

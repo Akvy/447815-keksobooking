@@ -7,9 +7,9 @@
   var domElements = window.domElements.get();
   var initialButtonImage = domElements.initialButton.querySelector('img');
 
-  function getAdverts(array) {
-    array.forEach(function (elem) {
-      adverts.push(elem);
+  function getAdverts(elements) {
+    elements.forEach(function (element) {
+      adverts.push(element);
     });
   }
 
@@ -69,8 +69,8 @@
     disableCapacityOptions: function () {
       var capacityOptions = Array.from(domElements.capacitySelect.children);
 
-      capacityOptions.forEach(function (elem) {
-        elem.setAttribute('disabled', '');
+      capacityOptions.forEach(function (element) {
+        element.setAttribute('disabled', '');
       });
     }
   };

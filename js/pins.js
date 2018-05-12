@@ -18,12 +18,12 @@
       var pins = document.querySelector('.map__pins');
       var pin = templateNode.content.querySelector('.map__pin');
       var fragment = document.createDocumentFragment();
-      var trimmedArray = array.slice(0, MAX_PINS);
+      var trimmedPins = array.slice(0, MAX_PINS);
 
-      for (var i = 0; i < trimmedArray.length; i++) {
+      for (var i = 0; i < trimmedPins.length; i++) {
         var card = templateNode.content.cloneNode(true);
         var button = card.querySelector('.map__pin');
-        pin = window.pin.render(trimmedArray[i], i, button);
+        pin = window.pin.render(trimmedPins[i], i, button);
         fragment.appendChild(pin);
       }
       pins.appendChild(fragment);

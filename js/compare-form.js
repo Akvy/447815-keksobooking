@@ -10,6 +10,7 @@
   var housingRooms = document.querySelector('#housing-rooms');
   var housingGuests = document.querySelector('#housing-guests');
   var housingFeatures = document.querySelector('#housing-features');
+  var adverts = [];
 
   function compareType(element) {
     return housingType.value === 'any' || housingType.value === element.offer.type;
@@ -53,7 +54,7 @@
       return element.offer.features.length >= featureButtons.length;
     }
 
-    var filteredAdverts = window.map.adverts.filter(function (item) {
+    var filteredAdverts = adverts.filter(function (item) {
       return compareType(item) && comparePrice(item) && compareRooms(item) && compareGuests(item) && isSameFeatures(item);
     });
 
@@ -69,6 +70,9 @@
     filtersBarChangeHandler: function () {
       window.debounce.add(changePins);
       document.removeEventListener('keydown', window.map.closeButtonKeydownHandler);
+    },
+    getInitialPins: function (items) {
+      adverts = items;
     }
   };
 })();

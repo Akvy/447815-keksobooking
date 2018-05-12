@@ -3,17 +3,8 @@
 (function () {
   var KEY_ESC = 27;
   var INITIAL_PIN_HEIGHT = 22;
-  var adverts = [];
   var domElements = window.domElements.get();
   var initialButtonImage = domElements.initialButton.querySelector('img');
-
-  function getAdverts(array) {
-    array.forEach(function (elem) {
-      adverts.push(elem);
-    });
-  }
-
-  window.backend.load(getAdverts, window.backend.errorHandler);
 
   window.map = {
     closeButtonClickHandler: function () {
@@ -29,7 +20,6 @@
         window.map.closeButtonClickHandler();
       }
     },
-    adverts: adverts,
     pinClickHandler: function (num, element) {
       return function () {
         var pinRender = window.card.render(element);

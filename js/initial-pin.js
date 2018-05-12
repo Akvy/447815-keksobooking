@@ -8,12 +8,20 @@
     VERTICAL_MIN: 150,
     VERTICAL_MAX: 500
   };
+  var adverts = [];
   var domElements = window.domElements.get();
   var initialButtonImage = domElements.initialButton.querySelector('img');
   var offsetX = initialButtonImage.offsetWidth / 2;
   var offsetY = initialButtonImage.offsetHeight + INITIAL_PIN_HEIGHT;
   var fieldsetsElements = Array.from(domElements.fieldsets);
   var resetButton = document.querySelector('.ad-form__reset');
+
+  function getAdverts(items) {
+    adverts = items;
+    window.compareForm.getInitialPins(items);
+  }
+
+  window.backend.load(getAdverts, window.backend.errorHandler);
 
   fieldsetsElements.forEach(function (elem) {
     elem.setAttribute('disabled', '');
@@ -85,7 +93,8 @@
       upEvt.preventDefault();
 
       if (domElements.map.classList.contains('map--faded')) {
-        var initianAdverts = window.map.adverts.slice();
+        var initianAdverts = adverts.slice();
+
 
         window.pins.makeAll(initianAdverts);
       }
@@ -110,6 +119,7 @@
   });
 
   window.initialPin = {
+    adverts: adverts,
     getCoordinates: function () {
       var mainPinAddress = domElements.addressInput.value;
       var coordinateLeft = domElements.initialButton.offsetLeft + offsetX;

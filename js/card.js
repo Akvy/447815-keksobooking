@@ -15,8 +15,8 @@
       return 'popup__feature--' + element;
     });
     for (var i = 0; i < elements.length; i++) {
-      var existsClass = getClassNameFeatures.some(function (element1) {
-        return elements[i].classList.contains(element1);
+      var existsClass = getClassNameFeatures.some(function (item) {
+        return elements[i].classList.contains(item);
       });
 
       if (!existsClass) {
@@ -28,8 +28,8 @@
   function removeAdverts() {
     var cards = domElements.map.querySelectorAll('.map__card');
 
-    cards.forEach(function (elem) {
-      elem.remove();
+    cards.forEach(function (element) {
+      element.remove();
     });
   }
 
